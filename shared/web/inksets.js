@@ -133,7 +133,7 @@ let activeTray=null;
 export function renderInkSets(host,options) {
   host._inkTray?.dispose();
   const {inks=[],carousel,mapping={},targets=penTargets(carousel),roleLabels=false,title='Document inks',onAssign,onCustom,onEditSlot,onRefresh,
-    included,onInclude,isAccepted=()=>false,acceptedLabel='accepted',reviews=[],reviewHost,targetIssue=t=>t.slot&&!usable(t.ink)?'This slot is empty or unavailable.':'',customSeed,hideEmptyCustomTargets=false,allowOrder=true,toolbarHost}=options;
+    included,onInclude,isAccepted=()=>false,acceptedLabel='accepted',reviews=[],reviewHost,targetIssue=t=>t.slot&&!usable(t.ink)?'This slot is empty or unavailable.':'',customSeed,hideEmptyCustomTargets=false,allowOrder=true,toolbarHost,showSources=true}=options;
   const members=i=>i.members||[i],all=inks.flatMap(members),targetOf=i=>mapping[i.id]??0;
   let selected=null,panel=null,editor=false,working=false,error='',scrim=null,frame=0,disposed=false,toolbar=null;
   let oldScroll=host.querySelector('.ink-scroll')?.scrollLeft||0;
@@ -235,7 +235,7 @@ export function renderInkSets(host,options) {
     if(panel)drawMembers();
     if(editor)drawEditor();
     host.append(element('div',title,'ink-row-label'));
-    const scroll=element('div',null,'ink-scroll'),grid=element('div',null,'ink-grid');scroll.tabIndex=0;scroll.setAttribute('aria-label','Sources above destination inks; scroll for more pens');scroll.append(grid);host.append(scroll);
+    const scroll=element('div',null,'ink-scroll'),grid=element('div',null,'ink-grid');scroll.tabIndex=0;scroll.setAttribute('aria-label',showSources?'Sources above destination inks; scroll for more pens':'Loaded carousel; scroll for more pens');scroll.append(grid);host.append(scroll);
     let columns;
     const effectiveTargets=[...targets];if(all.some(i=>!effectiveTargets.some(t=>t.id===targetOf(i))))effectiveTargets.push({id:0,label:'Not loaded',ink:null});
     if(!roleLabels&&allowOrder&&host.dataset.inkOrder==='document'){
@@ -257,8 +257,8 @@ export function renderInkSets(host,options) {
         sorted.slice(0,3).reverse().forEach((ink,index)=>{const item=cap(ink,()=>selected?cancel():open(sources),visible.length>1?`${visible.length} document inks · select a member`:`${chosen?.length?'Selected':'Assign'} ${ink.label||'ink '+ink.id}`);item.dataset.inkId=ink.id;item.style.setProperty('--stack',Math.min(3,sorted.length)-1-index);if(included&&!included.includes(ink.id))item.classList.add('ink-excluded');top.append(item);});
         if(visible.length>1)top.append(button(String(visible.length),()=>selected?cancel():open(sources),'ink-count'));
       }else top.append(element('span','—','ink-blank'));
-      cell.append(top);
-      if(!roleLabels){const delta=button(sources.length?(target.ink?(difference(visible[0],target.ink)||'Matched'):'Not loaded'):'',()=>open(sources),'ink-delta');delta.disabled=!sources.length||!!selected;if(sources.length&&!unresolved.length&&difference(visible[0],target.ink))delta.textContent+=' · '+acceptedLabel;cell.append(delta);}
+      if(showSources)cell.append(top);
+      if(showSources&&!roleLabels){const delta=button(sources.length?(target.ink?(difference(visible[0],target.ink)||'Matched'):'Not loaded'):'',()=>open(sources),'ink-delta');delta.disabled=!sources.length||!!selected;if(sources.length&&!unresolved.length&&difference(visible[0],target.ink))delta.textContent+=' · '+acceptedLabel;cell.append(delta);}
       const lower=element('div',null,'ink-loaded');if(selected&&target.ink)lower.classList.add('ink-destination');lower.append(element('small',target.label));
       if(target.ink){const targetCap=cap(target.ink,selected?()=>assign(target):null,`${target.slot?'Loaded pen — slot '+target.slot:target.ink.label||colorName(colorOf(target.ink))}: ${target.ink.label||colorName(colorOf(target.ink))} · ${widthText(target.ink.width_mm)} mm`);targetCap.dataset.target=target.id;if(target.slot)targetCap.dataset.slot=target.slot;targetCap.disabled=!selected||!!targetIssue(target)||working;targetCap.title=targetIssue(target)||targetCap.title;lower.append(targetCap,element('small',target.ink.state==='empty'?'Empty':target.ink.state==='unavailable'?'Unavailable':target.ink.label||colorName(colorOf(target.ink))));}
       if(!selected&&onEditSlot&&target.slot){const edit=button('Edit',()=>onEditSlot(target.slot),'ink-edit-slot');edit.setAttribute('aria-label',`Edit loaded pen — slot ${target.slot}`);lower.append(edit);}
@@ -267,7 +267,7 @@ export function renderInkSets(host,options) {
       grid.append(cell);
     }
     if(onCustom){const cell=element('div',null,'ink-pair ink-add'),lower=element('div',null,'ink-loaded'),add=button('+',()=>{editor=true;draw();host.querySelector('.ink-inline-editor input')?.focus();},'pen-cap');add.disabled=!selected;add.setAttribute('aria-label','Create and assign a custom ink');if(selected)lower.classList.add('ink-destination');lower.append(add,element('small','New ink'));cell.append(lower);grid.append(cell);}
-    host.append(element('div','Inks · loaded slots and document colors','ink-row-label'));
+    if(showSources)host.append(element('div','Inks · loaded slots and document colors','ink-row-label'));
     const nav=element('div',null,'ink-scroll-nav');for(const [label,direction] of [['←',-1],['→',1]]){const move=button(label,()=>{scroll.scrollBy({left:direction*180,behavior:'smooth'});},'ink-action');move.setAttribute('aria-label',direction<0?'Scroll inks left':'Scroll inks right');nav.append(move);}host.append(nav);
     scroll.scrollLeft=oldScroll;requestAnimationFrame(()=>{if(!disposed){nav.hidden=scroll.scrollWidth<=scroll.clientWidth+1;shade();}});
     if(reviewHost)drawReviews();else if(!selected)for(const review of reviews)host.append(reviewRow(review));

@@ -13,6 +13,26 @@ server.stderr.on('data',s=>logs+=s);
 async function api(path,body,method='PUT'){const response=await fetch(base+path,body?{method,headers,body:JSON.stringify(body)}:{});const value=await response.json();assert(response.ok,JSON.stringify(value));return value;}
 try{
  for(let i=0;;i++){try{if((await fetch(base+'/api/status')).ok)break;}catch{}if(i>100)throw Error(logs);await sleep(50);}
+ browser=await chromium.launch({headless:true,args:['--host-resolver-rules=MAP ink-studio.test 127.0.0.1','--no-proxy-server']});const context=await browser.newContext({viewport:{width:1400,height:1000}}),page=await context.newPage(),errors=[],writes=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()==='PUT'&&r.url().endsWith('/api/carousel'))writes.push(r.postDataJSON());});
+ // A new installation must be able to record pens before creating any artwork.
+ await page.goto(web+'/hpgl');
+ await page.getByRole('button',{name:'Edit loaded pen — slot 3',exact:true}).click();
+ assert.equal(await page.getByRole('tab').count(),0);
+ assert.equal(await page.locator('#pens .ink-edit-slot').count(),8);
+ assert.equal(await page.locator('#pens .pen-stack').count(),0);
+ assert(await page.locator('#match-loaded-pens').isHidden());assert(await page.locator('#choose-inks').isHidden());
+ await page.locator('.ink-dialog input[name=label]').fill('Green');
+ await page.locator('.ink-dialog input[name=width_mm]').fill('0.3');
+ const firstSave=page.waitForResponse(r=>r.url().endsWith('/api/carousel')&&r.request().method()==='PUT');
+ await page.getByRole('button',{name:'OK',exact:true}).click();assert.equal((await firstSave).status(),200);
+ const initial=await api('/api/carousel');assert.equal(initial.slots[3].color,'#008000');assert.equal(initial.slots[3].width_mm,.3);
+ assert.deepEqual(await api('/api/jobs'),[]);assert.deepEqual((await api('/api/v1/documents')).documents,[]);
+ await page.reload();await page.getByRole('button',{name:'Edit loaded pen — slot 3',exact:true}).click();
+ assert.equal(await page.locator('.ink-dialog input[name=label]').inputValue(),'Green');
+ assert.equal(await page.locator('.ink-dialog input[name=width_mm]').inputValue(),'0.3');
+ await page.getByRole('button',{name:'Cancel',exact:true}).click();
+ assert.deepEqual(await api('/api/carousel'),initial);
  const seed={slots:Object.fromEntries(Array.from({length:8},(_,i)=>[i+1,{state:'empty',label:'',color:null,width_mm:null,speed_cm_s:5,force:4}]))};
  for(const [slot,label,color] of [[1,'Black','#000000'],[2,'Red','#ff0000'],[4,'hot pink','#ff1493'],[7,'Blue','#0000ff']])seed.slots[slot]={state:'loaded',label,color,width_mm:.5,speed_cm_s:5,force:4};
  for(const slot of [1,2,4,7])seed.slots[slot].measured_color='#536776';
@@ -20,8 +40,6 @@ try{
  const source='IN;PA;SP2;PU0,0;PD2000,1000;PU;SP0;';
  const response=await fetch(base+'/api/jobs?name=carousel-test.hpgl&units_per_mm=40',{method:'POST',headers:{'X-Plotline-Request':'1','Content-Type':'application/octet-stream'},body:source});
  assert(response.ok,await response.clone().text());const job=await response.json();
- browser=await chromium.launch({headless:true,args:['--host-resolver-rules=MAP ink-studio.test 127.0.0.1','--no-proxy-server']});const context=await browser.newContext({viewport:{width:1400,height:1000}}),page=await context.newPage(),errors=[],writes=[];
- page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()==='PUT'&&r.url().endsWith('/api/carousel'))writes.push(r.postDataJSON());});
  await page.goto(web+'/#'+job.id);await page.getByRole('button',{name:'Edit loaded pen — slot 1',exact:true}).first().click();
  await page.locator('.ink-dialog select').selectOption('empty');
  await page.getByRole('button',{name:'OK',exact:true}).click();await page.locator('.ink-dialog').waitFor({state:'hidden'});await sleep(250);
@@ -73,6 +91,23 @@ try{
  await actions.getByRole('button',{name:'OK',exact:true}).click();
  assert(await page.locator('.ink-dialog').isVisible());assert.deepEqual(await api('/api/carousel'),inventory,'Invalid input must not save');
  await page.keyboard.press('Escape');assert.deepEqual(await api('/api/carousel'),inventory,'Escape must not save');
- assert.equal(writes.length,4);assert.deepEqual(JSON.parse(await readFile(state+'/carousel.json')),inventory,'Inventory persisted on disk');
- assert.deepEqual(errors,[]);await writeFile(state+'/result.json',JSON.stringify({passed:true,writes,inventory}));console.log('PASS empty slot and turquoise survive save/reload',state);
+ await page.setViewportSize({width:1400,height:1000});
+ await page.getByRole('button',{name:'Close carousel-test',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelectorAll('[role=tab]').length===0);
+ assert.equal(await page.locator('#pens .ink-edit-slot').count(),8);
+ assert.equal(await page.locator('#pens .pen-stack').count(),0);
+ assert.equal(await page.getByLabel('Pen arrangement',{exact:true}).count(),0);
+ assert(await page.locator('#match-loaded-pens').isHidden());assert(await page.locator('#choose-inks').isHidden());
+ assert.equal(await page.locator('#pen-readiness').textContent(),'');
+ inventory.slots[8]={state:'loaded',label:'Violet',color:'#800080',width_mm:.4,speed_cm_s:5,force:4};
+ inventory=await api('/api/carousel',inventory);
+ await page.locator('#carousel-refresh').click();
+ await page.waitForFunction(()=>[...document.querySelectorAll('.ink-loaded')].some(e=>e.querySelector('[data-slot="8"]')&&e.textContent.includes('Violet')));
+ await page.screenshot({path:state+'/no-document.png'});
+ await page.setViewportSize({width:390,height:600});
+ await page.getByRole('button',{name:'Edit loaded pen — slot 8',exact:true}).click();
+ assert.equal(await page.locator('.ink-dialog input[name=label]').inputValue(),'Violet');
+ await page.getByRole('button',{name:'Cancel',exact:true}).click();
+ assert.equal(writes.length,5);assert.deepEqual(JSON.parse(await readFile(state+'/carousel.json')),inventory,'Inventory persisted on disk');
+ assert.deepEqual(errors,[]);await writeFile(state+'/result.json',JSON.stringify({passed:true,writes,inventory}));console.log('PASS first-run and document-free carousel editing, refresh, closing last document, save/reload and mobile',state);
 }catch(e){console.error(logs);throw e;}finally{await browser?.close();server.kill('SIGTERM');await new Promise(r=>server.once('exit',r));}

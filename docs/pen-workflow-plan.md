@@ -18,6 +18,11 @@ PDF always uses carousel order; HPGL also offers source order. Differences and
 accepted substitutions remain visible. Physical inventory editing has its own
 **Edit** action and never shares the assignment click.
 
+HPGL Studio exposes the loaded carousel even when no document is open. Its
+eight slots use the same Edit action; document pens and mapping controls appear
+only when a document is selected. Closing the last document keeps inventory
+editing available, so a fresh installation can configure pens before authoring.
+
 Map has one **Feature inks** tray: role names above their actual inks. In Map
 Studio this opens as a full-width bottom drawer from the sidebar's compact
 role chips / **Edit inks…**. Each chip shows a role name and color dot and opens

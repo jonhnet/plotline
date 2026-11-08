@@ -72,8 +72,7 @@ const plotting = plotControls({
 const carousel = carouselControls({
   api, writeOptions, current: () => ({ job: selected, setup }), notice,
   changed(saveMapping = false) {
-    if (!setup) return;
-    setup.carousel_revision = carousel.value.revision;
+    if (setup) setup.carousel_revision = carousel.value.revision;
     renderPens();
     if (saveMapping) saveSetup();
   },
@@ -438,6 +437,14 @@ function updatePens() {
 }
 function renderPens() {
   const job=selected,reviews=[];
+  const tray={carousel:carousel.value,reviewHost:$('pen-reviews'),toolbarHost:$('pen-arrangement'),onEditSlot:slot=>carousel.edit(slot)};
+  const hasDocument=!!job&&!!setup;
+  $('choose-inks').hidden=!hasDocument;$('match-loaded-pens').hidden=!hasDocument;
+  if(!hasDocument){
+    renderInkSets($('pens'),{...tray,title:'Loaded carousel',showSources:false,allowOrder:false});
+    $('choose-inks').disabled=true;$('pen-readiness').textContent='';
+    carousel.render();return;
+  }
   if(job.pdf)for(const ink of job.summary.pens.filter(i=>setup.pens.includes(i.id))){
     const slot=setup.pen_map[ink.id],pen=carousel.value?.slots[slot];
     if(usable(pen)&&!equivalent(ink,pen)&&!accepted(ink,slot,pen,setup.accepted_substitutions?.[ink.id])){
@@ -446,9 +453,9 @@ function renderPens() {
       reviews.push({id:ink.id,message:`Ink ${ink.id} → slot ${slot}: ${difference(ink,pen)}`,actions});
     }
   }
-  renderInkSets($('pens'),{inks:job.summary.pens,carousel:carousel.value,mapping:setup.pen_map,title:'Document pens',reviews,reviewHost:$('pen-reviews'),toolbarHost:$('pen-arrangement'),
+  renderInkSets($('pens'),{...tray,inks:job.summary.pens,mapping:setup.pen_map,title:'Document pens',reviews,
     included:setup.pens,
-    isAccepted:(ink,slot,pen)=>!job.pdf||accepted(ink,slot,pen,setup.accepted_substitutions?.[ink.id]),onEditSlot:slot=>carousel.edit(slot),
+    isAccepted:(ink,slot,pen)=>!job.pdf||accepted(ink,slot,pen,setup.accepted_substitutions?.[ink.id]),
     onAssign:(ids,target)=>{
       if(selected.id!==job.id)return false;
       const pen=carousel.value?.slots[target.slot];
@@ -724,10 +731,10 @@ async function loadEntry(entry) {
 }
 function clearDocument(){
   generation++;worker?.terminate();worker=null;selected=null;setup=null;view=null;base=null;ready=false;busy=false;rendered=null;
-  clearTimeout(renderTimer);$('preview-canvas').width=1;$('paper-scene').replaceChildren();$('pens')._inkTray?.dispose();$('pens').replaceChildren();$('choose-inks').disabled=true;
+  clearTimeout(renderTimer);$('preview-canvas').width=1;$('paper-scene').replaceChildren();renderPens();
   $('empty').hidden=false;$('viewport').hidden=true;$('preview-loading').hidden=true;$('export-plan').disabled=true;
   $('download').removeAttribute('href');$('pdf-edit').hidden=true;$('calibration-open').hidden=true;renderVersion();
-  studioNav.setSources([]);$('pen-readiness').textContent='Open a document to assign its pens.';$('drawer-warning').textContent='';plotting.update('');
+  studioNav.setSources([]);$('drawer-warning').textContent='';$('show-pens').title='Pens & mapping';plotting.update('');
 }
 function openDrawer(pane){
   drawerPane=pane;$('ink-drawer').hidden=!pane;
