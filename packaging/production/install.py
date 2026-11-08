@@ -125,6 +125,21 @@ def dependency_check(root):
     run('runuser','-u','plotline','--','python3','-c','from raster_lab.engine import check_dependencies; check_dependencies()',cwd=root)
 
 
+def checked_receipt(c, revision):
+    receipt=Path(c['data_root'])/'installation.json'
+    value=json.loads(receipt.read_text())
+    if value['installed_revision']!=revision:
+        raise ValueError('Installation receipt revision mismatch')
+    value.pop('error',None)
+    try:
+        checks=readiness(c,revision)
+    except Exception as error:
+        atomic(receipt,dict(value,ready=False,checked_at=time.time(),error=str(error)))
+        raise
+    atomic(receipt,dict(value,ready=True,checked_at=time.time(),checks=checks))
+    return checks
+
+
 def install(args,c):
     source=safe_path(str(args.source)).resolve(strict=True)
     if (source/'.git').exists(): raise ValueError('Supply an exported snapshot without .git')
@@ -134,6 +149,10 @@ def install(args,c):
     root=Path(c['install_root']); root.mkdir(parents=True,exist_ok=True)
     if not os.path.ismount(c['data_root']): raise ValueError('IaC must mount data_root before installation')
     users(c); state(c)
+    if c['device_config']:
+        connection=json.loads(Path(c['device_config']).read_text())
+        for path in [c['device_config'],connection['identity_file'],connection['known_hosts_file']]:
+            run('runuser','-u','plotline','--','test','-r',path)
     with admission(c):
         idle(c)
         # Build under the closed admission gate. Existing services remain running
@@ -147,7 +166,7 @@ def install(args,c):
         current=root/'current'
         if (current.exists() and current.resolve()==destination and previous.get('config_sha256')==fingerprint
                 and all(active(unit) for unit in UNITS)):
-            checks=readiness(c,args.revision)
+            checks=checked_receipt(c,args.revision)
         else:
             # Recheck immediately before activation, with admission still closed.
             idle(c)
@@ -159,9 +178,7 @@ def install(args,c):
             run('systemctl','daemon-reload')
             run('systemctl','enable','plotline.target')
             run('systemctl','start','plotline.target')
-            checks=readiness(c,args.revision)
-        atomic(receipt,dict(installed_revision=args.revision,ready=True,config_sha256=fingerprint,
-                            state_schema=SCHEMA_VERSION,checked_at=time.time(),checks=checks))
+            checks=checked_receipt(c,args.revision)
     print(json.dumps(dict(installed_revision=args.revision,ready=True,checks=checks)))
 
 
@@ -177,13 +194,12 @@ def main():
         parser.error('Supply an explicit full 40-character --revision')
     if args.action=='install' and args.source is None: parser.error('--source is required')
     c=config(args.config)
+    if not os.path.ismount(c['data_root']):
+        raise ValueError('data_root is not the retained mount; refusing to use ephemeral storage')
     try:
         if args.action=='install': install(args,c)
         elif args.action=='check':
-            checks=readiness(c,args.revision)
-            receipt=Path(c['data_root'])/'installation.json';value=json.loads(receipt.read_text())
-            if value['installed_revision']!=args.revision: raise ValueError('Installation receipt revision mismatch')
-            atomic(receipt,dict(value,ready=True,checked_at=time.time(),checks=checks));print(json.dumps(checks))
+            print(json.dumps(checked_receipt(c,args.revision)))
         else:
             with admission(c):
                 status=idle(c)

@@ -10,6 +10,7 @@ import uuid
 
 import common
 from build import tree_hash
+from install import checked_receipt
 
 
 class PublicationSafety(unittest.TestCase):
@@ -61,6 +62,16 @@ class PublicationSafety(unittest.TestCase):
         path=self.root/'receipt.json';common.atomic(path,{'revision':'a'})
         common.atomic(path,{'revision':'b'});self.assertEqual(json.loads(path.read_text()),{'revision':'b'})
         self.assertEqual(sorted(p.name for p in self.root.iterdir()),['receipt.json'])
+
+    def test_readiness_failure_and_recovery_are_recorded(self):
+        path=self.save('installation.json',{'installed_revision':'a'*40,'ready':True})
+        with patch('install.readiness',side_effect=RuntimeError('IPP unavailable')):
+            with self.assertRaises(RuntimeError): checked_receipt(self.c,'a'*40)
+        value=json.loads(path.read_text())
+        self.assertFalse(value['ready']);self.assertEqual(value['error'],'IPP unavailable')
+        with patch('install.readiness',return_value={'ipp':{'ready':True}}):
+            checked_receipt(self.c,'a'*40)
+        value=json.loads(path.read_text());self.assertTrue(value['ready']);self.assertNotIn('error',value)
 
 
 if __name__=='__main__':unittest.main()
