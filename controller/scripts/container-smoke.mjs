@@ -45,10 +45,11 @@ try{
   podman('volume','create',volume);
   start(true);
   await until(()=>{inside('python3','packaging/container-entrypoint.py','--healthcheck');return true;},30);
+  const defaultPolicy=JSON.parse(inside('cat','controller/retention-policy.json'));
   await until(()=>{
     checkLogs();
     const status=JSON.parse(inside('cat','/data/studios/storage-status.json'));
-    assert.deepEqual(status.errors,[]);return status.last_sweep>0;
+    assert.deepEqual(status.errors,[]);assert.deepEqual(status.policy,defaultPolicy);return status.last_sweep>0;
   },10);
   assert(logs().includes(`Map Studio is at ${base}/map`));
   assert(!logs().includes('http://127.0.0.1:9193/'),'Do not advertise the internal worker as a browser address');

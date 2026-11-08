@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-"""Fail a container build if its source copy includes any unlisted file."""
+"""Reject unlisted source files and missing runtime maintenance helpers."""
 from pathlib import Path
+
+# Keep this independent of the generated allowlist: matching omissions in the
+# context and image must fail too, before any compilation starts.
+REQUIRED_RUNTIME_FILES = {
+    'controller/scripts/retention.py',
+    'controller/retention-policy.json',
+    'controller/scripts/render-page.py',
+}
 
 root = Path(__file__).resolve().parents[1]
 allowed = {line[1:] for line in (root / '.dockerignore').read_text().splitlines()
@@ -17,6 +25,9 @@ for entry in root.iterdir():
         found.add(entry.name)
 unexpected = found - allowed
 missing = allowed - found
+missing_runtime = REQUIRED_RUNTIME_FILES - found
+if missing_runtime:
+    raise SystemExit(f'Missing required runtime files: {sorted(missing_runtime)}')
 if unexpected or missing:
     raise SystemExit(f'Container source mismatch: unexpected={sorted(unexpected)[:10]}, missing={sorted(missing)[:10]}')
 print(f'Container source verified: {len(found)} public files; no private state or host builds.')
