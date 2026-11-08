@@ -2,7 +2,7 @@
 // node controller/scripts/container-smoke.mjs [image]
 // Isolated volume/port; never supplies a hardware connection or calls Plot.
 import {chromium} from 'playwright';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawnSync} from 'node:child_process';
 import {createServer} from 'node:net';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -11,6 +11,12 @@ const image=process.argv[2]||'localhost/plotline:latest';
 const name=`plotline-container-check-${process.pid}`,volume=name+'-data';
 const podman=(...args)=>execFileSync('podman',args,{encoding:'utf8',maxBuffer:8*1024*1024,stdio:['ignore','pipe','pipe']});
 const inside=(...args)=>podman('exec',name,...args);
+function logs(){
+  const result=spawnSync('podman',['logs','--tail','100',name],{encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr);
+  return result.stdout+result.stderr;
+}
+function checkLogs(){assert.doesNotMatch(logs(),/Storage cleanup failed|Traceback \(most recent call last\)/);}
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const socket=createServer();await new Promise(r=>socket.listen(0,'127.0.0.1',r));
 const port=socket.address().port;await new Promise(r=>socket.close(r));
@@ -34,11 +40,18 @@ function start(offline=false){
   podman('run','--rm','-d','--name',name,...(offline?['--network=none']:['-p',`127.0.0.1:${port}:9191`]),
     '-e',`PLOTLINE_PUBLIC_URL=${base}`,'-v',`${volume}:/data`,image);
 }
-function stop(){podman('stop','--time','10',name);}
+function stop(){checkLogs();podman('stop','--time','10',name);}
 try{
   podman('volume','create',volume);
   start(true);
   await until(()=>{inside('python3','packaging/container-entrypoint.py','--healthcheck');return true;},30);
+  await until(()=>{
+    checkLogs();
+    const status=JSON.parse(inside('cat','/data/studios/storage-status.json'));
+    assert.deepEqual(status.errors,[]);return status.last_sweep>0;
+  },10);
+  assert(logs().includes(`Map Studio is at ${base}/map`));
+  assert(!logs().includes('http://127.0.0.1:9193/'),'Do not advertise the internal worker as a browser address');
   assert.notEqual(inside('id','-u').trim(),'0');
   inside('python3','-c',`from pathlib import Path
 from raster_lab.engine import check_dependencies
@@ -49,7 +62,7 @@ assert not Path('/usr/bin/ssh').exists()
 `);
   inside('.venv/bin/python','-c','import _cartographer_geometry, pymupdf, shapely; print(_cartographer_geometry.geos_version())');
   inside('/opt/calibration/bin/python','-c','import numpy, scipy, PIL');
-  stop();console.log('Offline startup, shutdown, runtime dependencies and private-file exclusion passed.');
+  stop();console.log('Offline startup, storage cleanup, shutdown, runtime dependencies and private-file exclusion passed.');
 
   start();await until(()=>api('/api/status'));
   assert.equal((await api('/api/plotter')).configured,false);
@@ -61,12 +74,22 @@ assert not Path('/usr/bin/ssh').exists()
   form.append('intent',new Blob([JSON.stringify(intent)]),'intent.json');
   const uploaded=await api('/api/v1/documents',{method:'POST',body:form});
   const doc=await completed(uploaded.status_url);
+  // Simulate eviction of a regenerable thumbnail; preserve the original/recipe.
+  inside('rm','-f',`/data/studios/documents/${doc.id}/page-0-v2.png`);
+  const thumbnail=await fetch(base+`/api/v1/documents/${doc.id}/pages/0`);
+  assert.equal(thumbnail.status,200,await thumbnail.clone().text());
+  assert.equal(thumbnail.headers.get('content-type'),'image/png');
+  assert.deepEqual(Buffer.from(await thumbnail.arrayBuffer()).subarray(0,8),Buffer.from([137,80,78,71,13,10,26,10]));
+  assert.deepEqual((await api(uploaded.status_url)).inspection,doc.inspection);
+  assert.deepEqual(Buffer.from(await (await fetch(base+`/api/v1/documents/${doc.id}/source.pdf`)).arrayBuffer()),pdf);
   const request=await post(`/api/v1/documents/${doc.id}/draft`,intent);
   const draft=await completed(request.status_url);
   assert.equal(draft.result.pages.length,2);
   assert(draft.result.pages[1].geometry.source_exceeds_sheet);
   assert((await api('/api/jobs')).length>0,'HPGL drafts registered');
-  console.log('PDF upload, inspection, conversion, placement and HPGL handoff passed.');
+  inside('python3','controller/scripts/retention.py','--state','/data/studios','--apply');
+  assert.deepEqual(JSON.parse(inside('cat','/data/studios/storage-status.json')).errors,[]);
+  console.log('PDF upload, expired thumbnail regeneration, conversion, cleanup, placement and HPGL handoff passed.');
 
   // Exercise the distribution-Python raster worker through the real PDF API.
   inside('python3','-m','raster_lab.pdf_fixture','--output','/data/cache/raster-fixture',
@@ -117,6 +140,7 @@ assert not Path('/usr/bin/ssh').exists()
   assert.equal((await api('/map/api/recipes'))[0].title,'Container map');
   assert.equal((await api('/api/plotter')).configured,false);
   console.log('Documents survived container replacement; hardware stayed unconfigured.');
+  checkLogs();
   // A dead worker must fail the container, not leave a half-working suite.
   inside('python3','-c',`from pathlib import Path
 import os,signal
@@ -128,7 +152,7 @@ for p in Path('/proc').glob('[0-9]*/cmdline'):
   await until(()=>!podman('ps','--format','{{.Names}}').split('\n').includes(name),20);
   console.log('Worker failure stops the container. Container acceptance passed.');
 }catch(error){
-  try{console.error(podman('logs','--tail','80',name));}catch{}
+  try{console.error(logs());}catch{}
   throw error;
 }finally{
   await browser?.close();

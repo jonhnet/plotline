@@ -72,11 +72,16 @@ controller/layouts/**
 !controller/models/
 controller/models/**
 !controller/models/hp7585-snoqualmie-v1.json
+!controller/retention-policy.json
 !controller/samples/
 controller/samples/**
 !controller/samples/three-pens.hpgl
 !controller/samples/timing-reference.hpgl
 !controller/samples/timing-reference.json
+!controller/scripts/
+controller/scripts/**
+!controller/scripts/render-page.py
+!controller/scripts/retention.py
 !controller/src/
 controller/src/**
 !controller/src/calibration.rs

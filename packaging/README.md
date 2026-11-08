@@ -15,7 +15,9 @@ bridge networking and a published loopback port.
 PID 1 and orphan reaping. Either service exiting stops its peer and returns a
 failure; SIGINT/SIGTERM stops both process groups, including converters. The
 healthcheck helper checks both HTTP listeners without contacting a map provider or
-plotter. The worker binds loopback; only port 9191 is exposed. Configure links
+plotter. The Python map worker keeps its job queue and geometry caches in a
+separate process. Its loopback port 9193 is internal: the Rust server proxies
+Map Studio at `/map` on the single exposed port, 9191. Configure links
 back to the authoring Studios with `PLOTLINE_PUBLIC_URL` when changing the
 browser address.
 
@@ -54,7 +56,8 @@ node controller/scripts/container-smoke.mjs
 
 This checks offline startup, non-root execution, source exclusions, PDF
 inspection/conversion and HPGL registration, mixed raster/vector conversion,
-all five browser pages, Pattern/Maze exports, a live map preview, document
+successful background cleanup, expired PDF thumbnail regeneration, both output
+streams for worker errors, all five browser pages, Pattern/Maze exports, a live map preview, document
 persistence across container replacement and shutdown when a worker fails.
 It creates and removes its own volume, requires Internet access for the map,
 and never contacts a real plotter.
