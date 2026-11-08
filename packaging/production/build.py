@@ -33,6 +33,7 @@ def download(url, target, sha):
 def tree_hash(root):
     digest = hashlib.sha256()
     for path in sorted(root.rglob('*')):
+        if '__pycache__' in path.relative_to(root).parts: continue
         if path.is_symlink(): raise ValueError('Exported source must not contain symlinks: ' + str(path))
         if path.is_file():
             digest.update(str(path.relative_to(root)).encode()); digest.update(b'\0')
@@ -72,6 +73,7 @@ def dependencies(c):
         binary = tools/'rustup-init'; download(base,binary,sha); binary.chmod(0o755)
         run('runuser','-u','plotline-build','--',binary,'-y','--no-modify-path','--profile','minimal','--default-toolchain',RUST,env=env)
         binary.unlink()
+    run('runuser','-u','plotline-build','--','rustup','set','auto-self-update','disable',env=env)
     run('runuser','-u','plotline-build','--','rustup','toolchain','install',RUST,'--profile','minimal',env=env)
     run('runuser','-u','plotline-build','--','rustup','default',RUST,env=env)
     env['RUSTUP_TOOLCHAIN'] = RUST
@@ -91,7 +93,7 @@ def build(source, revision, c, env):
         if current.exists() and current.resolve() == root.resolve():
             raise ValueError('Active build is incomplete; restore its files or publish a different revision')
         shutil.rmtree(root)
-    shutil.copytree(source,root)
+    shutil.copytree(source,root,ignore=shutil.ignore_patterns('__pycache__'))
     owner = pwd.getpwnam('plotline-build')
     for directory, dirs, files in os.walk(root):
         os.chown(directory,owner.pw_uid,owner.pw_gid)

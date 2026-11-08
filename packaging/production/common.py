@@ -76,6 +76,9 @@ def config(path):
         raise ValueError('Use a short IPP name without control characters')
     if type(result['ipp_discovery']) is not bool:
         raise ValueError('ipp_discovery must be boolean')
+    for key in ('service_uid','service_gid'):
+        if type(result[key]) is not int or not 100 <= result[key] < 65534:
+            raise ValueError(f'{key} must be a non-root UID/GID below 65534')
     for key, maximum in [('conversion_workers', 4), ('map_workers', 4), ('geometry_workers', 16),
                          ('map_geometry_threads', 16), ('build_jobs', 16)]:
         if type(result[key]) is not int or not 1 <= result[key] <= maximum:

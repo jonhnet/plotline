@@ -55,6 +55,8 @@ class PublicationSafety(unittest.TestCase):
     def test_no_git_needed_and_export_bytes_matter(self):
         path=self.root/'source';path.mkdir();(path/'SOURCE_REVISION').write_text('a'*40)
         a=tree_hash(path);(path/'one.py').write_text('print(1)');self.assertNotEqual(a,tree_hash(path))
+        expected=tree_hash(path);(path/'__pycache__').mkdir();(path/'__pycache__/one.pyc').write_bytes(b'generated')
+        self.assertEqual(expected,tree_hash(path),'Running exported tests must not invalidate source identity')
         (path/'escape').symlink_to('/etc/passwd')
         with self.assertRaises(ValueError):tree_hash(path)
 

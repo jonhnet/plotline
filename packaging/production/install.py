@@ -2,6 +2,7 @@
 """Install an exported Plotline revision. IaC alone selects and promotes releases."""
 import argparse
 import hashlib
+import grp
 import json
 import os
 from pathlib import Path
@@ -18,6 +19,18 @@ from build import build, dependencies, NODE
 
 
 def users(c):
+    # Stable numeric ownership survives guest recreation with the same mount.
+    try:
+        group=grp.getgrnam('plotline')
+        if group.gr_gid!=c['service_gid']: raise ValueError('Existing plotline group has a different GID; reconcile the account before installation')
+    except KeyError: run('groupadd','--system','--gid',c['service_gid'],'plotline')
+    try:
+        account=pwd.getpwnam('plotline')
+        if account.pw_uid!=c['service_uid'] or account.pw_gid!=c['service_gid']:
+            raise ValueError('Existing plotline user has a different UID/GID; reconcile the account before installation')
+    except KeyError:
+        run('useradd','--system','--uid',c['service_uid'],'--gid',c['service_gid'],
+            '--home-dir',Path(c['data_root'])/'home','--shell','/usr/sbin/nologin','plotline')
     for name, home in [('plotline',Path(c['data_root'])/'home'),
                        ('plotline-build',Path(c['install_root'])/'build-home')]:
         try: pwd.getpwnam(name)

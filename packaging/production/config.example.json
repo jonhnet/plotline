@@ -1,6 +1,8 @@
 {
   "data_root": "/srv/plotline",
   "install_root": "/opt/plotline",
+  "service_uid": 970,
+  "service_gid": 970,
   "public_url": "https://plotline.tech.jonh.net",
   "web_bind": "0.0.0.0:9191",
   "map_port": 9193,
