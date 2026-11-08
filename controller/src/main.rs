@@ -141,11 +141,7 @@ async fn main() -> Result<()> {
             )
         })
         .transpose()?;
-    eprintln!(
-        "Plotline Studios listening on http://{listen}; jobs={}; plotting connection configured={}",
-        store.root.display(),
-        plotter.is_some()
-    );
+    eprintln!("\nPlotline Studios listening on http://{listen}");
     axum::serve(listener, web::router_with_plotter(store, plotter))
         .with_graceful_shutdown(async {
             let mut terminate =

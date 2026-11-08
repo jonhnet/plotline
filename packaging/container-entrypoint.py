@@ -52,7 +52,6 @@ def main():
     try:
         for command in commands:
             children.append(subprocess.Popen(command, start_new_session=True))
-        print(f'Open {public}/ — preview only. Documents live in /data.', flush=True)
         while not stopping:
             for child in children:
                 code = child.poll()

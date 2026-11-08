@@ -51,7 +51,8 @@ try{
     const status=JSON.parse(inside('cat','/data/studios/storage-status.json'));
     assert.deepEqual(status.errors,[]);assert.deepEqual(status.policy,defaultPolicy);return status.last_sweep>0;
   },10);
-  assert(logs().includes(`Map Studio is at ${base}/map`));
+  assert.match(logs(),/(?:^|\n)\nPlotline Studios listening on http:\/\/0\.0\.0\.0:9191\n/);
+  assert.doesNotMatch(logs(),/Documents live|preview only|Map composition worker ready|jobs=.*plotting connection/);
   assert(!logs().includes('http://127.0.0.1:9193/'),'Do not advertise the internal worker as a browser address');
   assert.notEqual(inside('id','-u').trim(),'0');
   inside('python3','-c',`from pathlib import Path

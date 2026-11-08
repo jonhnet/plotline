@@ -287,10 +287,7 @@ def main():
     app = Application(args.state, args.build, args.studios, args.studios_public)
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     server.app = app
-    public_url = os.environ.get('PLOTLINE_MAP_PUBLIC_URL')
-    if public_url:
-        print(f'Map composition worker ready; Map Studio is at {public_url}', flush=True)
-    else:
+    if not os.environ.get('PLOTLINE_MAP_PUBLIC_URL'):
         print(f'Plotline Map Studio: http://{args.host}:{args.port}/', flush=True)
     try:
         server.serve_forever()
