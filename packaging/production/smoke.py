@@ -2,17 +2,19 @@
 """Destructive acceptance test for a disposable guest; never run on production."""
 import argparse
 import fcntl
+import http.client
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
+import struct
 import time
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 import uuid
 
-from common import atomic, config, idle, readiness, run, url, UNITS
+from common import atomic, config, idle, readiness, run, stop_services, url, UNITS
 
 
 def wait(fn, seconds=60):
@@ -28,6 +30,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',type=Path,required=True)
     parser.add_argument('--source',type=Path,required=True)
+    parser.add_argument('--map',action='store_true',help='Also fetch public map tiles and render the default map')
     args=parser.parse_args(); c=config(args.config)
     assert Path('/etc/plotline/ISOLATED_TEST').read_text().strip()=='disposable-no-hardware'
     assert not c['device_config'] and not c['ipp_discovery'], 'No hardware or LAN advertisements in tests'
@@ -113,8 +116,19 @@ STATUS successful-ok
             request('/map/api/recipes',status=503)
             assert request('/api/maintenance')['admission_protocol']==1
             assert request('/map/api/maintenance')['admission_protocol']==1
-            rejected=subprocess.run(ipp_command,capture_output=True,text=True,timeout=8)
-            assert rejected.returncode!=0 and '503' in rejected.stdout+rejected.stderr,rejected
+            # ipptool maps HTTP 503 to a generic IPP transport error; inspect
+            # the HTTP response directly to verify the refusal reason.
+            def attr(tag,name,value):
+                a,b=name.encode(),value.encode()
+                return bytes([tag])+struct.pack('>H',len(a))+a+struct.pack('>H',len(b))+b
+            message=struct.pack('>BBHI',2,0,2,1)+b'\x01'
+            for item in [(0x47,'attributes-charset','utf-8'),(0x48,'attributes-natural-language','en'),
+                         (0x45,'printer-uri',f'ipp://127.0.0.1:{c["ipp_port"]}/ipp/print'),
+                         (0x49,'document-format','application/pdf')]:message+=attr(*item)
+            connection=http.client.HTTPConnection('127.0.0.1',c['ipp_port'],timeout=5)
+            connection.request('POST','/ipp/print',message+b'\x03'+pdf.read_bytes(),{'Content-Type':'application/ipp'})
+            reply=connection.getresponse();assert reply.status==503,reply.status
+            reply.read();connection.close()
         results.append('exclusive gate rejects HTTP/Map/IPP writes; bounded maintenance reads still work')
         run(*ipp_command,stdout=subprocess.DEVNULL)
         def inspected():
@@ -134,6 +148,19 @@ STATUS successful-ok
         assert device()['opens']==0,'Conversion opened serial'
         results.append('IPP capture → PDF review → explicit pen conversion → HPGL; zero serial opens')
 
+        if args.map:
+            recipe=request('/map/api/catalog')['recipe']
+            job=request('/map/api/preview','POST',dict(recipe=recipe,quality='draft',
+                        session=uuid.uuid4().hex,revision=1),status=202)
+            before=pids();output=command('idle',75)
+            assert 'Map Studio' in output and pids()==before,output
+            def rendered():
+                row=request('/map/api/jobs/'+job['id'])
+                if row['status']=='error':raise AssertionError(row)
+                return row['status']=='ready' and row
+            wait(rendered,300)
+            results.append('default map renders from downloaded tiles; active composition blocks maintenance')
+
         # Explicitly plot only against the fixture. Hold completion to test the
         # interval after feeding ends but before the physical device has finished.
         source='IN;PA;CO"pen id=1 r=0 g=0 b=0 width_mm=0.3";SP1;PU0,0;PD400,400;PU;SP0;'
@@ -149,7 +176,7 @@ STATUS successful-ok
         # Simulate a service crash, then prove restart/health never replay bytes.
         run('systemctl','kill','--kill-whom=all','--signal=KILL','plotline-web')
         time.sleep(4);readiness(c,revision)
-        wait(lambda:execution()=='interrupted')
+        wait(lambda:execution()=='completion_unknown')
         writes=device()['writes'];command('check');time.sleep(.3)
         assert device()['writes']==writes and device()['starts']==1
         command('install',75)
@@ -166,7 +193,7 @@ STATUS successful-ok
         results.append('safe stop/start retains documents, inventory and plot receipts without plotting')
     finally:
         # This guest is disposable. Never leave the test transport enabled.
-        run('systemctl','stop','plotline.target')
+        stop_services()
         override.unlink(missing_ok=True);run('systemctl','daemon-reload')
         run('systemctl','start','plotline.target')
     readiness(c,revision)

@@ -61,10 +61,18 @@ isolated Studio browser checks. See [setup](GETTING_STARTED.md) for commands.
 The historical diagnostic corpus is excluded; some archived scripts refer to
 those private inputs.
 
-This is an experimental source release. There is no prebuilt Podman image.
-Container packaging needs persistent state, process supervision, dependency
-notices and documented LAN networking for IPP discovery. Windows is untested
-and community-supported, not a release gate.
+The root Dockerfile builds a preview-only Podman image with all five Studios
+and a retained data volume; it intentionally omits IPP and a hardware connection.
+Windows is untested and community-supported, not a release gate.
+
+Production publication through colfax-config is prepared in
+[IAC_HANDOFF.md](../IAC_HANDOFF.md). IaC selects `refs/heads/main` from the home
+repository and invokes Plotline's installer with an exported snapshot and full
+revision. The planned operator commands are `./deploy plotline publish` and
+`./deploy plotline rollback FULL_COMMIT` once the IaC adapter is implemented.
+Only IaC promotes production markers after successful installation/readiness.
+Production deployment and the initial state/plotter cutover remain separate
+operator actions; do not infer that this preparation has deployed a service.
 
 Contributions retain AGPL and the physical-placement, clipping, pen-width and
 isolated-browser tests. Plotting remains an explicit operator action.

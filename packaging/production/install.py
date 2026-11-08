@@ -68,6 +68,7 @@ def service_files(root,c,revision):
         'PLOTLINE_CONVERSION_WORKERS':str(c['conversion_workers']),
         'PLOTLINE_MAP_WORKERS':str(c['map_workers']),
         'PLOTLINE_GEOMETRY_WORKERS':str(c['geometry_workers']),
+        'PLOTLINE_VISIBILITY_WORKERS':str(c['geometry_workers']),
         'PLOTLINE_MAP_GEOMETRY_THREADS':str(c['map_geometry_threads']),
         'PLOTLINE_SINK_STATE':str(data/'ipp'),'PLOTLINE_SINK_PORT':str(c['ipp_port']),
         'PLOTLINE_SINK_BINARY':str(root/'runtime/ippeveprinter'),

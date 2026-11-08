@@ -209,6 +209,10 @@ def readiness(c, revision, timeout=30):
                     raise RuntimeError(f'{component} revision/admission mismatch')
                 checks[component] = dict(revision=state['source_revision'],ready=True)
             ipp(c, 'ipp-ready.test'); checks['ipp'] = dict(ready=True)
+            storage=json.loads((Path(c['data_root'])/'studios/storage-status.json').read_text())
+            if storage.get('errors') != [] or not storage.get('policy'):
+                raise RuntimeError('Storage retention sweep failed; inspect studios/storage-status.json')
+            checks['storage']=dict(ready=True,last_sweep=storage['last_sweep'])
             return checks
         except Exception as error:
             last = str(error); time.sleep(.25)

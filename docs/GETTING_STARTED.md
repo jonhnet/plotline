@@ -48,6 +48,9 @@ network. The map worker remains internal to the container.
 
 Container maintenance and validation are in [packaging/README.md](../packaging/README.md).
 
+For a supervised installation with IPP and an optional plotter connection, see
+the [production installer and IaC handoff](../IAC_HANDOFF.md).
+
 ## Build from source
 
 Run these commands from the checkout root, as your normal user. Install Rust

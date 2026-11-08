@@ -159,12 +159,14 @@ packaging/**
 !packaging/container-entrypoint.py
 !packaging/production/
 packaging/production/**
+!packaging/production/README.md
 !packaging/production/build.py
 !packaging/production/common.py
 !packaging/production/config.example.json
 !packaging/production/install.py
 !packaging/production/ipp-idle.test
 !packaging/production/ipp-ready.test
+!packaging/production/smoke.py
 !packaging/production/test.Dockerfile
 !packaging/production/test_install.py
 !packaging/public-source.json

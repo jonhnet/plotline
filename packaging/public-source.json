@@ -4,6 +4,8 @@
     ".dockerignore",
     "Dockerfile",
     ".gitattributes",
+    "SOURCE_REVISION",
+    "IAC_HANDOFF.md",
     ".github/",
     "README.md",
     "LICENSE",
