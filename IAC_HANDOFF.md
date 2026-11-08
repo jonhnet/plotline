@@ -142,6 +142,14 @@ the same installer. Inactive build directories can be removed according to
 IaC's release-retention policy; never remove the active target. The installer
 does not prune releases itself.
 
+If an installer is interrupted during building, ensure its remaining build
+subprocesses have exited before retrying. The next attempt discards and rebuilds
+an incomplete inactive build. An incomplete active build refuses rather than
+deleting running code. Interrupted apt/dpkg work may require `dpkg --configure -a`
+before retrying. After an activation interruption, reconcile the selected
+snapshot and inspect `installation.json`; do not infer success from the symlink
+alone or automatically promote a marker.
+
 ## Supervision and safe publication
 
 `plotline.target`, enabled at boot, groups three services:

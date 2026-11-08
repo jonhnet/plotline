@@ -111,7 +111,7 @@ def read_json(url):
 
 def active(unit):
     value = run('systemctl', 'show', unit, '--property=ActiveState', '--value',
-                stdout=subprocess.PIPE, text=True).stdout.strip()
+                stdout=subprocess.PIPE, text=True, timeout=3).stdout.strip()
     if value in ('activating', 'deactivating', 'reloading'):
         raise Busy(f'{unit} is {value}; wait for it to settle and retry.')
     return value == 'active'
@@ -120,7 +120,7 @@ def active(unit):
 def stop_services():
     loaded = [unit for unit in ('plotline.target', *UNITS) if run(
         'systemctl','show',unit,'--property=LoadState','--value',
-        stdout=subprocess.PIPE,text=True).stdout.strip() != 'not-found']
+        stdout=subprocess.PIPE,text=True,timeout=3).stdout.strip() != 'not-found']
     if loaded: run('systemctl','stop',*loaded)
 
 

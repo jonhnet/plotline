@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import sys
 import tempfile
+import subprocess
 import unittest
 from unittest.mock import patch
 import uuid
@@ -74,6 +75,11 @@ class PublicationSafety(unittest.TestCase):
         with patch('install.readiness',return_value={'ipp':{'ready':True}}):
             checked_receipt(self.c,'a'*40)
         value=json.loads(path.read_text());self.assertTrue(value['ready']);self.assertNotIn('error',value)
+
+    def test_service_manager_queries_are_bounded(self):
+        with patch.object(common,'run',return_value=subprocess.CompletedProcess([],0,stdout='active\n')) as query:
+            self.assertTrue(common.active('plotline-web'))
+            self.assertEqual(query.call_args.kwargs['timeout'],3)
 
 
 if __name__=='__main__':unittest.main()
