@@ -341,6 +341,7 @@ fn compile_with_workers(
     let results =
         crate::work::ordered_mut(&mut plan.paints, workers, &mut progress, |_, paint| {
             plan_paint(paint, page.bounds, settings)
+                .with_context(|| format!("Planning paint {} ({})", paint.id, paint.source))
         })?;
     for (paint, paths) in plan.paints.iter_mut().zip(results) {
         let Some(paths) = paths else { continue };

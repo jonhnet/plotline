@@ -420,22 +420,16 @@ pub(crate) fn centerline_inset(
         && geometry.is_valid()?
         && let Ok(simplified) = geometry.topology_preserve_simplify(tolerance)
         && simplified.is_valid().unwrap_or(false)
-        && let Ok(inset) = component_inset(&simplified, radius)
+        && let Ok(inset) = round_buffer(&simplified, -radius)
     {
         return Ok(inset);
     }
-    component_inset(geometry, radius)
+    round_buffer(geometry, -radius)
 }
 
 // Disconnected valid polygons remain disjoint under erosion. Positive buffers
 // cannot use this decomposition; keep the original round joins/quadrant count.
-fn component_inset(geometry: &Geometry, radius: f64) -> Result<Geometry> {
-    if geometry.geometry_type()? != GeometryTypes::MultiPolygon
-        || geometry.get_num_coordinates()? < 256
-        || !geometry.is_valid()?
-    {
-        return round_buffer(geometry, -radius);
-    }
+fn inset_components(geometry: &Geometry, radius: f64) -> Result<Geometry> {
     let mut output = Vec::new();
     for i in 0..geometry.get_num_geometries()? {
         let inset = geometry.get_geometry_n(i)?.buffer(-radius, QUADRANTS)?;
@@ -458,7 +452,20 @@ fn component_inset(geometry: &Geometry, radius: f64) -> Result<Geometry> {
 }
 
 pub fn round_buffer(geometry: &Geometry, distance: f64) -> Result<Geometry> {
-    Ok(geometry.buffer(distance, QUADRANTS)?)
+    if distance < 0.
+        && geometry.geometry_type()? == GeometryTypes::MultiPolygon
+        && geometry.is_valid()?
+    {
+        // Whole-MultiPolygon erosion can throw or silently lose a surviving
+        // component in GEOS (libgeos/geos#1182). Valid disjoint interiors stay
+        // disjoint under erosion, so process each at the same exact precision.
+        // Dilation and overlapping/invalid parts still need the whole buffer.
+        return inset_components(geometry, -distance)
+            .with_context(|| format!("Insetting polygon components by {} pt", -distance));
+    }
+    geometry
+        .buffer(distance, QUADRANTS)
+        .with_context(|| format!("Buffering by {distance} pt"))
 }
 
 pub fn lines<G: Geom>(geometry: &G) -> Result<Vec<Vec<Point>>> {
@@ -497,6 +504,35 @@ pub fn validate(geometry: &Geometry, context: &str) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn valid_road_casing_inset_survives_geos_hole_assignment_failure() -> Result<()> {
+        // Reduced from the default Seattle map's roads/casing paint. The
+        // ordinary GEOS 3.12.1 buffer fails even though both parts are valid.
+        // Keep this below the clearance-simplification threshold.
+        let shape = Geometry::new_from_wkt(
+            "MULTIPOLYGON (((0 0, 5.009 10.342, 5.034 10.502, 8.508 10.502, 0 0)), \
+             ((0.371 10.502, 4.298 10.502, 4.24 10.4, 3.761 9.782, 0.371 10.502)))",
+        )?;
+        assert!(shape.is_valid()? && shape.get_num_coordinates()? < 256);
+        let radius = 0.25;
+        let expected = union(
+            (0..shape.get_num_geometries()?)
+                .map(|i| Ok(shape.get_geometry_n(i)?.buffer(-radius, QUADRANTS)?))
+                .collect::<Result<Vec<_>>>()?,
+        )?;
+        assert_eq!(expected.get_num_geometries()?, 2);
+        assert!(expected.area()? > 11.);
+        for actual in [
+            round_buffer(&shape, -radius)?,
+            centerline_inset(&shape, radius, 0.001)?,
+        ] {
+            assert!(actual.is_valid()?);
+            assert!(actual.sym_difference(&expected)?.area()? < 1e-9);
+            assert!(actual.difference(&shape)?.area()? < 1e-9);
+        }
+        Ok(())
+    }
 
     #[test]
     fn component_insets_match_whole_buffer_with_holes_splits_and_disappearing_parts() -> Result<()>

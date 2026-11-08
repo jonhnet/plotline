@@ -57,7 +57,8 @@ node controller/scripts/container-smoke.mjs
 This checks offline startup, non-root execution, source exclusions, PDF
 inspection/conversion and HPGL registration, mixed raster/vector conversion,
 successful background cleanup, expired PDF thumbnail regeneration, both output
-streams for worker errors, all five browser pages, Pattern/Maze exports, a live map preview, document
+streams for worker errors, all five browser pages, Pattern/Maze exports, a live
+default map preview and Prepare plot through to its HPGL draft, document
 persistence across container replacement and shutdown when a worker fails.
 It creates and removes its own volume, requires Internet access for the map,
 and never contacts a real plotter.

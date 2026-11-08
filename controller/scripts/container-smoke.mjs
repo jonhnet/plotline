@@ -125,6 +125,19 @@ assert not Path('/usr/bin/ssh').exists()
       await page.locator('#save').click();await page.locator('#save-name').fill('Container map');
       await page.locator('#save-form button[type=submit]').click();
       await until(async()=> (await api('/map/api/recipes')).length===1);
+      const preparationResponse=page.waitForResponse(r=>r.url()===base+'/map/api/prepare'&&r.request().method()==='POST');
+      await page.locator('#send').click();
+      const preparation=await (await preparationResponse).json();
+      const prepared=await until(async()=>{
+        const value=await api('/map/api/preparations/'+preparation.id);
+        return ['ready','empty','failed','recovery','superseded'].includes(value.phase)?value:false;
+      },240);
+      assert.equal(prepared.phase,'ready',JSON.stringify(prepared));
+      const mapJob=prepared.jobs.find(job=>job.job_id);assert(mapJob,'Default map must produce an HPGL draft');
+      assert.equal(new URL(mapJob.url,base).origin,base);
+      assert.equal((await fetch(base+`/api/jobs/${mapJob.job_id}/source.hpgl`)).status,200);
+      assert.equal((await api('/api/plotter')).configured,false);
+      console.log('Default map Prepare plot reached HPGL Studio without a hardware connection.');
     }
     await page.close();console.log(`Browser ${route} passed.`);
   }
@@ -138,7 +151,8 @@ assert not Path('/usr/bin/ssh').exists()
   assert.equal((await api(`/api/v1/documents/${doc.id}`)).status,'ready');
   assert.equal((await api('/api/patterns/documents')).documents.length,1);
   assert.equal((await api('/api/mazes/documents')).documents.length,1);
-  assert.equal((await api('/map/api/recipes'))[0].title,'Container map');
+  const savedMaps=await until(()=>api('/map/api/recipes'));
+  assert.equal(savedMaps[0].title,'Container map');
   assert.equal((await api('/api/plotter')).configured,false);
   console.log('Documents survived container replacement; hardware stayed unconfigured.');
   checkLogs();
