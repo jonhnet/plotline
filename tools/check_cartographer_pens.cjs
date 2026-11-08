@@ -22,6 +22,19 @@ const base=process.argv[2],out=process.argv[3];
   const current=p=>p.evaluate(()=>JSON.parse(localStorage.getItem('plotline-map-draft')).recipe);
   const web=base.replace('127.0.0.1','ink-map.test');
   await page.goto(web);await page.waitForFunction(()=>document.querySelector('#inventory-status').textContent.includes('revision 8'));
+  const fresh=await current(page);
+  assert(fresh.palette.inks.every(ink=>ink.width_mm===carousel.slots[ink.source.slot].width_mm));
+  assert.equal(await page.locator('#ink-warning').isVisible(),false,'Fresh maps use matching loaded pens');
+  // Restore an older document to exercise mismatch controls without rewriting
+  // its authored widths to match the new-document defaults.
+  await page.evaluate(()=>{
+    const workspace=JSON.parse(sessionStorage.getItem('plotline-map-workspace'));
+    for(const ink of workspace.documents[0].recipe.palette.inks){ink.width_mm=.4/(72/25.4);delete ink.source;}
+    workspace.documents[0].preview=null;
+    sessionStorage.setItem('plotline-map-workspace',JSON.stringify(workspace));
+  });
+  await page.reload();await page.waitForFunction(()=>document.querySelector('#inventory-status').textContent.includes('revision 8'));
+  assert((await current(page)).palette.inks.every(ink=>ink.width_mm===.4/(72/25.4)),'Restored artwork keeps its original widths');
   assert.equal(await page.evaluate(()=>isSecureContext),false);assert.equal(await page.evaluate(()=>typeof crypto.randomUUID),'undefined');
   assert.equal(await page.locator('#ink-drawer').isVisible(),false);
   await page.waitForFunction(()=>document.querySelector('#desk').dataset.previewState==='ready');

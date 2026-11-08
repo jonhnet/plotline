@@ -68,7 +68,10 @@ assert not Path('/usr/bin/ssh').exists()
 
   start();await until(()=>api('/api/status'));
   assert.equal((await api('/api/plotter')).configured,false);
-  assert(Object.values((await api('/api/carousel')).slots).every(p=>p.state==='empty'));
+  const starter=await api('/api/carousel');
+  assert.deepEqual(Object.values(starter.slots).filter(p=>p.state==='loaded').map(p=>[p.label,p.color,p.width_mm]),
+    [['Black','#000000',.3],['Red','#ff0000',.3],['Green','#008000',.3],['Blue','#0000ff',.3]]);
+  assert(Object.entries(starter.slots).filter(([slot])=>Number(slot)>4).every(([,p])=>p.state==='empty'));
   inside('.venv/bin/python','tools/make_boundary_fixture.py');
   const pdf=Buffer.from(inside('.venv/bin/python','-c',"import base64; from pathlib import Path; print(base64.b64encode(Path('build/pdf-boundary-v1/boundary.pdf').read_bytes()).decode())").trim(),'base64');
   const intent=JSON.parse(inside('cat','build/pdf-boundary-v1/boundary.print-intent.json'));
@@ -123,6 +126,9 @@ assert not Path('/usr/bin/ssh').exists()
     }else if(route==='/map'){
       await page.waitForFunction(()=>document.getElementById('work-detail').textContent==='Preview complete',null,{timeout:180000});
       assert(await page.locator('#preview').isVisible());
+      const mapRecipe=await page.evaluate(()=>JSON.parse(localStorage.getItem('plotline-map-draft')).recipe);
+      assert(mapRecipe.palette.inks.every(ink=>ink.width_mm===.3&&ink.source?.kind==='plotline-carousel'));
+      assert.equal(await page.locator('#ink-warning').isVisible(),false,'New map matches the starter pens');
       await page.locator('#save').click();await page.locator('#save-name').fill('Container map');
       await page.locator('#save-form button[type=submit]').click();
       await until(async()=> (await api('/map/api/recipes')).length===1);
@@ -148,7 +154,11 @@ assert not Path('/usr/bin/ssh').exists()
   await Promise.all(thumbnails.map(async path=>{const response=await fetch(base+path);assert.equal(response.status,200,path);assert.equal(response.headers.get('content-type'),'image/png');}));
   assert.deepEqual(errors,[]);
   await browser.close();browser=null;
+  // Once edited, even an empty slot must stay as the user left it.
+  starter.slots[1]={...starter.slots[8]};starter.slots[4].width_mm=.5;
+  const editedCarousel=await api('/api/carousel',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(starter)});
   stop();start();await until(()=>api('/api/status'));
+  assert.deepEqual(await api('/api/carousel'),editedCarousel);
   assert.equal((await api(`/api/v1/documents/${doc.id}`)).status,'ready');
   assert.equal((await api('/api/patterns/documents')).documents.length,1);
   assert.equal((await api('/api/mazes/documents')).documents.length,1);

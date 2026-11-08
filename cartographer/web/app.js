@@ -123,7 +123,7 @@ async function closeDocument(doc){
   }
   const index=workspaceDocs.indexOf(doc);workspaceDocs.splice(index,1);
   if(doc===activeDoc){
-    if(!workspaceDocs.length)workspaceDocs.push(makeDocument(catalog.recipe));
+    if(!workspaceDocs.length)workspaceDocs.push(makeDocument(newMapRecipe()));
     switchDocument(workspaceDocs[Math.min(index,workspaceDocs.length-1)]);
   }else{remember();documentState();}
 }
@@ -546,6 +546,16 @@ function physicalCarousel(){
   return {revision:capabilities?.capabilities.inventory_revision||0,slots};
 }
 function loadedInk(slot,pen){return {label:pen.label||colorName(pen.color),color_srgb:pen.color,width_mm:pen.width_mm,source:{kind:'plotline-carousel',revision:physicalCarousel().revision,slot}};}
+function newMapRecipe(){
+  const value=clone(catalog.recipe);
+  if(!capabilities||capabilities.offline)return value;
+  const loaded=Object.entries(physicalCarousel().slots).filter(([,p])=>p.state==='loaded'&&p.color&&p.width_mm>0);
+  for(const ink of value.palette.inks){
+    const matches=loaded.filter(([,p])=>p.color.toLowerCase()===ink.color_srgb.toLowerCase());
+    if(matches.length===1){const [slot,pen]=matches[0];Object.assign(ink,loadedInk(Number(slot),pen));}
+  }
+  return value;
+}
 function referencedInkIds(){return new Set([...Object.values(recipe.ink_roles),...Object.values(recipe.outside.ink_roles)]);}
 function prunePalette(){const ids=referencedInkIds();recipe.palette.inks=recipe.palette.inks.filter(i=>ids.has(i.id));}
 let inkDrawerFocus=null,inkDrawerScroll=0;
@@ -836,7 +846,10 @@ async function watchPrint(pointer,first=null,restored=()=>{}){
     }
   }catch(error){
     if(!current())return;
-    if(error.status===404){printPointer=null;showPrint({phase:'failed',error:'This saved preparation is unavailable. Prepare the map again.'});return;}
+    if(error.status===404){
+      printPointer=null;rememberPrint(null);printTask=null;printStatusView=null;printPercent=0;printConnectionLost=false;updateSend();
+      notice('The previous pen preview is no longer on this server. Your map is intact; choose Prepare plot to rebuild it.');return;
+    }
     printDisconnected(error);
   }finally{restored();}
 }
@@ -1005,7 +1018,7 @@ function bindControls(){
 
   $('save').onclick=safely(()=>saveRecipe());$('save-copy').onclick=safely(()=>saveRecipe(true));
   $('revert').onclick=safely(revertRecipe);
-  $('new-document').onclick=()=>addDocument(catalog.recipe);
+  $('new-document').onclick=()=>addDocument(newMapRecipe());
   $('document-search').oninput=renderLibrary;
   $('open-library').onclick=safely(async()=>{await library();renderLibrary();$('library').showModal();});$('close-library').onclick=()=>$('library').close();
   $('download-recipe').onclick=downloadRecipe;$('import-button').onclick=()=>$('import-file').click();
@@ -1051,7 +1064,7 @@ async function openNavigation(url){
   notice(q.has('pen_substitutions')?'Pen substitutions applied to a separate source map. Review the preview, then Prepare plot.':'Opened the map version used for this plot. Other open documents keep their edits.');
 }
 async function start(){
-  catalog=await api('/api/catalog');recipe=clone(catalog.recipe);
+  [catalog,capabilities]=await Promise.all([api('/api/catalog'),api('/api/capabilities').catch(()=>null)]);recipe=clone(catalog.recipe);
   const requestedURL=new URL(location.href);
   let message='',selected=null;
   const normalizeSaved=(value,r)=>{
@@ -1074,9 +1087,9 @@ async function start(){
     const legacyPrint=JSON.parse(localStorage.getItem('plotline-map-print'));
     if(!workspace)for(const doc of workspaceDocs)if(legacyPrint?.signature===stable(doc.recipe))doc.printPointer=legacyPrint;
   }catch(error){throw new Error('Could not restore browser work; its stored copy has been left unchanged. '+error.message);}
-  if(!workspaceDocs.length)workspaceDocs.push(makeDocument(catalog.recipe));
+  if(!workspaceDocs.length)workspaceDocs.push(makeDocument(newMapRecipe()));
   bindControls();bindUnifiedControls();switchDocument(selected||workspaceDocs[0]);await openNavigation(requestedURL);studioNav.ready();if(message)notice(message);
-  refreshInventory().catch(error=>{$('inventory-status').textContent=error.message;});library().catch(()=>{});
+  if(!capabilities)refreshInventory().catch(error=>{$('inventory-status').textContent=error.message;});library().catch(()=>{});
   new ResizeObserver(resize).observe($('desk'));
 }
 function bindUnifiedControls(){

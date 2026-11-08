@@ -26,6 +26,9 @@ raster screening and pen-scan analysis. It runs as an unprivileged user. Map
 tiles and boundary searches need Internet access. Pattern/Maze generation and
 local PDF conversion work offline.
 
+The starter carousel has black, red, green and blue pens at 0.3 mm. New maps use
+matching carousel widths. Existing carousel settings and saved maps are preserved.
+
 This launcher has **no plotter connection and no IPP listener or advertisement**.
 Upload PDFs in the browser, prepare pen previews and download PDF/HPGL output.
 The source installation below supports optional IPP and a Pi serial bridge.

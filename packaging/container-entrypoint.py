@@ -1,13 +1,38 @@
 #!/usr/bin/env python3
 """Run the two Studios processes together, without a device or IPP connection."""
+import json
 import os
 from pathlib import Path
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 from urllib.parse import urlsplit
 from urllib.request import urlopen
+
+
+def seed_carousel(state):
+    """Example pens for the preview-only container; never replace user settings."""
+    path = state / 'carousel.json'
+    if path.exists():
+        return
+    slots = {str(n): dict(label='', state='empty', color=None, width_mm=None,
+                         speed_cm_s=5, force=4) for n in range(1, 9)}
+    for n, (label, color) in enumerate((('Black', '#000000'), ('Red', '#ff0000'),
+                                       ('Green', '#008000'), ('Blue', '#0000ff')), 1):
+        slots[str(n)].update(label=label, state='loaded', color=color, width_mm=.3)
+    with tempfile.NamedTemporaryFile(mode='w', dir=state, prefix='.carousel-', delete=False) as output:
+        temporary = Path(output.name)
+        json.dump(dict(revision=1, slots=slots), output)
+        output.flush()
+        os.fsync(output.fileno())
+    try:
+        os.link(temporary, path)
+    except FileExistsError:
+        pass
+    finally:
+        temporary.unlink()
 
 
 def healthcheck():
@@ -32,6 +57,7 @@ def main():
     os.environ['PLOTLINE_MAP_PUBLIC_URL'] = public + '/map'
     for name in ('studios', 'maps', 'cache'):
         Path('/data', name).mkdir(parents=True, exist_ok=True)
+    seed_carousel(Path('/data/studios'))
     commands = [
         ['controller/target/release/plotline-studios', '--listen', '0.0.0.0:9191',
          '--state', '/data/studios'],

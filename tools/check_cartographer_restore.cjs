@@ -73,6 +73,16 @@ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rec
     }
     if(['old','legacy'].includes(snapshot))assert.equal(oldImages,0,name+': do not restore obsolete renderer image');
    }
+   if(receiptMissing){
+    const stored=await page.evaluate(()=>['sessionStorage','localStorage'].map(storage=>JSON.parse(window[storage].getItem('plotline-map-workspace'))));
+    for(const w of stored){assert.equal(w.documents[0].printPointer,null);assert.deepEqual(w.documents[0].recipe,recipe);}
+    assert(await page.locator('#send').isEnabled());assert.match(await page.locator('#send').textContent(),/Prepare plot/);
+    const before=polls;await page.reload();
+    await page.waitForFunction(()=>document.querySelector('#desk').dataset.previewState==='ready',null,{timeout:5000});
+    assert.equal(polls,before,'Missing preparation is forgotten across reloads');
+    assert(!((await page.locator('#notice').textContent())||'').includes('previous pen preview'));
+   }
+   if(receiptOffline)assert(await page.evaluate(()=>Boolean(JSON.parse(sessionStorage.getItem('plotline-map-workspace')).documents[0].printPointer)),'Temporary outages retain the preparation');
    assert.deepEqual(errors,[],name);assert.deepEqual(unexpected,[],name);assert(polls>0,name);
    await context.close();return name;
   }
