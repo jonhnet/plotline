@@ -201,11 +201,16 @@ transport and control support.
 
 ## Run it
 
-Tested on Ubuntu 24.04. Build from source using the
-[setup guide](docs/GETTING_STARTED.md), which also covers the optional
-Raspberry Pi USB-to-serial bridge.
+From a checkout, build and launch all five Studios with Podman:
 
-No Podman/Docker image yet. Windows is untested.
+```sh
+podman build -t plotline . && podman run --rm --name plotline -p 127.0.0.1:9191:9191 -v plotline-data:/data plotline
+```
+
+Open **http://localhost:9191/**. Documents survive in the named volume.
+The container supports previews and exports; IPP and physical plotting need
+the [source setup](docs/GETTING_STARTED.md). Docker accepts the same recipe.
+Tested on Ubuntu 24.04; Windows is untested.
 
 ## License and credits
 

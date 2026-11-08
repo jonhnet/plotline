@@ -37,7 +37,9 @@ class Application:
         self.cache_lock = threading.RLock()
         preserve_sources(self.state,self.build)
         self.version = source_version()
-        self.vector_template = tile_source(self.build/'geometry')
+        # Starting the Studios must not depend on a map provider being online.
+        # Resolve the current tile snapshot when Map Studio requests its catalog.
+        self.vector_template = None
         self.recipes = Recipes(self.state/'recipes')
         self.jobs = Jobs(self.build, self.version)
         self.print_client = PrintClient(studios, self.state, studios_public)
@@ -140,6 +142,8 @@ class Handler(BaseHTTPRequestHandler):
             path = parsed.path
             if method == 'GET':
                 if path == '/api/catalog':
+                    if self.app.vector_template is None:
+                        self.app.vector_template = tile_source(self.app.build/'geometry')
                     value=catalog();value['recipe']['data']['vector_template']=self.app.vector_template
                     return self.json(dict(value, composer_version=self.app.version))
                 if path.startswith('/api/source-recipes/'):
@@ -277,7 +281,7 @@ def main():
     parser.add_argument('--state', type=Path, default=ROOT/'state/cartographer')
     parser.add_argument('--build', type=Path, default=ROOT/'build/cartographer')
     parser.add_argument('--studios', dest='studios', default='http://127.0.0.1:9191')
-    parser.add_argument('--studios-public', dest='studios_public', default='http://dev.iac.jonh.net:9191')
+    parser.add_argument('--studios-public', dest='studios_public', default='http://localhost:9191')
     args = parser.parse_args()
     app = Application(args.state, args.build, args.studios, args.studios_public)
     server = ThreadingHTTPServer((args.host, args.port), Handler)

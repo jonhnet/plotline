@@ -12,7 +12,6 @@ from PIL import Image
 from cartographer.model import default_recipe,digest
 from cartographer.storage import Recipes,Conflict,atomic_json
 from cartographer.service import Application
-from cartographer.model import VECTOR_SOURCE
 
 
 def thumbnail(color='green'):
@@ -93,8 +92,9 @@ class BackgroundThumbnailTests(unittest.TestCase):
         for app in self.apps:app.close_thumbnails();app.preparations.close();app.print_tasks.close()
         self.temp.cleanup()
     def app(self,jobs):
-        with patch('cartographer.service.Jobs',return_value=jobs),patch('cartographer.service.tile_source',return_value=VECTOR_SOURCE):
+        with patch('cartographer.service.Jobs',return_value=jobs),patch('cartographer.service.tile_source',side_effect=OSError('offline')) as fetch:
             app=Application(self.root/'state',self.root/'build','http://127.0.0.1:1')
+            fetch.assert_not_called() # Startup and saved documents work without the map provider.
         self.apps.append(app);return app
     def until(self,predicate):
         deadline=time.monotonic()+5

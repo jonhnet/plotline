@@ -168,7 +168,7 @@ server can be restarted independently when their work is idle.
 
 Options: `--state PATH`, `--build PATH`, `--studios URL` (server-side default
 `http://127.0.0.1:9191`), `--studios-public URL` (default
-`http://dev.iac.jonh.net:9191`). This private dev HTTP server requires same-origin
+`http://localhost:9191`). This private dev HTTP server requires same-origin
 JSON writes and limits bodies to 8 MB; it does not provide public hosting or
 production authentication.
 
@@ -795,7 +795,7 @@ checks its own emitted inks before any upload, independently of the draft.
 
 New PDF intents include an authoring backlink to their exact recipe snapshot.
 Set `PLOTLINE_MAP_PUBLIC_URL` when serving a different public address (the default
-is `http://dev.iac.jonh.net:9191/map`). HPGL's **Rebuild upstream** returns the chosen
+is `http://localhost:9191/map`). HPGL's **Rebuild upstream** returns the chosen
 substitution here. Newer unsaved work is preserved; an older submitted snapshot
 opens in another workspace tab. Review it, then Prepare plot to rebuild.
 

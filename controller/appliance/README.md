@@ -61,19 +61,25 @@ that the selected layout fits the actual loaded window, and feed the drawing. Al
 happen on dev. During plotting, UI status reads the service's local state, so
 browser polling does not spawn SSH sessions or compete for serial I/O.
 
-## Connection configuration on dev
+## Connect your Studios host
 
-Keep credentials under ignored `controller/state/private/`. A connection JSON
-uses absolute paths:
+Choose your own Pi hostname and store the connection file and SSH keys outside
+Git (for example, in `~/.config/plotline/`). A connection JSON uses absolute paths:
 
 ```json
 {
-  "destination": "plotline@stain.jonh.net",
-  "identity_file": "/root/plotline/controller/state/private/stain-service-ed25519",
-  "known_hosts_file": "/root/plotline/controller/state/private/stain-known-hosts",
+  "destination": "plotline@plotter-pi.local",
+  "identity_file": "/home/you/.config/plotline/service-ed25519",
+  "known_hosts_file": "/home/you/.config/plotline/known_hosts",
   "plotting_enabled": true
 }
 ```
+
+The source has no default SSH destination or embedded credentials.
+`controller/src/serial.rs` reads this file and starts OpenSSH with the supplied
+identity and pinned host key. The Pi restricts that key to the byte bridge.
+Without `--device-config`, Studios cannot connect to a plotter; the container
+launcher deliberately omits it.
 
 `plotting_enabled` is a **Plotline Studios policy**, default false if absent. Stain's
 configuration contains only the serial device path. Physical pen inventory is
@@ -84,9 +90,9 @@ are stored on stain. Do not infer unknown slots or physical widths.
 
 ```sh
 python3 controller/scripts/dev-server.py restart \
-  --device-config controller/state/private/stain-connection.json
+  --device-config /home/you/.config/plotline/connection.json
 python3 controller/appliance/rpc.py \
-  --config controller/state/private/stain-connection.json status
+  --config /home/you/.config/plotline/connection.json status
 ```
 
 The second command is a read-only bridge diagnostic. It no longer offers upload,
@@ -103,8 +109,8 @@ cannot race with the serial-port change:
 ```sh
 python3 controller/scripts/dev-server.py stop
 python3 controller/appliance/install_agent.py \
-  --host pi@stain.jonh.net \
-  --known-hosts controller/state/private/stain-known-hosts \
+  --host pi@plotter-pi.local \
+  --known-hosts /home/you/.config/plotline/known_hosts \
   --dev-state controller/state/jobs --inspect
 # Repeat without --inspect to install, then:
 python3 controller/scripts/dev-server.py restart

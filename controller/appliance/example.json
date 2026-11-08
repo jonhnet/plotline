@@ -1,5 +1,5 @@
 {
-  "hostname": "stain",
+  "hostname": "plotter-pi",
   "admin_user": "pi",
   "timezone": "Etc/UTC",
   "admin_keys": ["REPLACE with your operator SSH public key"],

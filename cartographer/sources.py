@@ -29,7 +29,7 @@ from .geography import WORLD,HALF,origin,latitude_factor,point,ground_box
 from .storage import atomic_json
 from build_map import parts
 
-UA='PlotlineCartographer/2 (private map authoring; https://dev.iac.jonh.net)'
+UA='PlotlineCartographer/2 (https://github.com/jonhnet/plotline)'
 ATTRIBUTION='© OpenMapTiles · © OpenStreetMap contributors · openstreetmap.org/copyright'
 MAX_BYTES=50_000_000
 MAJOR={'motorway','trunk','primary','secondary','tertiary'}

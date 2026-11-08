@@ -669,7 +669,7 @@ def _compose(recipe,output,quality,cache,version,progress):
                       pages=[dict(page_index=0, source_size_mm=recipe['media']['sheet_size_mm'], target_media=recipe['media'],
                                   placement=dict(scale=1, rotation_deg=0, offset_mm=[0, 0]))],
                       palette=dict(recipe['palette'], inks=output_inks), bindings=list(draw.bindings.values()),
-                      authoring=dict(application='map-studio',url=os.environ.get('PLOTLINE_MAP_PUBLIC_URL','http://dev.iac.jonh.net:9191/map'),recipe_hash=digest(recipe)),
+                      authoring=dict(application='map-studio',url=os.environ.get('PLOTLINE_MAP_PUBLIC_URL','http://localhost:9191/map'),recipe_hash=digest(recipe)),
                       policies=dict(fill=dict(mode='crosshatch', spacing_mm=recipe['features']['hatch_spacing_mm'], angle_deg=45),
                                     stroke_width_tolerance=.75, thin_detail_thickening=.75,
                                     raster='reject', gradients='omit',

@@ -1,6 +1,8 @@
 {
   "include": [
     ".gitignore",
+    ".dockerignore",
+    "Dockerfile",
     ".gitattributes",
     ".github/",
     "README.md",

@@ -2,13 +2,50 @@
 
 Start with the browser studios; a plotter is optional. The maintained setup is
 Ubuntu 24.04, Python 3.12, Node 20 and a current stable Rust toolchain (tested
-with Rust 1.94.1). Windows is untested. There is no prebuilt container image yet.
+with Rust 1.94.1). Windows is untested.
 
 The web server contains Map, Pattern, Maze, PDF and HPGL Studios. Map composition
 runs in a second process. Optional IPP intake is a third process; a Raspberry Pi
 can provide the serial connection to the plotter.
 
-## Build
+## Try it with Podman
+
+From a checkout, build and launch all five Studios:
+
+```sh
+podman build -t plotline . && podman run --rm --name plotline -p 127.0.0.1:9191:9191 -v plotline-data:/data plotline
+```
+
+Open **http://localhost:9191/**. The first build downloads dependencies and
+compiles the converters; subsequent builds reuse cached layers. This builds an
+image locally, rather than pulling a published Plotline image. The same
+Dockerfile and command work with Docker by substituting `docker` for `podman`.
+
+The container includes Map, Pattern, Maze, PDF and HPGL Studios, PDF conversion,
+raster screening and pen-scan analysis. It runs as an unprivileged user. Map
+tiles and boundary searches need Internet access. Pattern/Maze generation and
+local PDF conversion work offline.
+
+This launcher has **no plotter connection and no IPP listener or advertisement**.
+Upload PDFs in the browser, prepare pen previews and download PDF/HPGL output.
+The source installation below supports optional IPP and a Pi serial bridge.
+
+Ctrl-C or `podman stop plotline` stops both services. Run the command again to
+reopen your documents: the named `plotline-data` volume survives container
+removal. Back up that volume; `/data/studios` holds PDF/HPGL/Pattern/Maze
+documents and carousel settings, `/data/maps` holds Map documents and source
+snapshots, and `/data/cache` holds regenerable output. Do not run two containers
+against the same volume simultaneously. Stop the container before backing it up.
+
+For a different browser address, set `-e PLOTLINE_PUBLIC_URL=http://HOST:PORT`
+and adjust `-p` to match (for example, `-p 127.0.0.1:9291:9191` for another local
+port). For trusted LAN access, bind a LAN interface instead of `127.0.0.1` and
+use that hostname in the public URL. There is no login: keep access on a trusted
+network. The map worker remains internal to the container.
+
+Container maintenance and validation are in [packaging/README.md](../packaging/README.md).
+
+## Build from source
 
 Run these commands from the checkout root, as your normal user. Install Rust
 with Cargo, rustfmt and Clippy using [rustup](https://rustup.rs/) first.
