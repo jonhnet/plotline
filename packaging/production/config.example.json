@@ -1,0 +1,17 @@
+{
+  "data_root": "/srv/plotline",
+  "install_root": "/opt/plotline",
+  "public_url": "https://plotline.tech.jonh.net",
+  "web_bind": "0.0.0.0:9191",
+  "map_port": 9193,
+  "ipp_port": 9192,
+  "ipp_hostname": "plotline.tech.jonh.net",
+  "ipp_name": "Pen Plotter",
+  "ipp_discovery": true,
+  "device_config": null,
+  "conversion_workers": 1,
+  "map_workers": 1,
+  "geometry_workers": 8,
+  "map_geometry_threads": 4,
+  "build_jobs": 4
+}

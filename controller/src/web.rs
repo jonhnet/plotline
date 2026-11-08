@@ -34,6 +34,24 @@ impl IntoResponse for ApiError {
 }
 
 async fn security(request: axum::extract::Request, next: Next) -> Response {
+    let _admission = if request.method() == axum::http::Method::GET
+        && matches!(
+            request.uri().path(),
+            "/api/status" | "/api/maintenance" | "/map/api/maintenance"
+        ) {
+        None
+    } else {
+        match crate::maintenance::lease() {
+            Ok(lease) => lease,
+            Err(_) => {
+                return ApiError(
+                    StatusCode::SERVICE_UNAVAILABLE,
+                    "Plotline is being updated. Retry in a moment.".into(),
+                )
+                .into_response();
+            }
+        }
+    };
     let mut response = next.run(request).await;
     let immutable = response.extensions().get::<ImmutableAsset>().is_some();
     let headers = response.headers_mut();
@@ -257,6 +275,7 @@ pub fn router_with_plotter(store: Store, plotter: Option<Arc<crate::plot::Plotte
             axum::routing::post(prepared),
         )
         .route("/api/status", get(service_status))
+        .route("/api/maintenance", get(service_status))
         .route("/api/jobs", get(list).post(upload))
         .route("/api/jobs/{id}", get(job))
         .route("/api/jobs/{id}/preview.svg", get(preview))
@@ -280,7 +299,8 @@ async fn service_status(State(app): State<App>) -> Json<serde_json::Value> {
     Json(
         json!({"name":"Plotline Studios", "version":env!("CARGO_PKG_VERSION"),
         "mode": if app.plotter.is_some() { "controller" } else { "preview" },
-        "hardware_enabled":app.plotter.is_some(),"device":"HP 7585","max_upload_bytes":MAX_BYTES}),
+        "hardware_enabled":app.plotter.is_some(),"device":"HP 7585","max_upload_bytes":MAX_BYTES,
+        "admission_protocol":1,"source_revision":std::env::var("PLOTLINE_REVISION").ok()}),
     )
 }
 
@@ -300,6 +320,7 @@ async fn device_blocking<T: Send + 'static>(
         .await
         .map_err(|_| ApiError(StatusCode::SERVICE_UNAVAILABLE, "Server stopping".into()))?;
     tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease()?;
         let _permit = permit;
         operation(plotter, app.store)
     })
@@ -454,6 +475,7 @@ async fn blocking<T: Send + 'static>(
         .await
         .map_err(|_| ApiError(StatusCode::SERVICE_UNAVAILABLE, "Server stopping".into()))?;
     tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease()?;
         let _permit = permit;
         f(app.store)
     })

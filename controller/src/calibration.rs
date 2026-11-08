@@ -252,10 +252,13 @@ fn schedule(app: App, directory: PathBuf) {
 async fn blocking<T: Send + 'static>(
     operation: impl FnOnce() -> Result<T> + Send + 'static,
 ) -> Result<T, ApiError> {
-    tokio::task::spawn_blocking(operation)
-        .await
-        .map_err(error)?
-        .map_err(error)
+    tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease()?;
+        operation()
+    })
+    .await
+    .map_err(error)?
+    .map_err(error)
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]

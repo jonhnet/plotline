@@ -18,6 +18,7 @@ from jsonschema import ValidationError
 from PIL import Image
 
 from . import ROOT
+from maintenance import lease
 from .client import PrintClient
 from .compose import fit_recipe
 from .jobs import Jobs
@@ -48,13 +49,16 @@ class Application:
         self.preparations = Preparations(self.state,self.jobs,self.print_tasks)
         self.retention = Retention(self)
         self.thumbnail_stop=threading.Event()
+        self.thumbnails=set()
         self.thumbnail_pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='saved-map-thumbnail')
         for row in self.recipes.list():
             value=self.recipes.get(row['id'])
             if value.get('thumbnail_pending') and not value['thumbnail_url']:self.queue_thumbnail(value)
 
     def queue_thumbnail(self,value):
-        if not value['thumbnail_url']:self.thumbnail_pool.submit(self.finish_thumbnail,value)
+        if not value['thumbnail_url']:
+            self.thumbnails.add((value['id'],value['revision']))
+            self.thumbnail_pool.submit(self.finish_thumbnail,value)
 
     def finish_thumbnail(self,value):
         session='thumbnail-'+uuid.uuid4().hex;job=None
@@ -80,6 +84,7 @@ class Application:
         except (OSError,ValueError,KeyError) as error:
             print(f'Saved thumbnail {value["id"]}/{value["revision"]}: {error}',flush=True)
         finally:
+            self.thumbnails.discard((value['id'],value['revision']))
             if job and job['status'] in ('queued','running'):
                 try:self.jobs.cancel(session,2)
                 except (ValueError,FileNotFoundError):pass
@@ -134,8 +139,17 @@ class Handler(BaseHTTPRequestHandler):
         self.handle_request('POST')
 
     def handle_request(self, method):
-        with self.app.cache_lock:
-            self.dispatch(method)
+        try:
+            if method=='GET' and urlsplit(self.path).path=='/api/maintenance':
+                with self.app.jobs.lock:
+                    jobs=[dict(id=j['id'],status=j['status']) for j in self.app.jobs.jobs.values()
+                          if j['status'] in ('queued','running') or j.get('process') and j['process'].poll() is None]
+                return self.json(dict(admission_protocol=1,source_revision=os.environ.get('PLOTLINE_REVISION'),
+                                      jobs=jobs,thumbnails=len(self.app.thumbnails)))
+            with lease(), self.app.cache_lock:
+                self.dispatch(method)
+        except BlockingIOError:
+            self.json(dict(error='Plotline is being updated. Retry in a moment.'),503)
 
     def dispatch(self, method):
         try:

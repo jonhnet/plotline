@@ -168,6 +168,7 @@ fn export_record(app: &App, hash: &str) -> Result<Value> {
 }
 async fn list(State(app): State<App>) -> Result<Json<Value>, ApiError> {
     tokio::task::spawn_blocking(move || -> Result<Json<Value>> {
+        let _admission = crate::maintenance::lease()?;
         let root = app.root.join("documents");
         let mut rows = vec![];
         if root.exists() {
@@ -242,9 +243,12 @@ async fn save(
     Json(request): Json<Value>,
 ) -> Result<Json<Value>, ApiError> {
     authorize(&headers)?;
-    tokio::task::spawn_blocking(move || save_document(&app, request).map(Json))
-        .await
-        .map_err(bad)?
+    tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease().map_err(bad)?;
+        save_document(&app, request).map(Json)
+    })
+    .await
+    .map_err(bad)?
 }
 async fn snapshot(
     State(app): State<App>,
@@ -319,6 +323,7 @@ async fn export(
     );
     scene["hash"] = json!(hash);
     tokio::task::spawn_blocking(move || -> Result<Json<Value>> {
+        let _admission = crate::maintenance::lease()?;
         let _guard = app.writes.lock().unwrap();
         let root = app.root.join("exports");
         fs::create_dir_all(&root)?;

@@ -13,7 +13,7 @@ PREFIXES = ('src/', 'cartographer/', 'contracts/', 'controller/src/',
             'controller/models/', 'controller/samples/',
             'patterns/', 'mazes/', 'shared/', 'native/', 'styles/', 'tools/',
             'raster_lab/', 'packaging/')
-FILES = {'.dockerignore', 'Dockerfile', 'LICENSE', 'THIRD_PARTY.md', 'Cargo.toml', 'Cargo.lock',
+FILES = {'.dockerignore', 'Dockerfile', 'LICENSE', 'THIRD_PARTY.md', 'SOURCE_REVISION', 'Cargo.toml', 'Cargo.lock',
          'package.json', 'package-lock.json', 'controller/Cargo.toml',
          'controller/Cargo.lock', 'controller/build.rs',
          'controller/retention-policy.json', 'controller/scripts/retention.py',

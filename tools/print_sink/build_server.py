@@ -19,8 +19,10 @@ def build():
     directory = ROOT/'build/print-sink'
     directory.mkdir(parents=True, exist_ok=True)
     patch = Path(__file__).with_name('pdf-format-option.patch')
+    maintenance = Path(__file__).with_name('maintenance.patch')
     identity = dict(cups=VERSION, source_sha256=SHA256,
-                    patch_sha256=hashlib.sha256(patch.read_bytes()).hexdigest())
+                    patch_sha256=hashlib.sha256(patch.read_bytes()).hexdigest(),
+                    maintenance_sha256=hashlib.sha256(maintenance.read_bytes()).hexdigest())
     binary, receipt = directory/'ippeveprinter', directory/'build.json'
     if binary.exists() and receipt.exists() and json.loads(receipt.read_text()) == identity:
         print(binary)
@@ -41,6 +43,7 @@ def build():
     with (directory/'build.log').open('w') as log:
         for command in [
             ['patch', '-p1', '-i', str(patch)],
+            ['patch', '-p1', '-i', str(maintenance)],
             ['./configure', '--disable-shared', '--disable-pam', '--disable-libusb',
              '--with-dnssd=avahi', '--with-tls=openssl'],
             ['make', '-C', 'cups', f'-j{min(os.cpu_count() or 1, 4)}', 'libcups.a'],

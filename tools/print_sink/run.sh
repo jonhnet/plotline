@@ -12,7 +12,7 @@ export PLOTLINE_SINK_HOST_ALIAS=${PLOTLINE_SINK_HOST_ALIAS:-dev.iac.jonh.net}
 mkdir -p "$sink_state/spool"
 "$repo_dir/.venv/bin/python" "$sink_dir/capture.py" --clean-spool
 sink_spool=$(mktemp -d "$sink_state/spool/session-XXXXXXXX")
-sink_binary="$repo_dir/build/print-sink/ippeveprinter"
+sink_binary=${PLOTLINE_SINK_BINARY:-"$repo_dir/build/print-sink/ippeveprinter"}
 if [ ! -x "$sink_binary" ]; then
   echo 'Build the IPP server first: python3 tools/print_sink/build_server.py' >&2
   exit 1

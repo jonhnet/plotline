@@ -1,0 +1,12 @@
+{
+  NAME "Plotline PDF intake ready"
+  OPERATION Get-Printer-Attributes
+  GROUP operation-attributes-tag
+  ATTR charset attributes-charset utf-8
+  ATTR language attributes-natural-language en
+  ATTR uri printer-uri $uri
+  ATTR keyword requested-attributes document-format-supported,printer-more-info
+  STATUS successful-ok
+  EXPECT document-format-supported WITH-VALUE application/pdf
+  EXPECT printer-more-info
+}

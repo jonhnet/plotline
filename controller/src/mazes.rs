@@ -55,6 +55,7 @@ async fn generate(
         )
     })?;
     tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease().map_err(bad)?;
         let _permit = permit;
         maze::generate(&request.family, &request.params)
             .map(Json)
@@ -83,6 +84,7 @@ async fn mask(
     let hash = format!("{:x}", Sha256::digest(&bytes));
     let saved = hash.clone();
     tokio::task::spawn_blocking(move || -> anyhow::Result<()> {
+        let _admission = crate::maintenance::lease()?;
         let root = app.root.join("masks");
         fs::create_dir_all(&root)?;
         let target = root.join(&hash);

@@ -487,10 +487,13 @@ async fn blocking<T: Send + 'static>(
     app: App,
     operation: impl FnOnce(App) -> Result<T> + Send + 'static,
 ) -> Result<T, Error> {
-    tokio::task::spawn_blocking(move || operation(app))
-        .await
-        .map_err(bad)?
-        .map_err(bad)
+    tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease()?;
+        operation(app)
+    })
+    .await
+    .map_err(bad)?
+    .map_err(bad)
 }
 fn run_later(app: App, kind: &'static str, id: String) {
     let key = format!("{kind}/{id}");
@@ -500,6 +503,13 @@ fn run_later(app: App, kind: &'static str, id: String) {
     let reservation = ScheduledWork(app.scheduled.clone(), key);
     tokio::spawn(async move {
         let _reservation = reservation;
+        let _admission = match crate::maintenance::wait().await {
+            Ok(lease) => lease,
+            Err(error) => {
+                eprintln!("PDF admission lock: {error}");
+                return;
+            }
+        };
         let Ok(_permit) = app.work.clone().acquire_owned().await else {
             return;
         };
@@ -799,6 +809,9 @@ fn start_intake(app: App) {
         // Only pure PDF inspection is replayed automatically. Interrupted
         // conversions retain an explicit error and can be regenerated in studio.
         if let Ok(rows) = recovered {
+            let Ok(_admission) = crate::maintenance::wait().await else {
+                return;
+            };
             for row in rows {
                 let id = row["id"].as_str().unwrap().to_owned();
                 if let Ok(d) = draft(&app, &id)
@@ -830,7 +843,15 @@ fn start_intake(app: App) {
         loop {
             let copy = app.clone();
             let directory = inbox.clone();
-            match tokio::task::spawn_blocking(move || intake(&copy, &directory)).await {
+            let Ok(admission) = crate::maintenance::wait().await else {
+                return;
+            };
+            match tokio::task::spawn_blocking(move || {
+                let _admission = admission;
+                intake(&copy, &directory)
+            })
+            .await
+            {
                 Ok(Ok(ids)) => {
                     for id in ids {
                         run_later(app.clone(), "documents", id);
@@ -855,7 +876,10 @@ pub fn router(store: Store) -> Router {
     let app = App {
         store,
         project,
-        work: Arc::new(Semaphore::new(2)),
+        work: Arc::new(Semaphore::new(crate::maintenance::workers(
+            "PLOTLINE_CONVERSION_WORKERS",
+            2,
+        ))),
         publication: Arc::new(Mutex::new(())),
         uploads: Arc::new(Mutex::new(())),
         scheduled: Arc::new(Mutex::new(HashSet::new())),
@@ -1129,6 +1153,7 @@ fn submission_receipt(app: &App, key: &str) -> Result<Value, Error> {
 
 async fn submission(State(app): State<App>, Path(key): Path<String>) -> Result<Json<Value>, Error> {
     tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease().map_err(storage_error)?;
         let row = submission_receipt(&app, &key)?;
         resume_inspection(app, &row);
         Ok(Json(row))
@@ -1297,6 +1322,7 @@ async fn upload(
         return Err(bad("Intent exceeds 32 MiB"));
     }
     let row = tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease().map_err(storage_error)?;
         let (row, _) = store_upload(&app, &pdf, intent.as_deref(), &name, key.as_deref())?;
         // Dispatch inside the blocking operation: dropping a disconnected
         // request's future cannot strand a committed upload before inspection.
@@ -1418,6 +1444,7 @@ async fn save_recipe(
 ) -> Result<Json<Value>, Error> {
     write_request(&headers)?;
     tokio::task::spawn_blocking(move || {
+        let _admission = crate::maintenance::lease().map_err(storage_error)?;
         let _guard = app.publication.lock().unwrap();
         let root = recipe_root(&app, &id).map_err(bad)?;
         let document = root.parent().unwrap();

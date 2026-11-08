@@ -6,6 +6,7 @@
 !Cargo.toml
 !Dockerfile
 !LICENSE
+!SOURCE_REVISION
 !THIRD_PARTY.md
 !cartographer/
 cartographer/**
@@ -92,6 +93,7 @@ controller/src/**
 !controller/src/hpgl_recipes.rs
 !controller/src/layout.rs
 !controller/src/main.rs
+!controller/src/maintenance.rs
 !controller/src/maze.rs
 !controller/src/mazes.rs
 !controller/src/media.rs
@@ -155,6 +157,16 @@ packaging/**
 !packaging/container-check-source.py
 !packaging/container-context.py
 !packaging/container-entrypoint.py
+!packaging/production/
+packaging/production/**
+!packaging/production/build.py
+!packaging/production/common.py
+!packaging/production/config.example.json
+!packaging/production/install.py
+!packaging/production/ipp-idle.test
+!packaging/production/ipp-ready.test
+!packaging/production/test.Dockerfile
+!packaging/production/test_install.py
 !packaging/public-source.json
 !patterns/
 patterns/**
@@ -321,6 +333,7 @@ tools/**
 !tools/fetch_elevation.py
 !tools/fetch_osm.py
 !tools/fetch_region.py
+!tools/maintenance.py
 !tools/make-fixtures.mjs
 !tools/make_boundary_fixture.py
 !tools/make_native_fixture.py
@@ -361,6 +374,7 @@ tools/print_sink/**
 !tools/print_sink/capture.py
 !tools/print_sink/capture.sh
 !tools/print_sink/dev-server.py
+!tools/print_sink/maintenance.patch
 !tools/print_sink/pdf-format-option.patch
 !tools/print_sink/run.sh
 !tools/profiling/

@@ -5,6 +5,7 @@ mod documents;
 mod hpgl;
 mod hpgl_recipes;
 mod layout;
+mod maintenance;
 mod maze;
 mod mazes;
 mod media;

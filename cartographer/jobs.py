@@ -22,7 +22,7 @@ class Jobs:
         self.directory = Path(directory); self.directory.mkdir(parents=True, exist_ok=True)
         self.version = version; self.lock = threading.RLock()
         self.jobs, self.sessions = {}, {}
-        self.pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix='map-composer')
+        self.pool = ThreadPoolExecutor(max_workers=max(1,min(4,int(os.environ.get('PLOTLINE_MAP_WORKERS','2')))), thread_name_prefix='map-composer')
 
     def cancel(self, session, revision):
         identifier(session)
