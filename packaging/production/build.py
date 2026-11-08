@@ -7,6 +7,7 @@ import pwd
 import shutil
 import subprocess
 import tarfile
+import time
 import urllib.request
 from common import atomic, run
 
@@ -18,6 +19,32 @@ python3-pil python3-numpy python3-scipy python3-skimage python3-shapely python3-
 python3-cairo inkscape fonts-dejavu-core mupdf-tools openssh-client libgeos-dev
 libavahi-client-dev avahi-daemon avahi-utils libssl-dev zlib1g-dev cups-ipp-utils
 cups-filters time'''.split()
+
+
+def timed(label, action):
+    started = time.monotonic()
+    print(f'[build] {label}...', flush=True)
+    try:
+        return action()
+    finally:
+        print(f'[build] {label}: {time.monotonic()-started:.1f}s', flush=True)
+
+
+def cache_paths(c, versions, env):
+    """Rebuildable caches, independent of revision and outside runtime/user data.
+
+    Native packages and toolchain/flag changes get a separate cache namespace.
+    Cargo additionally validates its own source/dependency fingerprints.
+    """
+    identity = dict(schema=1, rust=RUST, node=NODE, machine=os.uname().machine,
+                    packages=sorted(versions.splitlines()),
+                    flags={key: env.get(key, '') for key in
+                           ('RUSTFLAGS', 'CFLAGS', 'CXXFLAGS', 'CPPFLAGS', 'LDFLAGS')})
+    key = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+    base = Path(c['install_root'])/'build-cache'
+    scoped = base/key
+    return dict(key=key, cargo=scoped/'cargo', geometry=scoped/'geometry', ipp=scoped/'ipp',
+                pip=base/'pip', npm=base/'npm')
 
 
 def download(url, target, sha):
@@ -73,9 +100,10 @@ def dependencies(c):
         binary = tools/'rustup-init'; download(base,binary,sha); binary.chmod(0o755)
         run('runuser','-u','plotline-build','--',binary,'-y','--no-modify-path','--profile','minimal','--default-toolchain',RUST,env=env)
         binary.unlink()
+    compiler = rustup/'toolchains'/f'{RUST}-x86_64-unknown-linux-gnu/bin/rustc'
+    if not compiler.is_file():
+        run('runuser','-u','plotline-build','--','rustup','toolchain','install',RUST,'--profile','minimal',env=env)
     run('runuser','-u','plotline-build','--','rustup','set','auto-self-update','disable',env=env)
-    run('runuser','-u','plotline-build','--','rustup','toolchain','install',RUST,'--profile','minimal',env=env)
-    run('runuser','-u','plotline-build','--','rustup','default',RUST,env=env)
     env['RUSTUP_TOOLCHAIN'] = RUST
     return env
 
@@ -87,6 +115,7 @@ def build(source, revision, c, env):
         prior = json.loads(receipt.read_text())
         if prior['source_sha256'] != fingerprint: raise ValueError('The same revision has different source bytes')
         if all((root/p).exists() for p in ['controller/target/release/plotline-studios','target/release/plotline','runtime/ippeveprinter']):
+            print(f'[build] Reusing completed revision {revision}', flush=True)
             return root
     if root.exists():
         current = Path(c['install_root'])/'current'
@@ -98,8 +127,20 @@ def build(source, revision, c, env):
     for directory, dirs, files in os.walk(root):
         os.chown(directory,owner.pw_uid,owner.pw_gid)
         for name in files: os.chown(Path(directory)/name,owner.pw_uid,owner.pw_gid)
-    target = root/'.cargo-target'
-    build_env = dict(env,CARGO_TARGET_DIR=str(target))
+    versions = run('dpkg-query','-W','-f=${Package}=${Version}\n',stdout=subprocess.PIPE,text=True).stdout
+    caches = cache_paths(c, versions, env)
+    for name in ('cargo', 'geometry', 'ipp', 'pip', 'npm'):
+        directory = caches[name]
+        directory.mkdir(parents=True, exist_ok=True)
+        os.chown(directory, owner.pw_uid, owner.pw_gid)
+    target = caches['cargo']
+    build_env = dict(env,CARGO_TARGET_DIR=str(target),
+                     PLOTLINE_GEOMETRY_TARGET_DIR=str(caches['geometry']),
+                     PLOTLINE_IPP_BUILD_DIR=str(caches['ipp']),
+                     PLOTLINE_BUILD_ENVIRONMENT=caches['key'],
+                     PLOTLINE_BUILD_JOBS=str(c['build_jobs']),
+                     PIP_CACHE_DIR=str(caches['pip']), npm_config_cache=str(caches['npm']))
+    print(f'[build] {c["build_jobs"]} jobs; reusable caches at {target.parent}', flush=True)
     commands = [
         ['npm','ci','--ignore-scripts','--no-audit','--no-fund'],
         ['python3','-m','venv','.venv'],
@@ -114,20 +155,24 @@ def build(source, revision, c, env):
         ['python3','tools/print_sink/build_server.py'],
         ['python3','-c','from raster_lab.engine import check_dependencies; check_dependencies()'],
     ]
+    timings = []
     for command in commands:
-        run('runuser','-u','plotline-build','--',*command,cwd=root,env=build_env)
+        started = time.monotonic()
+        label = ' '.join(command)
+        timed(label, lambda: run('runuser','-u','plotline-build','--',*command,
+                                 cwd=root,env=build_env,stderr=subprocess.STDOUT))
+        timings.append(dict(command=command, seconds=round(time.monotonic()-started, 3)))
     for name,destination in [('plotline','target/release'),('plotline-studios','controller/target/release')]:
         (root/destination).mkdir(parents=True,exist_ok=True)
         shutil.copy2(target/'release'/name,root/destination/name)
     (root/'runtime').mkdir()
     for source_name,target_name in [('ippeveprinter','ippeveprinter'),('build.json','ipp-build.json')]:
-        shutil.copy2(root/'build/print-sink'/source_name,root/'runtime'/target_name)
-    shutil.rmtree(target)
+        shutil.copy2(caches['ipp']/source_name,root/'runtime'/target_name)
     shutil.rmtree(root/'build')
     cache = Path(c['data_root'])/'cache/build'; (root/'build').symlink_to(cache)
-    versions = run('dpkg-query','-W','-f=${Package}=${Version}\n',*PACKAGES,stdout=subprocess.PIPE,text=True).stdout
     atomic(receipt,dict(revision=revision,source_sha256=fingerprint,node=NODE,rust=RUST,
-                        distribution_packages=versions.splitlines(),state_schema=1))
+                        distribution_packages=versions.splitlines(),state_schema=1,
+                        build_cache=caches['key'],build_jobs=c['build_jobs'],timings=timings))
     # The runtime account can write retained state, never executable source.
     for directory, dirs, files in os.walk(root,followlinks=False):
         os.chown(directory,0,0)

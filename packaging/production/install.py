@@ -15,7 +15,7 @@ import time
 
 from common import (Busy, SCHEMA_VERSION, UNITS, active, admission, atomic, config,
                     idle, readiness, run, safe_path, stop_services, url)
-from build import build, dependencies, NODE
+from build import build, dependencies, timed, NODE
 
 
 def users(c):
@@ -171,8 +171,8 @@ def install(args,c):
         idle(c)
         # Build under the closed admission gate. Existing services remain running
         # until the entire new build has passed its local dependency checks.
-        env=dependencies(c)
-        destination=build(source,args.revision,c,env)
+        env=timed('System packages and language toolchains', lambda: dependencies(c))
+        destination=timed('Application build', lambda: build(source,args.revision,c,env))
         dependency_check(destination)
         fingerprint=hashlib.sha256(json.dumps(c,sort_keys=True).encode()).hexdigest()
         receipt=Path(c['data_root'])/'installation.json'

@@ -75,7 +75,7 @@ guest's disposable root disk.
 | `map_workers` | `1` composition worker; configurable 1–4 |
 | `geometry_workers` | `8`, both native conversion planning and visibility; configurable 1–16 |
 | `map_geometry_threads` | `4`, native terrain geometry; configurable 1–16 |
-| `build_jobs` | `4`, Cargo build concurrency; configurable 1–16 |
+| `build_jobs` | `16`, build concurrency; configurable 1–16 |
 
 On the recommended 32-GiB guest, `geometry_workers: 16` is a reasonable choice
 for shorter large-map conversion times. Keep the PDF and map job limits at one
@@ -112,7 +112,11 @@ request/job/plot or unavailable observation and next step in stderr. Other
 nonzero exits mean configuration/build/readiness failure. IaC must preserve the
 old production marker on every failure. Do not bypass 75 with `systemctl restart`.
 
-Installation is synchronous; allow 30 minutes for a fresh build and downloads.
+Installation is synchronous. Jon's first production publication completed in
+about three minutes; that is an observation, not a machine-independent budget.
+Each build step streams its elapsed time and compiler output. The installer
+reuses dependency caches between commits, while a repeated completed revision
+still bypasses compilation entirely.
 Readiness retries for 30 seconds, with bounded three-second HTTP/IPP operations
 and an eight-second IPP subprocess ceiling. Its final probe can extend that
 deadline slightly. No map-provider or physical-device query is part of readiness.
@@ -131,6 +135,16 @@ the separate `plotline` runtime user can write only retained state. Source hashe
 exclude generated Python bytecode. A repeated revision must have identical
 source bytes, and a healthy repeated reconciliation preserves running PIDs.
 No source checkout or Git executable is required in the guest.
+
+`/opt/plotline/build-cache` holds revision-independent Cargo and native geometry
+targets, a verified patched-IPP binary, and pip/npm download caches. The native
+cache namespace includes Rust/Node, installed package versions, architecture
+and compiler flags. Cargo still validates changed source and dependencies.
+The IPP cache checks builder/patch/environment identities and binary SHA-256.
+Completed runtime executables are copied into each release and become root-owned;
+building the next revision cannot rewrite a running release. Toolchains and
+build caches survive publication, live outside retained user data, and should
+not be backed up. A rebuild after root-disk loss can recreate them.
 
 `/opt/plotline/current` points to the activated build. Each build has
 `installed-build.json` with revision, source hash and tool/package versions.
@@ -318,7 +332,7 @@ Its existence across guest recreation is required; it is not itself a backup.
 | `studios/` | Uploaded PDFs/HPGL, inspections, print intents, immutable conversions, PDF/HPGL recipes, Pattern/Maze recipes/thumbnails/source snapshots, carousel, calibration scans/results, job settings |
 | `studios/plots/` | Immutable attempts, exact prepared programs, receipts, interruption/completion evidence and timing traces |
 | `maps/` | Named maps and revisions, thumbnails, preparations/submission receipts, retained export recipes and source provenance |
-| `maps/map-sources-http/` | Frozen downloaded vector/terrain/boundary inputs used to reproduce maps |
+| `maps/map-sources-http/` | Downloaded vector/terrain/boundary inputs retained for local reuse; excluded from this deployment's backups |
 | `ipp/` | Original captures and intake receipts; unmatched spool files must be preserved |
 | `private/` | Separately provisioned connection and SSH files |
 | `state-schema.json`, `installation.json` | Application compatibility and observed-installation records |
@@ -344,7 +358,11 @@ For a consistent backup, use the installer `stop` action, honor exit 75, snapsho
 the retained mount, then `systemctl start plotline.target`. A filesystem snapshot
 is preferable to a prolonged file copy. Retain `/etc/plotline/config.json` with
 the backup or recreate it from IaC. Exclude `cache/` and `/opt/plotline` from data
-backup; source releases and toolchains can be rebuilt. Do not claim a live
+backup; source releases and toolchains can be rebuilt. Jon's IaC also excludes
+`maps/map-sources-http/`: provider downloads can be refetched after loss and are
+not treated as unique user data. Providers can change, so a restored recipe may
+use different provider bytes. Authored documents, recipes, inventory/calibration,
+prepared plot programs and physical receipts remain protected. Do not claim a live
 directory copy is transactionally consistent across multi-file job publication.
 
 State envelope version is currently **1**. The installer rejects other versions;

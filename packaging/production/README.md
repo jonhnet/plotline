@@ -59,6 +59,24 @@ The test image contains only Ubuntu, systemd, Python and basic trust certificate
 
 ## Runtime checks
 
+Incremental-build regressions can also run without a production guest:
+
+```sh
+python3 packaging/production/test_build_cache.py
+```
+
+They check persistent dependency caches across different revisions, immutable
+installed executables, environment invalidation, and IPP binary/input integrity.
+With local Cargo available, an offline two-revision fixture verifies that the
+unchanged dependency is actually reused. No network or plotter is needed.
+
+Production build caches live under `/opt/plotline/build-cache`, outside user
+data and backup selection. New revisions reuse Cargo/native caches and the
+patched IPP artifact; pip/npm retain downloaded dependencies. Builds use the
+configured `build_jobs` (16 by default) and stream per-step timings. A first
+cache-aware publication seeds the caches; later changes reuse them. Root-disk
+loss can rebuild everything from source.
+
 ```sh
 podman exec plotline-acceptance python3 /export/packaging/production/test_install.py
 podman exec plotline-acceptance python3 /export/packaging/production/smoke.py \

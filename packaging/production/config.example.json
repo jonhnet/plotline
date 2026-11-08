@@ -15,5 +15,5 @@
   "map_workers": 1,
   "geometry_workers": 8,
   "map_geometry_threads": 4,
-  "build_jobs": 4
+  "build_jobs": 16
 }

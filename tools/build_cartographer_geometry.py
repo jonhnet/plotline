@@ -26,10 +26,11 @@ def main():
     env=dict(os.environ,GEOS_LIB_DIR=str(link),GEOS_VERSION=shapely.geos_version_string,
              PYO3_PYTHON=sys.executable,
              RUSTFLAGS=os.environ.get('RUSTFLAGS','')+' -C link-arg=-Wl,--disable-new-dtags,-rpath,$ORIGIN/shapely.libs')
+    target_dir=Path(os.environ.get('PLOTLINE_GEOMETRY_TARGET_DIR',str(build/'target')))
     subprocess.run(['cargo','build','--release','--locked','--manifest-path',str(ROOT/'native/cartographer-geometry/Cargo.toml'),
-                    '--target-dir',str(build/'target')],env=env,check=True)
+                    '--target-dir',str(target_dir)],env=env,check=True)
     target=Path(sysconfig.get_path('platlib'))/('_cartographer_geometry'+sysconfig.get_config_var('EXT_SUFFIX'))
-    temporary=target.with_suffix('.tmp');shutil.copyfile(build/'target/release/lib_cartographer_geometry.so',temporary)
+    temporary=target.with_suffix('.tmp');shutil.copyfile(target_dir/'release/lib_cartographer_geometry.so',temporary)
     os.replace(temporary,target)
     subprocess.run([sys.executable,'-c','import _cartographer_geometry as g; print("Installed map geometry: GEOS",g.geos_version())'],check=True)
 
