@@ -1,0 +1,26 @@
+[Unit]
+Description=Plotline Studios serial byte bridge
+After=local-fs.target
+
+[Service]
+Type=simple
+User=plotline
+Group=plotline
+SupplementaryGroups=dialout
+ExecStart=/usr/bin/python3 /opt/plotline/device.py serve
+Restart=on-failure
+RestartSec=3
+RuntimeDirectory=plotline
+RuntimeDirectoryMode=0750
+StateDirectory=plotline
+StateDirectoryMode=0750
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/run/plotline
+RestrictAddressFamilies=AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,347 @@
+{
+  "margin_pt": 36,
+  "pen_width_pt": 0.4,
+  "hatch_spacing_pt": 10,
+  "stroke_width_tolerance": 0.75,
+  "simplify_pt": 0.12,
+  "road_edge_pt": 0.7,
+  "shore_width_pt": 0.8,
+  "water_echo_offsets_pt": [
+    2,
+    4
+  ],
+  "road_classes": [
+    1,
+    2,
+    4,
+    5
+  ],
+  "red_road_classes": [
+    4,
+    5
+  ],
+  "road_cores_pt": {
+    "1": 1.1,
+    "2": 0.5,
+    "3": 0.5,
+    "4": 1.6,
+    "5": 1.6,
+    "9": 0.5
+  },
+  "park_min_area_pt2": 16,
+  "labels": [
+    {
+      "text": "Puget Sound",
+      "location": [
+        -122.45,
+        47.641
+      ],
+      "size": 16,
+      "font": "serif",
+      "kind": "water",
+      "angle": -90
+    },
+    {
+      "text": "Elliott Bay",
+      "location": [
+        -122.374,
+        47.598
+      ],
+      "size": 14,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Lake Washington",
+      "location": [
+        -122.235,
+        47.595
+      ],
+      "size": 15,
+      "font": "serif",
+      "kind": "water",
+      "angle": -90
+    },
+    {
+      "text": "Lake Union",
+      "location": [
+        -122.334,
+        47.638
+      ],
+      "size": 10,
+      "font": "sans",
+      "kind": "water"
+    },
+    {
+      "text": "Green Lake",
+      "location": [
+        -122.338,
+        47.68
+      ],
+      "size": 10,
+      "font": "sans",
+      "kind": "water"
+    },
+    {
+      "text": "Duwamish",
+      "location": [
+        -122.331,
+        47.542
+      ],
+      "size": 10,
+      "font": "sans",
+      "kind": "water",
+      "angle": -65,
+      "offset_pt": [
+        -16,
+        0
+      ],
+      "leader": true
+    },
+    {
+      "text": "Ballard",
+      "location": [
+        -122.379,
+        47.678
+      ],
+      "size": 11
+    },
+    {
+      "text": "Magnolia",
+      "location": [
+        -122.4,
+        47.642
+      ],
+      "size": 10
+    },
+    {
+      "text": "Fremont",
+      "location": [
+        -122.351,
+        47.655
+      ],
+      "size": 10
+    },
+    {
+      "text": "Queen Anne",
+      "location": [
+        -122.359,
+        47.635
+      ],
+      "size": 10
+    },
+    {
+      "text": "Capitol Hill",
+      "location": [
+        -122.313,
+        47.62
+      ],
+      "size": 10
+    },
+    {
+      "text": "Downtown",
+      "location": [
+        -122.337,
+        47.608
+      ],
+      "size": 11
+    },
+    {
+      "text": "West Seattle",
+      "location": [
+        -122.387,
+        47.563
+      ],
+      "size": 11
+    },
+    {
+      "text": "Beacon Hill",
+      "location": [
+        -122.309,
+        47.57
+      ],
+      "size": 10
+    },
+    {
+      "text": "Rainier Valley",
+      "location": [
+        -122.282,
+        47.544
+      ],
+      "size": 10
+    },
+    {
+      "text": "Northgate",
+      "location": [
+        -122.32,
+        47.71
+      ],
+      "size": 10
+    },
+    {
+      "text": "Lake City",
+      "location": [
+        -122.288,
+        47.717
+      ],
+      "size": 10
+    },
+    {
+      "text": "Shoreline",
+      "location": [
+        -122.345,
+        47.742
+      ],
+      "size": 10,
+      "kind": "context"
+    },
+    {
+      "text": "Burien",
+      "location": [
+        -122.349,
+        47.489
+      ],
+      "size": 10,
+      "kind": "context"
+    }
+  ],
+  "bridge_labels": [
+    {
+      "text": "Ballard Br.",
+      "sources": [
+        "BALLARD BR"
+      ],
+      "offset_pt": [
+        -26,
+        12
+      ],
+      "size": 8.5
+    },
+    {
+      "text": "SR 520",
+      "sources": [
+        "SR520 EB",
+        "SR520 WB"
+      ],
+      "offset_pt": [
+        12,
+        -8
+      ],
+      "size": 9
+    },
+    {
+      "text": "West Seattle Br.",
+      "sources": [
+        "WEST SEATTLE BR EB",
+        "WEST SEATTLE BR WB"
+      ],
+      "offset_pt": [
+        -22,
+        -17
+      ],
+      "size": 8.5
+    }
+  ],
+  "park_labels": [
+    {
+      "source": "DISCOVERY PARK",
+      "text": "Discovery Park",
+      "size": 9
+    },
+    {
+      "source": "WARREN G. MAGNUSON PARK",
+      "text": "Magnuson Park",
+      "size": 9
+    },
+    {
+      "source": "SEWARD PARK",
+      "text": "Seward Park",
+      "size": 9,
+      "offset_pt": [
+        0,
+        0
+      ]
+    },
+    {
+      "source": "LINCOLN PARK",
+      "text": "Lincoln Park",
+      "size": 9,
+      "offset_pt": [
+        -10,
+        0
+      ]
+    },
+    {
+      "source": "GOLDEN GARDENS PARK",
+      "text": "Golden Gardens",
+      "size": 9,
+      "offset_pt": [
+        -15,
+        -8
+      ],
+      "leader": true
+    },
+    {
+      "source": "WASHINGTON PARK AND ARBORETUM",
+      "text": "Arboretum",
+      "size": 9
+    },
+    {
+      "source": "JEFFERSON PARK",
+      "text": "Jefferson Park",
+      "size": 9
+    },
+    {
+      "source": "CAMP LONG",
+      "text": "Camp Long",
+      "size": 9
+    }
+  ],
+  "road_labels": [
+    {
+      "text": "I-5",
+      "sources": [
+        "I5 NB"
+      ],
+      "angle": -80,
+      "fraction": 0.27
+    },
+    {
+      "text": "I-90",
+      "sources": [
+        "I90 EB"
+      ],
+      "angle": 0,
+      "fraction": 0.6
+    },
+    {
+      "text": "SR 99",
+      "sources": [
+        "AURORA AVE N"
+      ],
+      "angle": -90,
+      "fraction": 0.25
+    },
+    {
+      "text": "Rainier Ave S",
+      "sources": [
+        "RAINIER AVE S"
+      ],
+      "angle": -65,
+      "fraction": 0.6
+    }
+  ],
+  "scale_bar_m": 2000,
+  "title": "SEATTLE",
+  "subtitle": "A CITY BETWEEN WATERS",
+  "width_in": 11,
+  "height_in": 17,
+  "bounds": [
+    -122.475,
+    47.48,
+    -122.2,
+    47.75
+  ],
+  "city_emphasis": true,
+  "red_legend": "Major routes / city edge"
+}

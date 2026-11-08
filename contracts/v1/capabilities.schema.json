@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plotline.invalid/contracts/v1/capabilities.schema.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "plotline.capabilities/1"
+    },
+    "inventory_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "available_inks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "color_srgb": {
+            "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/color"
+          },
+          "width_mm": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "exclusiveMinimum": 0,
+            "maximum": 5
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": ["plotline-carousel", "squidprint-carousel"]
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "slot": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              }
+            },
+            "required": [
+              "kind",
+              "revision",
+              "slot"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "color_srgb",
+          "width_mm",
+          "source"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 8
+    },
+    "media_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "https://plotline.invalid/contracts/v1/media-profile.schema.json"
+      }
+    },
+    "implemented": {
+      "type": "object",
+      "properties": {
+        "pdf_upload": {
+          "type": "boolean"
+        },
+        "pdf_handoff": {
+          "type": "boolean"
+        },
+        "pdf_submission_idempotency": {
+          "type": "boolean"
+        },
+        "raster_policies": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "reject",
+              "omit",
+              "reserve",
+              "placeholder",
+              "dither"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "fill_modes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "outline",
+              "hatch",
+              "crosshatch",
+              "feathered"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "per_ink_widths": {
+          "type": "boolean"
+        },
+        "pen_workflow": {
+          "type": "boolean"
+        },
+        "thin_detail_thickening": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pdf_upload",
+        "raster_policies",
+        "fill_modes",
+        "per_ink_widths"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "inventory_revision",
+    "available_inks",
+    "media_profiles",
+    "implemented"
+  ],
+  "additionalProperties": false
+}

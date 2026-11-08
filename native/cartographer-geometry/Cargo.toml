@@ -1,0 +1,15 @@
+[package]
+name = "cartographer-geometry"
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-only"
+publish = false
+
+[lib]
+name = "_cartographer_geometry"
+crate-type = ["cdylib"]
+
+[dependencies]
+geos = { version = "=11.3.1", features = ["v3_13_0"] }
+pyo3 = { version = "=0.30.1", features = ["extension-module"] }
+rayon = "=1.11.0"

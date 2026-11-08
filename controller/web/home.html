@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#795b8d"><title>Plotline Studios</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23795b8d'/%3E%3Cpath d='M7 7h7v7H7zm11 0h7v7h-7zM7 18h7v7H7zm11 0h7v7h-7z' fill='white'/%3E%3C/svg%3E"><link rel="stylesheet" href="/studio.css"><script type="module" src="/home.js"></script></head>
+<body class="studio studio-home"><main class="studio-landing">
+<header><svg class="landing-symbol" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M7 7h7v7H7zm11 0h7v7h-7zM7 18h7v7H7zm11 0h7v7h-7z"/></svg><div><h1>Plotline Studios</h1><p>Tools for creating, converting and sending art to a pen plotter.</p></div></header>
+<div class="studio-flow" aria-label="Studio workflow">
+<svg class="flow-connections" aria-hidden="true">
+  <defs>
+    <marker id="arrow-map" viewBox="0 0 24 24" refX="23" refY="12" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 23 12 1 23 6 12Z" fill="#59795b"/></marker>
+    <marker id="arrow-pattern" viewBox="0 0 24 24" refX="23" refY="12" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 23 12 1 23 6 12Z" fill="#9b526d"/></marker>
+    <marker id="arrow-maze" viewBox="0 0 24 24" refX="23" refY="12" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 23 12 1 23 6 12Z" fill="#377f87"/></marker>
+    <marker id="arrow-pdf" viewBox="0 0 24 24" refX="23" refY="12" markerWidth="26" markerHeight="26" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 23 12 1 23 6 12Z" fill="#526f9a"/></marker>
+    <marker id="arrow-source" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 15 8 1 15 4 8Z" fill="#9a88a5"/></marker>
+  </defs>
+  <path data-connection="maze-plot" class="flow-path maze-path" marker-end="url(#arrow-maze)"/>
+  <path data-connection="plot-maze" class="flow-path source-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="maze-pdf" class="flow-path optional-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="pattern-plot" class="flow-path pattern-path" marker-end="url(#arrow-pattern)"/>
+  <path data-connection="plot-pattern" class="flow-path source-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="pattern-pdf" class="flow-path optional-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="map-plot" class="flow-path map-path" marker-end="url(#arrow-map)"/>
+  <path data-connection="pdf-plot" class="flow-path pdf-path" marker-end="url(#arrow-pdf)"/>
+  <path data-connection="plot-map" class="flow-path source-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="plot-pdf" class="flow-path source-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="map-pdf" class="flow-path optional-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="pdf-map" class="flow-path source-path" marker-end="url(#arrow-source)"/>
+  <path data-connection="app-pdf" class="flow-path pdf-path" marker-end="url(#arrow-pdf)"/>
+</svg>
+<a class="studio-card map-card" data-studio="map" href="/map"><span class="studio-symbol" aria-hidden="true">M</span><h2>Map Studio</h2><p>Design a map.</p><small>Choose geography, composition, and feature inks.</small><strong>Open Map Studio</strong></a>
+<a class="studio-card pattern-card" data-studio="patterns" href="/patterns"><span class="studio-symbol" aria-hidden="true">∿</span><h2>Pattern Studio</h2><p>Draw mathematical patterns.</p><small>Explore fractals, curves, spirals, and tilings.</small><strong>Open Pattern Studio</strong></a>
+<a class="studio-card maze-card" data-studio="mazes" href="/mazes"><span class="studio-symbol" aria-hidden="true">▥</span><h2>Maze Studio</h2><p>Grow a custom maze.</p><small>Explore grids, stretch solutions, and upload shape masks.</small><strong>Open Maze Studio</strong></a>
+<a class="studio-card pdf-card" data-studio="pdf" href="/pdf"><span class="studio-symbol" aria-hidden="true">P</span><h2>PDF Studio</h2><p>Turn artwork into pen strokes.</p><small>Choose how lines, fills, and details become paths.</small><strong>Open PDF Studio</strong></a>
+<a class="studio-card hpgl-card" data-studio="hpgl" href="/hpgl"><span class="studio-symbol" aria-hidden="true">H</span><h2>HPGL Studio</h2><p>Put the drawing on paper.</p><small>Check the sheet, map loaded pens, and run the plotter.</small><strong>Open HPGL Studio</strong></a>
+<div class="flow-caption forward-caption" data-caption="maze-plot"><span>Prepare plot</span></div>
+<div class="flow-caption source-caption" data-caption="plot-maze"><span>Edit Source</span></div>
+<div class="flow-caption optional-caption" data-caption="maze-pdf"><span>PDF conversion settings</span></div>
+<div class="flow-caption forward-caption" data-caption="pattern-plot" aria-label="Pattern Studio to HPGL Studio: Prepare plot"><span>Prepare plot</span></div>
+<div class="flow-caption source-caption" data-caption="plot-pattern" aria-label="HPGL Studio to Pattern Studio: Edit Source"><span>Edit Source</span></div>
+<div class="flow-caption optional-caption" data-caption="pattern-pdf" title="Optional PDF conversion adjustments for your pattern."><span>PDF conversion settings</span></div>
+<div class="flow-caption forward-caption" data-caption="map-plot" aria-label="Map Studio to HPGL Studio: Prepare plot"><span>Prepare plot</span></div>
+<div class="flow-caption forward-caption" data-caption="pdf-plot" aria-label="PDF Studio to HPGL Studio: Prepare plot"><span>Prepare plot</span></div>
+<div class="flow-caption source-caption" data-caption="plot-map" aria-label="HPGL Studio to Map Studio: Edit Source"><span>Edit Source</span></div>
+<div class="flow-caption source-caption" data-caption="plot-pdf" aria-label="HPGL Studio to PDF Studio: Edit Source"><span>Edit Source</span></div>
+<div class="flow-caption source-caption" data-caption="pdf-map" aria-label="PDF Studio to Map Studio: Edit Source"><span>Edit Source</span></div>
+<div class="flow-caption optional-caption" data-caption="map-pdf" tabindex="0" role="note" aria-label="Map Studio to PDF Studio: PDF conversion settings" title="Optional conversion adjustments: choose single-pass or multiple-pass strokes, recover thin lettering, or change hatching for filled shapes. The map’s geography and composition stay the same."><span>PDF conversion settings</span><small>Line widths, fills &amp; fine detail</small></div>
+<div class="flow-caption intake-caption" data-caption="app-pdf" tabindex="0" role="note" aria-label="Print from an app into PDF Studio" title="Choose Plotline Studios HP7585 in your print dialog to bring artwork into PDF Studio for review."><span>Print from an app</span><small>System print dialog · IPP</small></div>
+</div>
+</main></body></html>

@@ -1,0 +1,4 @@
+-r requirements-native.txt
+shapely==2.1.2
+Pillow==13.0.0
+contourpy==1.4.0

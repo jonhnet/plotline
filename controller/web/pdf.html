@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF Studio — Plotline</title><link rel="stylesheet" href="/inksets.css"><link rel="stylesheet" href="/pdf.css"><link rel="stylesheet" href="/studio.css"><script type="module" src="/pdf.js"></script></head>
+<body class="studio" data-studio="pdf">
+<header class="masthead">
+ <a href="/" class="brand">PDF Studio <small>Plotline</small></a>
+ <nav class="document-bar" aria-label="PDF documents"><div id="document-tabs" role="tablist" aria-label="Open documents"></div><button id="new-document" aria-label="Add document" title="Add document">+</button></nav>
+ <span id="saved-state" class="sr-only" role="status"></span>
+ <div class="header-actions"><button id="open-library">Open…</button><button id="revert" disabled title="Restore the last saved recipe">Revert</button><button id="save" class="primary" disabled>Save</button><button id="save-copy" disabled>Save As…</button></div>
+</header>
+<main class="studio-shell">
+ <aside class="controls" aria-label="PDF conversion controls"><form id="convert"><div id="settings-scroll">
+                  <button id="replace-source" type="button" class="subtle" disabled title="Open a replacement source with this document's current conversion settings">Replace source…</button>
+                  <fieldset>
+                    <legend>Page & paper</legend>
+
+                    <label>Received PDF page<select id="page"></select></label
+                    ><div class="sheet-choice"><label>Target sheet<select id="media"></select></label><button id="turn-sheet" type="button" title="Turn the sheet and its margins 90°, keeping artwork placement unchanged">Turn sheet ↻</button></div>
+                    <label>Paper loading<select id="sheet-loading"></select></label>
+                    <p id="sheet-loading-issue" role="status" hidden></p>
+                    <div class="pair">
+                      <label
+                        >Scale × received PDF<input
+                          id="scale"
+                          type="number"
+                          min="0.001"
+                          step="any"
+                          value="1"
+                          required /></label
+                      ><label
+                        >Artwork rotation<select id="rotation">
+                          <option value="0">0°</option>
+                          <option value="90">90°</option>
+                          <option value="180">180°</option>
+                          <option value="270">270°</option>
+                        </select></label
+                      >
+                    </div>
+                    <div class="pair">
+                      <label
+                        ><span id="offset-x-label">Offset X · <span data-paper-unit>in</span></span
+                        ><input
+                          id="offset-x" data-paper-length
+                          type="number"
+                          step="any"
+                          value="0"
+                          required /></label
+                      ><label
+                        ><span id="offset-y-label">Offset Y · <span data-paper-unit>in</span></span
+                        ><input
+                          id="offset-y" data-paper-length
+                          type="number"
+                          step="any"
+                          value="0"
+                          required
+                      /></label>
+                    </div>
+                    <button id="fit" type="button" class="subtle">
+                      Fit page inside printable area
+                    </button>
+                    <p id="paper-summary" class="small"></p>
+                    <p id="source-size-note" class="small quiet">
+                      Scale 1 uses the received PDF’s physical size.
+                    </p>
+                    <p id="capture-note" class="small capture-note" hidden></p>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Fills & strokes</legend>
+                    <label>Stroke treatment<select id="stroke-mode"><option value="pen">Use pen width · one pass</option><option value="preserve">Preserve document widths · allow multiple passes</option></select></label>
+                    <label
+                      >Area fills<select id="fill">
+                        <option value="crosshatch">Crosshatch</option>
+                        <option value="hatch">Parallel hatch</option>
+                        <option value="feathered">Feathered crosshatch</option>
+                        <option value="outline">Outline only</option>
+                        <option value="none">No fill ink</option>
+                      </select></label
+                    >
+                    <div class="pair">
+                      <label
+                        >Spacing · <span data-paper-unit>in</span><input
+                          id="spacing" data-paper-length
+                          type="number"
+                          min="0.05"
+                          step="any"
+                          value="2"
+                          required /></label
+                      ><label
+                        >Angle · degrees<input
+                          id="angle"
+                          type="number"
+                          step="any"
+                          value="45"
+                          required
+                      /></label>
+                    </div>
+                    <label id="feather-label" hidden
+                      >Feather distance · <span data-paper-unit>in</span><input
+                        id="feather" data-paper-length
+                        type="number"
+                        min="0.1"
+                        step="any"
+                        value="12.7"
+                        required /></label
+                    ><label id="tolerance-label"
+                      >Stroke width tolerance<input
+                        id="tolerance"
+                        type="number"
+                        min="0"
+                        max="0.999999"
+                        step="0.05"
+                        value="0.75"
+                        required
+                    /></label>
+                    <p class="small quiet">
+                      Total width error, in pen diameters, for strokes. Thin-detail thickening below also applies to letters.
+                    </p>
+                    <label>Thin-detail thickening<input id="thin-detail" type="number" min="0" max="1" step="0.05" value="0" required /></label>
+                    <p class="small quiet">Extra thickness, in pen diameters, for fine lines and letter parts. 0 keeps strict boundaries; try 0.75 to recover thin details. Letters may become heavier or touch.</p>
+                  </fieldset>
+                  <fieldset id="image-effects">
+                      <legend>Images & effects</legend>
+                      <label
+                        >Raster images<select id="raster">
+                          <option value="reject">Require a decision</option>
+                          <option value="dither">Draw with pens</option>
+                          <option value="omit">
+                            Omit; reveal underlying art
+                          </option>
+                          <option value="reserve">Reserve blank space</option>
+                          <option value="placeholder">Box with an X</option>
+                        </select></label
+                      >
+                      <p id="raster-decision-hint" class="small quiet" role="status" hidden></p>
+                      <div id="raster-controls" hidden>
+                        <label><input id="raster-screening" type="checkbox" checked> Screening</label>
+                        <label>Screen inks<select id="raster-palette"><option value="selected">Selected pens · optimized color</option><option value="auto">Auto · K for monochrome, CMY for color</option><option value="k">K</option><option value="cmy">CMY</option><option value="cmyk">CMYK</option></select></label>
+                        <div id="raster-selected" hidden>
+                          <button id="raster-loaded-pens" type="button">Use loaded pens</button>
+                          <p id="raster-screen-count" class="small quiet"></p>
+                          <div id="raster-screen-pens" role="group" aria-label="Screening pens"></div>
+                          <div id="raster-missing-pens" role="group" aria-label="Unavailable screening selections" hidden></div>
+                        </div>
+                        <label>Ink fullness · <output id="raster-fullness-value">100%</output><input id="raster-fullness" type="range" min="0" max="100" step="5" value="100"></label>
+                        <p class="small quiet">Shading retained away from edges. 0% emphasizes edges; 100% shades throughout.</p>
+                        <label>Edge falloff · <span data-paper-unit>in</span><input id="raster-falloff" data-paper-length type="number" min="0.254" max="254" step="any" value="6.35"></label>
+                        <label>Black treatment<select id="raster-black"><option value="off">Off</option><option value="lines" selected>Contrast strokes</option><option value="shapes">Ink shapes · joined fill</option></select></label>
+                        <p class="small quiet">Ink shapes preserves dark regions in line-art comics. Contrast strokes adds recovered lines over screening. Off still allows K screening.</p>
+                        <div id="raster-inks"></div>
+                        <p id="raster-assignment-hint" class="small" role="status" hidden></p>
+                        <p id="raster-hint" class="small quiet">Assign pens to channel roles. C may use turquoise. Colors are illustrative; ink mixing is not calibrated.</p>
+                      </div>
+                      <label
+                        >Gradients<select id="gradients">
+                          <option value="reject">Stop for review</option>
+                          <option value="omit">Omit</option>
+                        </select></label
+                      ><label
+                        >Transparency<select id="transparency">
+                          <option value="reject">Stop for review</option>
+                          <option value="ignore-alpha">Treat as opaque</option>
+                          <option value="omit">Omit transparent paints</option>
+                        </select></label
+                      ><label
+                        >Blend modes<select id="blend_modes">
+                          <option value="reject">Stop for review</option>
+                          <option value="normal">Treat as normal</option>
+                          <option value="omit">Omit blended groups</option>
+                        </select></label
+                      >
+                      <p class="small quiet">
+                        Masked images and soft masks still stop conversion. Image pens use their selected diameters at the final placed size.
+                      </p>
+                  </fieldset>
+
+ <div id="pen-settings"><div id="ink-summary" role="group" aria-label="Document colors"></div><button id="edit-inks" type="button" aria-controls="ink-drawer" aria-expanded="false">Edit pens…</button></div>
+ </div></form></aside>
+ <section class="workspace" aria-label="PDF preview">
+  <div class="preview-area">
+   <div id="empty"><h1>PDF Studio</h1><p>Open a PDF to choose its pen recipe.</p><button id="empty-open">Open…</button></div>
+   <div class="canvas" id="review" tabindex="0" aria-label="PDF preview. Drag to pan; scroll or pinch to zoom." hidden>
+    <a id="preview-link" href="#" target="_blank" rel="noopener"><img id="preview" alt="PDF page preview"><div id="loss-overlay" aria-hidden="true" hidden></div></a>
+   </div>
+   <div id="preview-tools"><select id="view" aria-label="Preview view"><option value="pen">Pen footprints</option><option value="logical">Logical paint</option><option value="source">Original PDF</option></select><label class="loss-control"><input id="show-loss" type="checkbox" disabled>Lost details</label></div>
+   <div id="notice" role="status" aria-live="polite"></div>
+  </div>
+  <section id="work-status" aria-label="Progress"><progress id="work-progress" aria-label="Estimated progress" max="100" value="0"></progress><div class="progress-line"><span id="work-detail" role="status" aria-live="polite">Open a PDF to begin</span><button id="review-paper" type="button" hidden>Review paper</button><time id="progress-time"></time></div></section>
+  <div class="export-bar">
+   <div class="utility-actions">
+    <details id="export-tools" class="tray"><summary aria-label="Downloads" title="Downloads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></summary>
+     <div class="tray-body"><div class="tray-heading"><strong>Downloads</strong><button class="close-tray" aria-label="Close downloads">×</button></div><div class="export-actions"><a id="original" class="button">Original PDF ↓</a><a id="hpgl" class="button" download="sheet.hpgl">HPGL ↓</a><a id="preview-open" class="button" target="_blank" rel="noopener">Open preview ↗</a></div><p><a href="/hpgl" data-studio="hpgl">HPGL Studio ↗</a> · <a href="/calibration" target="_blank" rel="noopener">Calibrate pens ↗</a></p></div>
+    </details>
+    <details id="composition-tools" class="tray"><summary aria-label="Conversion details" title="Conversion details and warnings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg></summary>
+     <div class="tray-body"><div class="tray-heading"><strong>Conversion details</strong><button class="close-tray" aria-label="Close conversion details">×</button></div>
+      <p id="document-detail"></p><p id="caption"></p><p id="placement-note"></p><p id="loss-count"></p><div id="metrics"></div>
+      <details id="revision-detail" hidden><summary>Technical report</summary><p id="revision-meta"></p><a id="report" target="_blank" rel="noopener">Geometry and mileage report ↗</a><pre id="revision-settings"></pre></details>
+     </div>
+    </details>
+   </div>
+   <span id="dirty" class="sr-only"></span><span id="preview-zoom" class="sr-only">100%</span>
+   <div class="studio-actions">
+    <button id="convert-button" type="submit" form="convert" disabled>Preview pen strokes</button>
+    <button id="update-plot" type="button" disabled>Open plot ↗</button>
+   </div>
+  </div>
+ </section>
+ <section id="ink-drawer" aria-labelledby="ink-drawer-title" hidden><div class="ink-drawer-heading"><h2 id="ink-drawer-title">Pens &amp; mapping</h2><button id="close-inks" aria-label="Close pens and mapping">×</button></div><div class="ink-drawer-body">
+
+                    <button id="map-automatically" type="button" title="Choose the closest loaded color, then the closest measured diameter">Map automatically</button>
+                    <div id="inks"></div>
+                    <p id="ink-note" class="small quiet">Source inks are fixed. Select one to choose its output pen.</p>
+
+</div></section>
+</main>
+<dialog id="library"><div class="dialog-heading"><h2>Open document</h2><button id="close-library" aria-label="Close document library">×</button></div><label class="library-search">Find a document<input id="document-search" type="search" placeholder="Search documents and saved recipes" autocomplete="off"></label><div id="documents" class="library-grid"></div><div class="library-actions"><button id="add-pdf">Add document…</button></div></dialog>
+<dialog id="upload-dialog"><form id="upload"><div class="dialog-heading"><h2 id="upload-heading">Add document</h2><button id="cancel-upload" type="button" aria-label="Close document upload">×</button></div><p id="replacement-hint" hidden></p><label>PDF, SVG, JPEG or PNG<input id="pdf-file" type="file" accept="application/pdf,image/svg+xml,image/jpeg,image/png,.pdf,.svg,.jpg,.jpeg,.png" required></label><p class="small quiet">SVG: embed linked images. Text uses server fonts; convert laptop-only fonts to paths in Inkscape, or export PDF with embedded fonts.</p><label id="intent-upload">Print intent · optional, for PDF<input id="intent-file" type="file" accept="application/json,.json"></label><button class="primary" id="upload-submit">Add for review</button></form></dialog>
+<dialog id="save-dialog"><form id="save-form"><div class="dialog-heading"><h2 id="save-heading">Save document</h2></div><label class="field">Name<input id="save-name" maxlength="160" required autocomplete="off"></label><p>Save the pen recipe associated with this PDF.</p><div class="dialog-actions"><button type="button" id="cancel-save">Cancel</button><button type="submit" class="primary">Save</button></div></form></dialog>
+<dialog id="close-document-dialog"><form method="dialog"><h2>Save changes?</h2><p id="close-document-message"></p><div class="dialog-actions"><button value="cancel">Cancel</button><button value="discard">Don’t save</button><button value="save" class="primary">Save</button></div></form></dialog>
+</body></html>

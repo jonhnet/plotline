@@ -1,0 +1,55 @@
+{
+  "capture_type": "photograph",
+  "original_file": "0b553095-PXL_20261106_183140429.jpg",
+  "original": {
+    "sha256": "a4288e8edbad76470d2848aae8a49206c5a0f07f747d75ad7254452f8e802dbb",
+    "bytes": 4725540
+  },
+  "original_exif_oriented_size": [
+    4080,
+    3072
+  ],
+  "processing": {
+    "corner_reference_width": 1224,
+    "corners": [
+      [
+        154,
+        160
+      ],
+      [
+        1069,
+        169
+      ],
+      [
+        1194,
+        792
+      ],
+      [
+        68,
+        792
+      ]
+    ],
+    "paper_inches": [
+      17,
+      11
+    ],
+    "highlight_white": 0.985,
+    "paper_grid_px": 24,
+    "long_edge": 2200,
+    "display_crop": [
+      0.02,
+      0.015,
+      0.965,
+      0.98
+    ],
+    "rotate_clockwise": 90
+  },
+  "method": "EXIF orientation; optional four-corner homography to physical paper aspect; local 95th-percentile paper RGB normalization; neutral highlight cleanup with protection for faint colored strokes; Lanczos display resize; JPEG 94, 4:4:4.",
+  "limits": "Display correction, not a calibrated measurement of ink color. No stroke replacement, inpainting, sharpening or generated artwork. A homography does not flatten paper curl.",
+  "files": {
+    "../sheet.jpg": {
+      "sha256": "8bf605269b25d1a0bc19145e2ec26400c3c4bfa585b41b588ca0457fd5daa701",
+      "bytes": 1608350
+    }
+  }
+}

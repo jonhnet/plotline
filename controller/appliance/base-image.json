@@ -1,0 +1,11 @@
+{
+  "name": "Raspberry Pi OS Lite (32-bit)",
+  "release_date": "2026-10-06",
+  "architecture": "armhf (includes ARMv6 Raspberry Pi 1 support)",
+  "init_format": "cloudinit-rpi",
+  "url": "https://downloads.raspberrypi.com/raspios_lite_armhf/images/raspios_lite_armhf-2026-10-06/2026-10-06-raspios-trixie-armhf-lite.img.xz",
+  "download_sha256": "2c302771f34c67a0b7ae7aa2e0dcdd3eac660504be59193c011ba79d412e1632",
+  "extract_sha256": "acf39427d33c997fc2bbc237cc48a30f3b00c9cd60b831d67fedc9e3205fa816",
+  "extract_size": 2785017856,
+  "catalog": "https://downloads.raspberrypi.com/os_list_imagingutility_v4.json"
+}

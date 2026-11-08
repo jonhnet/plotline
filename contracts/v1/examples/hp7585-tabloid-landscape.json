@@ -1,0 +1,37 @@
+{
+  "schema": "plotline.media-profile/1",
+  "id": "hp7585-tabloid-landscape",
+  "revision": 1,
+  "label": "HP7585 / 17 x 11 in landscape, long dimension along feed",
+  "sheet_size_mm": [
+    431.8,
+    279.4
+  ],
+  "printable_rect_mm": [
+    39.425,
+    11,
+    376.95,
+    253.6
+  ],
+  "content_inset_mm": 1,
+  "calibration": {
+    "device": "HP7585B",
+    "units_per_mm": 40,
+    "sheet_to_device_units": [
+      40,
+      0,
+      0,
+      -40,
+      -9116,
+      5512
+    ],
+    "hard_clip_units": [
+      -7539,
+      -5088,
+      7539,
+      5088
+    ],
+    "uncertainty_mm": null,
+    "evidence": "2026-10-30 ruler margins back/front/left/right = 39/15/14.8/11 mm. Conservative intersection of two reported OH windows; nominal paper placement. Ruler uncertainty is not quantified. See docs/experiment-11.md."
+  }
+}

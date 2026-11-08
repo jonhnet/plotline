@@ -1,0 +1,169 @@
+{
+  "schema": "squidprint.timing-model.v1",
+  "model": "vector_floor_and_motion",
+  "parameters": {
+    "draw_speed_scale": 0.7241217019414906,
+    "pen_up_mm_s": 349.1118035329503,
+    "acceleration_mm_s2": 1000000000.0,
+    "lift_lower_cycle_s": 0.03395850355138274,
+    "pen_change_s": 2.644666843150594,
+    "minimum_vector_s": 0.01771114956000515,
+    "buffer_bytes": 1024.0
+  },
+  "fitted_parameter_count": 6,
+  "acceleration_model": "disabled by selection; numeric 1e9 is a limiting-case sentinel, not a measured acceleration",
+  "serial_byte_rate": 960.0,
+  "host_turnaround_s": 0.032030424499907895,
+  "source": {
+    "attempt": "88cb8e31-bf26-46e0-8f7f-bb11bba67294",
+    "prepared_sha256": "47387daef4f6a712dfac16fb4ef1f5e86c06b47012bc0c9077affec65d5052aa",
+    "trace_sha256": "28650a04c58a0a091d61346f996ceb6b7e6ceaa8aa811bdd469b7200b650bf30",
+    "bytes": 1817685,
+    "commands": 148608,
+    "samples": 17951
+  },
+  "validation": {
+    "method": "64 KiB blocks: residue 0/1/2 calibration, 3 selection, 4 audit; 4 KiB guards; no physical-finish observation",
+    "section_scores": {
+      "calibration": {
+        "count": 229,
+        "mae_s": 0.44926125409433876,
+        "rmse_s": 0.6066152041544529,
+        "mean_error_s": -0.003420183493542665,
+        "median_absolute_percent": 3.9142023936573707,
+        "actual_total_s": 1866.5860088730008,
+        "predicted_total_s": 1865.8027868529796
+      },
+      "selection": {
+        "count": 66,
+        "mae_s": 0.6467447008644774,
+        "rmse_s": 0.8297818752121389,
+        "mean_error_s": -0.15622338832817337,
+        "median_absolute_percent": 6.692985569468613,
+        "actual_total_s": 568.0024287839999,
+        "predicted_total_s": 557.6916851543406
+      },
+      "audit": {
+        "count": 65,
+        "mae_s": 0.6774214859635707,
+        "rmse_s": 0.8510367752530132,
+        "mean_error_s": -0.1483539642710639,
+        "median_absolute_percent": 6.500651092029528,
+        "actual_total_s": 553.2737423430005,
+        "predicted_total_s": 543.6307346653814
+      }
+    },
+    "audit_blocks": [
+      {
+        "start_byte": 266687,
+        "end_byte": 323369,
+        "actual_s": 118.75445040799991,
+        "predicted_s": 116.7294820560304,
+        "error_s": -2.0249683519695054,
+        "error_percent": -1.7051726019634657
+      },
+      {
+        "start_byte": 594256,
+        "end_byte": 651028,
+        "actual_s": 94.8990914330002,
+        "predicted_s": 96.24444904988673,
+        "error_s": 1.345357616886531,
+        "error_percent": 1.4176717569908122
+      },
+      {
+        "start_byte": 922037,
+        "end_byte": 978624,
+        "actual_s": 113.77692330900004,
+        "predicted_s": 116.09658897154054,
+        "error_s": 2.319665662540501,
+        "error_percent": 2.0387839599429647
+      },
+      {
+        "start_byte": 1249642,
+        "end_byte": 1306380,
+        "actual_s": 117.31160971899999,
+        "predicted_s": 122.39368544792842,
+        "error_s": 5.08207572892843,
+        "error_percent": 4.332116609005433
+      },
+      {
+        "start_byte": 1577107,
+        "end_byte": 1633874,
+        "actual_s": 147.9727104210001,
+        "predicted_s": 130.7331112918405,
+        "error_s": -17.239599129159615,
+        "error_percent": -11.650526019365929
+      }
+    ],
+    "distance_lift_baseline_audit": {
+      "count": 65,
+      "mae_s": 1.0757538799881086,
+      "rmse_s": 1.2560181366085845,
+      "mean_error_s": -0.5499338021772964,
+      "median_absolute_percent": 13.92554787518544,
+      "actual_total_s": 553.2737423430005,
+      "predicted_total_s": 517.5280452014763
+    },
+    "observed_feed_s": 3719.35230876,
+    "predicted_feed_s": 3689.3113441653973,
+    "predicted_motion_finish_s": 3693.4955400429303,
+    "predicted_buffered_tail_s": 4.184195877533057,
+    "sensitivity": [
+      {
+        "excluded_calibration_group": 0,
+        "parameters": {
+          "draw_speed_scale": 0.7332336442946766,
+          "pen_up_mm_s": 384.4887003185943,
+          "acceleration_mm_s2": 1000000000.0,
+          "lift_lower_cycle_s": 0.03571936685095118,
+          "pen_change_s": 2.822946663217486,
+          "minimum_vector_s": 0.01756462392460506,
+          "buffer_bytes": 1024.0
+        },
+        "feed_s": 3692.316815881196
+      },
+      {
+        "excluded_calibration_group": 1,
+        "parameters": {
+          "draw_speed_scale": 0.7069541727649842,
+          "pen_up_mm_s": 328.62084958231907,
+          "acceleration_mm_s2": 1000000000.0,
+          "lift_lower_cycle_s": 0.030040860709991315,
+          "pen_change_s": 0.01373532691730826,
+          "minimum_vector_s": 0.017820925260238832,
+          "buffer_bytes": 1024.0
+        },
+        "feed_s": 3642.4038809031154
+      },
+      {
+        "excluded_calibration_group": 2,
+        "parameters": {
+          "draw_speed_scale": 0.7317511076611546,
+          "pen_up_mm_s": 327.9262059496726,
+          "acceleration_mm_s2": 1000000000.0,
+          "lift_lower_cycle_s": 0.03576718864373386,
+          "pen_change_s": 2.405821216075902,
+          "minimum_vector_s": 0.017743404614361344,
+          "buffer_bytes": 1024.0
+        },
+        "feed_s": 3718.5844878705657
+      }
+    ]
+  },
+  "limitations": [
+    "One drawing at VS5; other speeds/media not validated.",
+    "Acceleration is a geometric surrogate and trades off with cycle time and speed.",
+    "Only three between-color pen changes; no audited change transition.",
+    "Initial carriage position is unknown; first move distance omitted.",
+    "Lift/lower split is not identifiable; equal halves of a combined cycle assumed.",
+    "Motion finish is predicted, not measured; no automatic completion or ETA deployment."
+  ],
+  "prefix_check": {
+    "attempt": "5087d2b0-62c5-459a-9edd-6d5720e3332f",
+    "prepared_bytes": 16188,
+    "observed_feed_s": 33.915911526,
+    "predicted_feed_s": 33.92132245543496,
+    "error_s": 0.005410929434958689,
+    "note": "Separate cancelled run of identical geometry; cancellation command excluded. No refitting."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "plotline-browser-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/paper-units-smoke.mjs && node scripts/studio-notices-smoke.mjs && node scripts/studio-tabs-smoke.mjs && node scripts/hpgl-workspace-smoke.mjs && node scripts/browser-smoke.mjs && node scripts/plot-smoke.mjs && node scripts/recovery-smoke.mjs",
+    "test:pdf": "node scripts/pdf-smoke.mjs && node scripts/pdf-workspace-smoke.mjs && node scripts/pdf-replacement-smoke.mjs && node scripts/pdf-preview-plot-smoke.mjs",
+    "test:navigation": "node scripts/studio-navigation-smoke.mjs",
+    "test:ipp": "node scripts/ipp-flow-smoke.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  },
+  "license": "AGPL-3.0-only"
+}

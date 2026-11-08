@@ -1,0 +1,151 @@
+{
+  "custom_margin_mm": 15,
+  "family": "hilbert",
+  "ink_sequence": [
+    "ink-972065e58c1c5f93f16bc45229a044e0",
+    "ink-4a23e3ce27eeb94bfbda444bc61254c0",
+    "ink-ac75c68a54a606eae79d1397ffa4f88e",
+    "ink-ee1bef2973a2edc6dde47dfbe3bfe125",
+    "ink-a85f59ef1b2b3ef5912d8ea4fcb7deb1",
+    "ink-e75b449329e2050bc6e1c76030ac1c28",
+    "ink-4c7b2233c32ed00018a1d9ea5a736445"
+  ],
+  "inks": [
+    {
+      "color_srgb": "#000000",
+      "id": "ink-972065e58c1c5f93f16bc45229a044e0",
+      "label": "black",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 1
+      },
+      "width_mm": 0.25
+    },
+    {
+      "color_srgb": "#ff0000",
+      "id": "ink-4a23e3ce27eeb94bfbda444bc61254c0",
+      "label": "red",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 2
+      },
+      "width_mm": 0.465
+    },
+    {
+      "color_srgb": "#008000",
+      "id": "ink-ac75c68a54a606eae79d1397ffa4f88e",
+      "label": "green",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 4
+      },
+      "width_mm": 0.677
+    },
+    {
+      "color_srgb": "#0000ff",
+      "id": "ink-ee1bef2973a2edc6dde47dfbe3bfe125",
+      "label": "blue",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 5
+      },
+      "width_mm": 0.337
+    },
+    {
+      "color_srgb": "#40e0d0",
+      "id": "ink-a85f59ef1b2b3ef5912d8ea4fcb7deb1",
+      "label": "Turquoise",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 6
+      },
+      "width_mm": 0.654
+    },
+    {
+      "color_srgb": "#ff00ff",
+      "id": "ink-e75b449329e2050bc6e1c76030ac1c28",
+      "label": "magenta",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 7
+      },
+      "width_mm": 0.527
+    },
+    {
+      "color_srgb": "#ffff00",
+      "id": "ink-4c7b2233c32ed00018a1d9ea5a736445",
+      "label": "yellow",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 8
+      },
+      "width_mm": 0.519
+    }
+  ],
+  "margin_mode": "plotter",
+  "media": {
+    "content_inset_mm": 1,
+    "id": "hp7585-27940-21590",
+    "label": "HP7585 / 11.0 \u00d7 8.5 in",
+    "orientation_deg": 90,
+    "printable_rect_mm": [
+      15,
+      39,
+      249.4,
+      161.9
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      279.4,
+      215.9
+    ]
+  },
+  "name": "Hilbert curve",
+  "orientation": 0,
+  "paper_id": "hp7585-27940-21590",
+  "params": {
+    "depth": 6,
+    "round": 0.25
+  },
+  "roles": [
+    {
+      "ink_id": "ink-972065e58c1c5f93f16bc45229a044e0",
+      "label": "Sequence ink 1"
+    },
+    {
+      "ink_id": "ink-4a23e3ce27eeb94bfbda444bc61254c0",
+      "label": "Sequence ink 2"
+    },
+    {
+      "ink_id": "ink-ac75c68a54a606eae79d1397ffa4f88e",
+      "label": "Sequence ink 3"
+    },
+    {
+      "ink_id": "ink-ee1bef2973a2edc6dde47dfbe3bfe125",
+      "label": "Sequence ink 4"
+    },
+    {
+      "ink_id": "ink-a85f59ef1b2b3ef5912d8ea4fcb7deb1",
+      "label": "Sequence ink 5"
+    },
+    {
+      "ink_id": "ink-e75b449329e2050bc6e1c76030ac1c28",
+      "label": "Sequence ink 6"
+    },
+    {
+      "ink_id": "ink-4c7b2233c32ed00018a1d9ea5a736445",
+      "label": "Sequence ink 7"
+    }
+  ],
+  "rotation": 0,
+  "size": 0.96,
+  "version": 1
+}

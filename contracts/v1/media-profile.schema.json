@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plotline.invalid/contracts/v1/media-profile.schema.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "plotline.media-profile/1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sheet_size_mm": {
+      "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/size"
+    },
+    "orientation_deg": {
+      "type": "integer",
+      "enum": [0, 90, 180, 270],
+      "description": "Sheet orientation relative to device axes, independent of sheet aspect ratio and source placement. HP7585 0/90/180/270 puts the wide feed margin left/top/right/bottom. At 0/180 the sheet height runs across the platen; at 90/270 its width does. Omitted profiles retain their original registration convention."
+    },
+    "printable_rect_mm": {
+      "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/rect"
+    },
+    "content_inset_mm": {
+      "type": "number",
+      "minimum": 0
+    },
+    "calibration": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "type": "string"
+        },
+        "units_per_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sheet_to_device_units": {
+          "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/affine"
+        },
+        "hard_clip_units": {
+          "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/rect"
+        },
+        "uncertainty_mm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "device",
+        "units_per_mm",
+        "sheet_to_device_units",
+        "hard_clip_units",
+        "uncertainty_mm",
+        "evidence"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "label",
+    "sheet_size_mm",
+    "printable_rect_mm",
+    "content_inset_mm"
+  ],
+  "additionalProperties": false
+}

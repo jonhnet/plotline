@@ -1,0 +1,25 @@
+diff --git a/src/visibility.rs b/src/visibility.rs
+index e5dbdcb..734c3b8 100644
+--- a/src/visibility.rs
++++ b/src/visibility.rs
+@@ -124,7 +124,19 @@ impl<'a> Index<'a> {
+                     stats.visibility_full_union_coordinates += self.parts[i].coordinates;
+                     let geometry = if self.parts[i].coordinates > LOCALIZE_ABOVE_COORDINATES {
+                         stats.visibility_localized_overlays += 1;
+-                        self.parts[i].geometry.intersection(&clip)?
++                        // The guard keeps every artificial rectangle edge away
++                        // from the target. Fast clipping preserves the interior;
++                        // use general overlay if its boundary is invalid.
++                        let local = self.parts[i].geometry.clip_by_rect(
++                            bounds[0] - BOUNDS_GUARD_PT,
++                            bounds[1] - BOUNDS_GUARD_PT,
++                            bounds[2] + BOUNDS_GUARD_PT,
++                            bounds[3] + BOUNDS_GUARD_PT,
++                        );
++                        match local {
++                            Ok(local) if local.is_valid()? => local,
++                            _ => self.parts[i].geometry.intersection(&clip)?,
++                        }
+                     } else {
+                         Geom::clone(&self.parts[i].geometry)?
+                     };

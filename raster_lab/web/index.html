@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Raster Lab · Plotline</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">PLOTLINE <span>/ RASTER LAB</span></div>
+      <div class="heading">
+        <div>
+          <h1>Image → pen experiments</h1>
+          <p>
+            Your challenge portfolio, with every interpretation side by side.
+          </p>
+        </div>
+        <a class="studio" href="http://dev.iac.jonh.net:9191/pdf"
+          >PDF Studio ↗</a
+        >
+      </div>
+      <div class="context">
+        <span class="pill">Local processing · no AI models</span
+        ><span>Physical image size and pen widths recorded per sample</span
+        ><span>Illustrative ink mixing · local processing</span
+        ><span id="summary">Loading portfolio…</span>
+      </div>
+    </header>
+    <main>
+      <div class="toolbar">
+        <label
+          >Challenges
+          <input
+            id="search"
+            type="search"
+            placeholder="Title or artist"
+            aria-label="Filter challenges"
+        /></label>
+        <label
+          >Experiments
+          <select id="family">
+            <option value="palette">Palette-aware color</option>
+            <option value="strokes" selected>Stroke recovery</option>
+            <option value="screens">AM/FM shading</option>
+            <option value="lettering">Lettering diagnostic</option>
+            <option value="combined">Combined ink + screening</option>
+          </select></label
+        >
+        <button id="columns-button" aria-expanded="false">
+          Choose columns
+        </button>
+        <span class="hint"
+          >Click any image for synchronized zoom & comparison.</span
+        >
+        <button id="about-button" aria-expanded="false">
+          About these baselines
+        </button>
+      </div>
+      <div id="columns" hidden></div>
+      <div id="about" hidden>
+        <p>
+          <strong>These are starting points for experiments.</strong>
+          Centerlines use pixel darkness and thinning; edges use Canny
+          detection. Neither understands subjects or recovers an artist’s
+          intent. Fixed-width centerlines currently lose variation in stroke
+          weight.
+        </p>
+        <p>
+          Hatching uses a simple ordered screen. Percentages scale requested ink
+          coverage; they are not measured paper coverage. CMY/CMYK use
+          illustrative ink colors and an approximate overlap model. Displayed
+          coverage and blurred RGB error describe the preview, not calibrated
+          physical ink.
+        </p>
+        <p>
+          Distances come from the downloadable vector paths. “Paths” counts
+          separate pen-down runs before travel optimization. Color error
+          averages RGB differences after a 1 mm blur; lower means closer broad
+          colors, not necessarily better art. These metrics are separate from
+          PDF decoding tests.
+        </p>
+        <p>
+          Original downloaded bytes are preserved. Color screening uses at most
+          1,000 pixels on the longest edge; fine-detail recovery and lettering
+          use native pixels up to 2,048 without upscaling. Previews model nominal
+          pen width at 150 dpi. Wave experiments vary amplitude, frequency, or both; their
+          near-white cutoff lifts the pen to keep highlights clear. A carrier
+          tone remains in other light areas. Source images retain artist credits
+          and are used here as private development challenges.
+        </p>
+        <p>
+          <strong>Edge emphasis:</strong> significant hue or brightness changes
+          attract CMY ink on both sides, retaining the source color on each
+          side. Demand fades to white over 0.25″ or 0.5″; light regions
+          progressively omit rows so the straight wave carrier can disappear.
+          Recovered ink follows narrow dark valleys with lighter surroundings on
+          both sides, avoiding the paired outlines produced by Canny. It can
+          still miss weak strokes, junctions and broad brush marks; stroke
+          weight remains fixed. The new filter includes the earlier CMY and
+          hybrid controls.
+        </p>
+      </div>
+      <div id="error" role="alert" hidden></div>
+      <p id="study-description" class="study-description"></p>
+      <p id="tone-strip" hidden><a href="/artifacts/highlight-tone-strip.png" target="_blank" rel="noopener">Compare the same methods on a uniform tone ramp ↗</a></p>
+      <p id="lettering-stages" hidden><a href="/artifacts/visitor-stages.png" target="_blank" rel="noopener">Earlier 0.15 mm Zhang–Suen diagnostic: grayscale → mask → skeleton → pen ↗</a></p>
+      <div
+        id="matrix"
+        class="matrix"
+        tabindex="0"
+        aria-label="Challenge and experiment comparison grid"
+      >
+        <table>
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <details id="archive">
+        <summary>Earlier experiments <span id="archive-count"></span></summary>
+        <p>
+          Preserved comparisons and comments. The active studies above are the
+          current working set.
+        </p>
+        <div
+          id="archive-matrix"
+          class="matrix"
+          tabindex="0"
+          aria-label="Archived experiment comparison grid"
+        >
+          <table>
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+      <footer>
+        <span id="visible-count"></span
+        ><span>Geometric cues first. Artistic decisions remain yours.</span>
+      </footer>
+    </main>
+    <dialog id="compare">
+      <div class="dialog-top">
+        <div>
+          <span class="eyebrow">DETAIL COMPARISON</span>
+          <h2 id="compare-title"></h2>
+        </div>
+        <button id="close" aria-label="Close comparison">✕</button>
+      </div>
+      <div class="compare-controls">
+        <label
+          >Challenge
+          <select id="challenge-select"></select
+        ></label>
+        <label
+          >Zoom
+          <select id="zoom">
+            <option value="1">Fit</option>
+            <option value="2">2×</option>
+            <option value="4">4×</option>
+            <option value="8">8×</option>
+          </select></label
+        >
+        <button id="detail-view" hidden>Upper-right panel</button>
+        <button id="reset">Reset view</button
+        ><button id="hold-original">Hold for original</button>
+        <label class="inline"
+          ><input id="blink" type="checkbox" /> Blink original</label
+        >
+        <span class="hint">Drag either image to pan both. Scroll to zoom.</span>
+      </div>
+      <div class="review-area">
+        <div class="panels">
+          <section>
+            <label class="pane-label"
+              >Left
+              <select id="left-select"></select
+            ></label>
+            <div class="canvas-wrap">
+              <canvas
+                id="left-canvas"
+                aria-label="Left comparison image"
+              ></canvas>
+            </div>
+            <div class="pane-info" id="left-info"></div>
+          </section>
+          <section>
+            <label class="pane-label"
+              >Right
+              <select id="right-select"></select
+            ></label>
+            <div class="canvas-wrap">
+              <canvas
+                id="right-canvas"
+                aria-label="Right comparison image"
+              ></canvas>
+            </div>
+            <div class="pane-info" id="right-info"></div>
+          </section>
+        </div>
+        <aside id="sample-notes" aria-label="Sample comments">
+          <div class="notes-heading">
+            <h3>Comments</h3>
+            <button id="reload-comments" type="button">Refresh</button>
+          </div>
+          <p class="notes-target">
+            On the right sample: <strong id="comment-target"></strong>
+          </p>
+          <form id="comment-form">
+            <label for="comment-text">Your observations</label>
+            <textarea
+              id="comment-text"
+              maxlength="4000"
+              rows="4"
+              placeholder="What works? What should we investigate?"
+            ></textarea>
+            <button id="best-in-row" type="button">+ Best in the row</button>
+            <div class="comment-submit">
+              <button id="save-comment" type="submit" disabled>
+                Save comment</button
+              ><button id="cancel-edit" type="button" hidden>
+                Cancel edit
+              </button>
+            </div>
+          </form>
+          <p id="comment-status" role="status"></p>
+          <div id="comments-list"></div>
+        </aside>
+      </div>
+      <details class="parameters">
+        <summary>Exact parameters & provenance</summary>
+        <pre id="parameters"></pre>
+      </details>
+    </dialog>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

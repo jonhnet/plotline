@@ -1,0 +1,388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plotline.invalid/contracts/v1/defs.schema.json",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "point": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "size": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "rect": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "affine": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "inventory_source": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": ["plotline-carousel", "squidprint-carousel"]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slot": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "follow_slot": {
+          "type": "boolean",
+          "description": "PDF Studio resolves this explicitly selected output slot against the current carousel before conversion. The submitted color and diameter remain frozen conversion inputs."
+        }
+      },
+      "required": [
+        "kind",
+        "revision",
+        "slot"
+      ],
+      "additionalProperties": false
+    },
+    "ink": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "color_srgb": {
+          "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/color"
+        },
+        "measured_color_srgb": {
+          "description": "Frozen scanned pen swatch for raster separation and its preview. Null or absent uses color_srgb; nominal color remains the pen identity.",
+          "anyOf": [
+            {"$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/color"},
+            {"type": "null"}
+          ]
+        },
+        "width_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 5
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": ["plotline-carousel", "squidprint-carousel"]
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "slot": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8
+            },
+            "follow_slot": {
+              "type": "boolean",
+              "description": "PDF Studio resolves this explicitly selected output slot against the current carousel before conversion. The submitted color and diameter remain frozen conversion inputs."
+            }
+          },
+          "required": [
+            "kind",
+            "revision",
+            "slot"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "color_srgb",
+        "width_mm"
+      ],
+      "additionalProperties": false
+    },
+    "fill": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "none",
+            "outline",
+            "hatch",
+            "crosshatch",
+            "feathered"
+          ]
+        },
+        "spacing_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "angle_deg": {
+          "type": "number"
+        },
+        "feather_distance_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "enum": [
+                  "hatch",
+                  "crosshatch",
+                  "feathered"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "spacing_mm",
+              "angle_deg"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "feathered"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "feather_distance_mm"
+            ]
+          }
+        }
+      ]
+    },
+    "policies": {
+      "type": "object",
+      "properties": {
+        "fill": {
+          "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/fill"
+        },
+        "stroke_width_tolerance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.999999
+        },
+        "thin_detail_thickening": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Extra total thickness for narrow visible details, in pen diameters. Missing or zero disables recovery. Original clips and later paint remain hard limits."
+        },
+        "raster": {
+          "enum": [
+            "reject",
+            "omit",
+            "reserve",
+            "placeholder",
+            "dither"
+          ]
+        },
+        "gradients": {
+          "enum": [
+            "reject",
+            "omit"
+          ]
+        },
+        "transparency": {
+          "enum": [
+            "reject",
+            "ignore-alpha",
+            "omit"
+          ]
+        },
+        "blend_modes": {
+          "enum": [
+            "reject",
+            "normal",
+            "omit"
+          ]
+        },
+        "soft_masks": {
+          "enum": [
+            "reject",
+            "omit"
+          ]
+        },
+        "stroke_width_mode": {
+          "enum": [
+            "preserve",
+            "pen"
+          ],
+          "description": "Missing means preserve. Pen uses one centerline pass with the selected diameter."
+        },
+        "raster_settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "screening": {
+              "type": "boolean"
+            },
+            "palette": {
+              "enum": [
+                "auto",
+                "k",
+                "cmy",
+                "cmyk",
+                "selected"
+              ]
+            },
+            "fullness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "edge_falloff_mm": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 254
+            },
+            "black_treatment": {
+              "enum": [
+                "off",
+                "lines",
+                "shapes"
+              ]
+            },
+            "inks": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "C": {
+                  "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+                },
+                "M": {
+                  "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+                },
+                "Y": {
+                  "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+                },
+                "K": {
+                  "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+                }
+              }
+            },
+            "screen_inks": {
+              "type": "array",
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+              }
+            }
+          },
+          "required": [
+            "screening",
+            "palette",
+            "fullness",
+            "edge_falloff_mm",
+            "black_treatment",
+            "inks"
+          ],
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "screening": {
+                    "const": true
+                  },
+                  "palette": {
+                    "const": "selected"
+                  }
+                },
+                "required": [
+                  "screening",
+                  "palette"
+                ]
+              },
+              "then": {
+                "required": [
+                  "screen_inks"
+                ],
+                "properties": {
+                  "screen_inks": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "fill",
+        "stroke_width_tolerance",
+        "raster",
+        "gradients",
+        "transparency",
+        "blend_modes",
+        "soft_masks"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "raster": {
+                "const": "dither"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "raster_settings"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+# Audited installed distribution packages, 2026-11-04.
+# Reproduce on Ubuntu 24.04 using apt; do not substitute an IPP-enabled pip wheel.
+python3-opencv:amd64=4.6.0+dfsg-13.1ubuntu1
+libopencv-core406t64:amd64=4.6.0+dfsg-13.1ubuntu1
+libopencv-imgproc406t64:amd64=4.6.0+dfsg-13.1ubuntu1
+libopencv-contrib406t64:amd64=4.6.0+dfsg-13.1ubuntu1
+python3-numpy=1:1.26.4+ds-6ubuntu1
+python3-pil:amd64=10.2.0-1ubuntu1.3
+python3-cairo=1.25.1-2build2
+libcairo2:amd64=1.18.0-3build1
+python3-skimage=0.22.0-3ubuntu1
+python3-skimage-lib:amd64=0.22.0-3ubuntu1
+python3-scipy=1.11.4-6build1
+python3-imageio=2.34.0-1
+python3-lazy-loader=0.3-1
+python3-networkx=2.8.8-1ubuntu1
+python3-tifffile=20240212-1
+python3-shapely=2.0.3-1build2
+libgeos-c1t64:amd64=3.12.1-3build1
+libgeos3.12.1t64:amd64=3.12.1-3build1

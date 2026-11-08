@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map Studio — Plotline</title>
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/inksets.css"><link rel="stylesheet" href="/studio.css"><script type="module" src="/app.js"></script>
+</head>
+<body class="studio" data-studio="map">
+<header class="masthead">
+  <a href="/" class="brand">Map Studio <small>Plotline</small></a>
+  <nav class="document-bar" aria-label="Map documents"><div id="document-tabs" role="tablist" aria-label="Open documents"></div><button id="new-document" aria-label="New map document" title="New map">+</button></nav>
+  <span id="saved-state" class="sr-only" role="status"></span>
+  <div class="header-actions"><button id="open-library">Open…</button><button id="revert" disabled title="Restore the last saved recipe">Revert</button><button id="save" class="primary">Save</button><button id="save-copy">Save As…</button></div>
+</header>
+<main class="studio-shell">
+  <aside class="controls" aria-label="Map composition controls">
+    <label class="field">Map title<input id="title" maxlength="100" autocomplete="off"></label>
+    <details open><summary>Map furniture</summary><div class="section-body">
+      <label class="check"><input id="furniture-title" type="checkbox">Title</label>
+      <label class="check"><input id="furniture-compass" type="checkbox">Compass rose</label>
+      <label class="check"><input id="furniture-parameters" type="checkbox">Scale &amp; camera parameters</label>
+      <label class="check"><input id="furniture-legend" type="checkbox">Legend</label>
+      <label class="check"><input id="furniture-credits" type="checkbox">Source credits</label>
+      <label class="check"><input id="furniture-signature" type="checkbox">Plotline signature</label>
+      <button id="hide-furniture" class="wide">Hide all furniture</button>
+      <p class="hint">Overlays sit on cleared paper over the map. The viewport fills the usable plotting area.</p>
+    </div></details>
+    <details open><summary>Location & extent</summary><div class="section-body">
+      <div class="two-fields"><label class="field">Longitude<input id="longitude" type="number" min="-180" max="180" step="0.001"></label><label class="field">Latitude<input id="latitude" type="number" min="-84" max="84" step="0.001"></label></div>
+      <label class="field">Fetch area<select id="extent"><option value="viewport">Fill viewport automatically</option><option value="bounds">Clip to geographic bounds</option></select></label>
+      <div id="bounds-controls" class="two-fields"><label class="field">West<input id="west" type="number" step="0.001"></label><label class="field">East<input id="east" type="number" step="0.001"></label><label class="field">South<input id="south" type="number" step="0.001"></label><label class="field">North<input id="north" type="number" step="0.001"></label></div>
+      <button id="fit" class="wide">Fit boundary or bounds</button>
+      <p id="fetch-note" class="hint"></p>
+    </div></details>
+    <details open><summary>Paper & camera</summary><div class="section-body">
+
+      <label class="field">Paper<select id="paper-size"></select></label>
+      <label class="field">Orientation<select id="paper-orientation"><option value="portrait">Portrait · wide margin top</option><option value="portrait-reverse">Portrait · wide margin bottom</option><option value="landscape">Landscape · wide margin left</option><option value="landscape-reverse">Landscape · wide margin right</option></select></label>
+      <label class="field">Margins<select id="paper-margins"><option value="plotter">From plotter</option><option value="custom">Custom</option></select></label>
+      <div id="custom-margins" class="two-fields" hidden>
+        <label class="field">Top · <span data-paper-unit>in</span><input id="margin-top" data-paper-length type="number" min="0" max="1250" step="0.1"></label>
+        <label class="field">Right · <span data-paper-unit>in</span><input id="margin-right" data-paper-length type="number" min="0" max="1250" step="0.1"></label>
+        <label class="field">Bottom · <span data-paper-unit>in</span><input id="margin-bottom" data-paper-length type="number" min="0" max="1250" step="0.1"></label>
+        <label class="field">Left · <span data-paper-unit>in</span><input id="margin-left" data-paper-length type="number" min="0" max="1250" step="0.1"></label>
+      </div>
+      <label class="check"><input id="show-guides" type="checkbox" title="Shade margins outside the plotter’s drawable area">Show printable margins</label>
+      <p id="media-note" class="hint" hidden></p><button id="refresh-paper" class="wide">Refresh margins from plotter</button>
+      <div class="two-fields"><label class="field">Scale at center · 1:<input id="scale" type="number" min="500" max="100000000" step="100"></label><label class="field">Map edit action<select id="view-mode"><option value="ground">Pan map</option><option value="frame">Move on paper</option><option value="orbit">Rotate camera</option></select></label></div>
+      <div class="two-fields"><label class="field">Page offset X · <span data-paper-unit>in</span><input id="offset-x" data-paper-length type="number" min="-1000" max="1000" step="1"></label><label class="field">Page offset Y · <span data-paper-unit>in</span><input id="offset-y" data-paper-length type="number" min="-1000" max="1000" step="1"></label></div>
+      <label class="range-label" for="azimuth">Azimuth <output id="azimuth-value"></output></label><input id="azimuth" type="range" min="0" max="360" step="1">
+      <label class="check"><input id="relief" type="checkbox">3D terrain with hidden-line clipping</label>
+      <div id="relief-controls">
+        <label class="range-label" for="elevation">Camera elevation <output id="elevation-value"></output></label><input id="elevation" type="range" min="10" max="85" step="1">
+        <label class="range-label" for="exaggeration">Height exaggeration <output id="exaggeration-value"></output></label><input id="exaggeration" type="range" min="0.25" max="15" step="0.25">
+        <p class="hint">Bare-earth terrain; bridge decks and building heights are not modeled.</p>
+      </div>
+    </div></details>
+    <details><summary>Boundary</summary><div class="section-body">
+      <div class="two-fields"><label class="field">US boundary<select id="boundary-kind"><option value="city">City</option><option value="county">County</option><option value="state">State</option></select></label><label class="field">Name<input id="boundary-query" placeholder="Seattle" maxlength="80"></label></div>
+      <button id="boundary-search" class="wide">Search Census boundaries</button><div id="boundary-results"></div>
+      <p id="boundary-status" class="hint">No boundary selected.</p>
+      <div class="two-fields"><button id="boundary-clear">Clear boundary</button><button id="boundary-import">Import GeoJSON</button></div><input id="boundary-file" type="file" accept=".json,.geojson,application/geo+json" hidden>
+      <p class="hint">Select a boundary to style its inside and outside separately. Selecting it keeps the current view. Go to fits the place to the page; Fit reframes the selected boundary.</p>
+    </div></details>
+    <details open><summary>Features & styling</summary><div class="section-body">
+      <label class="field" id="style-region-field">Editing<select id="style-region"><option value="inside">Inside boundary</option><option value="outside">Outside boundary</option></select></label>
+      <div class="two-fields"><label class="field">Style starting point<select id="style-preset"><option value="balanced">Neighborhood</option><option value="waterways">Waterways</option><option value="context">Sparse context</option></select></label><button id="apply-style">Apply style</button></div>
+      <label class="field">Streets<select id="roads"><option value="all">All available streets</option><option value="major">Major routes</option><option value="none">No streets</option></select></label>
+      <label class="check"><input id="bridges" type="checkbox">Emphasize bridges</label>
+      <label class="field">Hollow buildings<select id="buildings"><option value="auto">Automatic by scale</option><option value="all">All available · bounded extent required</option><option value="none">None</option></select></label>
+      <label class="field">Minimum building area · <span data-paper-unit data-paper-power="2">in²</span> on paper<input id="building-min" data-paper-length data-paper-power="2" type="number" min="0" max="100" step="0.1"></label>
+      <label class="check"><input id="parks" type="checkbox">Parks & woodland</label>
+      <label class="check"><input id="park-labels" type="checkbox">Park & forest labels</label>
+      <label class="field">Park treatment<select id="park-treatment"><option value="hatch">Crosshatch</option><option value="concentric">Concentric outlines</option><option value="outline">Outline</option><option value="fill">Opaque fill</option></select></label>
+      <label class="field" id="park-spacing-field">Park spacing · mm at ground scale<input id="hatch-spacing" type="number" min="0.05" max="15" step="any"></label>
+      <label class="field">Shore treatment<select id="shore"><option value="line">Single shoreline</option><option value="echo">Echo lines</option><option value="none">None</option></select></label>
+      <label class="field">Water treatment<select id="water-treatment"><option value="none">No fill</option><option value="concentric">Concentric outlines</option><option value="hatch">Crosshatch</option><option value="fill">Opaque fill</option></select></label>
+      <label class="field" id="water-spacing-field">Water spacing · mm at ground scale<input id="water-spacing" type="number" min="0.05" max="15" step="any"></label>
+      <label class="field">Labels<select id="labels"><option value="normal">Normal</option><option value="sparse">Sparse</option><option value="none">None</option></select></label>
+      <label class="check"><input id="contours" type="checkbox">Terrain contours</label><label class="field">Contour interval · m<input id="contour-interval" type="number" min="10" max="2000" step="10"></label>
+      <label class="check"><input id="terrain-edges" type="checkbox">Mountain silhouettes · 3D</label>
+      <label class="check"><input id="hillshade" type="checkbox">Hillshade crosshatching</label>
+      <div id="hillshade-controls">
+        <label class="field">Hillshade spacing · mm at ground scale<input id="hillshade-spacing" type="number" min="0.05" max="15" step="any"></label>
+        <label class="range-label" for="sun-azimuth">Sun direction <output id="sun-azimuth-value"></output></label><input id="sun-azimuth" type="range" min="0" max="360" step="5">
+        <label class="range-label" for="sun-elevation">Sun elevation <output id="sun-elevation-value"></output></label><input id="sun-elevation" type="range" min="5" max="85" step="5">
+        <p class="hint">Sun direction: 0° north, 90° east, 180° south. Applies to both boundary regions. Shading follows slopes; no cast shadows.</p>
+      </div>
+    </div></details>
+    <details open><summary>Feature inks <span id="role-region"></span></summary><div class="section-body">
+      <div id="ink-summary" aria-label="Assigned feature inks"></div>
+      <div class="ink-launcher"><button id="edit-inks" aria-controls="ink-drawer" aria-expanded="false">Edit inks…</button><button id="ink-warning" class="ink-warning" aria-label="Review ink issues" aria-controls="ink-drawer" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20Z M12 9v5m0 3v1"/></svg></button></div>
+    </div></details>
+  </aside>
+  <section class="workspace" aria-label="Map preview">
+    <div class="preview-area">
+      <div class="desk" id="desk" tabindex="0" aria-label="Map preview. Drag to pan; scroll or pinch to zoom. Hold Shift to edit the map.">
+        <div class="paper" id="paper">
+          <img id="preview" alt="Composed map preview" hidden><canvas id="sketch"></canvas><svg id="guides" aria-hidden="true" hidden><path id="margin-guide" fill-rule="evenodd"/><rect id="printable-guide"/></svg>
+        </div>
+      </div>
+      <div id="preview-tools"><span id="edit-state" role="status" hidden>Editing map</span><button id="edit-map" aria-pressed="false" title="Change the map design. Hold Shift for temporary editing.">Edit map</button></div>
+      <div id="notice" role="status" aria-live="polite" hidden></div>
+    </div>
+    <section id="work-status" aria-label="Progress">
+      <progress id="work-progress" aria-label="Estimated progress" max="100" value="0"></progress>
+      <div class="progress-line"><span id="work-detail" role="status" aria-live="polite">Loading preview…</span><time id="progress-time"></time><button id="retry-preview" hidden>Retry</button></div>
+    </section>
+    <div class="export-bar">
+      <div class="utility-actions">
+        <details id="export-tools" class="tray"><summary aria-label="Downloads" title="Downloads and PDF options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></summary>
+          <div class="tray-body"><div class="tray-heading"><strong>Downloads</strong><button class="close-tray" aria-label="Close downloads">×</button></div>
+            <div class="export-actions"><button id="generate" disabled>Create PDF</button><a id="pdf" class="button" role="link" aria-disabled="true" tabindex="-1">PDF ↓</a><a id="bundle" class="button" role="link" aria-disabled="true" tabindex="-1">Bundle ↓</a><a id="pdf-settings" data-studio="pdf" class="button" role="link" aria-disabled="true" tabindex="-1" target="_blank" rel="noopener">PDF conversion settings</a><a id="open-hp7585" data-studio="hpgl" class="button" role="link" aria-disabled="true" tabindex="-1" target="_blank" rel="noopener">Open HPGL Studio ↗</a></div>
+            <div id="print-links"></div>
+          </div>
+        </details>
+        <details id="composition-tools" class="tray"><summary aria-label="Rendering details" title="Rendering details and warnings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg></summary>
+          <div class="tray-body"><div class="tray-heading"><strong>Rendering details</strong><button class="close-tray" aria-label="Close rendering details">×</button></div><p id="metrics"></p><p id="work-count"></p><p id="preview-fidelity" hidden></p><div id="report"></div></div>
+        </details>
+      </div>
+      <div class="source-credit">© OpenMapTiles · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a> · <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a></div>
+      <div class="export-explanation" hidden><p id="export-status" role="status"></p><p id="export-detail" class="hint"></p></div>
+      <button id="review-inks" class="ink-warning" aria-label="Review ink issues" aria-controls="ink-drawer" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20Z M12 9v5m0 3v1"/></svg></button>
+      <button id="send" class="primary" disabled>Prepare plot →</button>
+    </div>
+  </section>
+  <section id="ink-drawer" aria-labelledby="ink-drawer-title" hidden>
+    <div class="ink-drawer-heading">
+      <h2 id="ink-drawer-title">Feature inks</h2>
+      <label id="ink-region-field">Editing <select id="ink-region"><option value="inside">Inside boundary</option><option value="outside">Outside boundary</option></select></label>
+      <button id="refresh-inks">Refresh carousel</button>
+      <button id="update-map-inks" disabled>Update map inks from carousel</button>
+      <button id="close-inks" aria-label="Close feature inks" title="Close feature inks (Esc)">×</button>
+    </div>
+    <div id="ink-attention" aria-label="Ink issues"></div>
+    <div class="ink-drawer-body"><div id="palette"></div></div>
+    <p id="inventory-status" class="visually-hidden"></p>
+  </section>
+</main>
+<dialog id="library"><div class="dialog-heading"><h2>Open document</h2><button id="close-library" aria-label="Close document library">×</button></div><label class="field library-search">Find a document<input id="document-search" type="search" placeholder="Search saved maps" autocomplete="off"></label><div id="recipe-list" class="library-grid"></div><div class="library-actions"><button id="import-button">Import document…</button><button id="download-recipe">Download document</button><input type="file" id="import-file" accept="application/json,.json" hidden></div></dialog>
+<dialog id="save-dialog"><form id="save-form"><div class="dialog-heading"><h2 id="save-heading">Save document</h2></div><label class="field">Name<input id="save-name" maxlength="100" required autocomplete="off"></label><p>Saved in Map Studio.</p><div class="dialog-actions"><button type="button" id="cancel-save">Cancel</button><button type="submit" class="primary">Save</button></div></form></dialog>
+<dialog id="close-document-dialog"><form method="dialog"><h2>Save changes?</h2><p id="close-document-message"></p><div class="dialog-actions"><button value="cancel">Cancel</button><button value="discard">Don’t save</button><button value="save" class="primary">Save</button></div></form></dialog>
+</body></html>

@@ -1,0 +1,189 @@
+{
+  "plotter": {
+    "title": "Pens on paper",
+    "caption": "An HP 7585B plotting Spider-Man. 1h plot.",
+    "kind": "video",
+    "files": [
+      [
+        "Full timelapse",
+        "timelapse.mp4"
+      ]
+    ],
+    "image": "loop.webp",
+    "video": "short.mp4",
+    "poster": "poster.jpg"
+  },
+  "paine-field": {
+    "title": "Paine Field · 2D map",
+    "caption": "Paine Field, on 11 × 17-inch paper. 40m plot.",
+    "kind": "photograph",
+    "files": [
+      [
+        "Map recipe",
+        "map-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "snoqualmie": {
+    "title": "Cabin & Snoqualmie Pass · relief map",
+    "caption": "Cabin & Snoqualmie Pass. Contours, hillshade hatching and waterways on 11 × 17-inch paper. 1h plot.",
+    "kind": "photograph",
+    "files": [
+      [
+        "Map recipe",
+        "map-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "freecad": {
+    "title": "FreeCAD · excavator arm",
+    "caption": "A FreeCAD assembly, drawn with three pens on Letter paper. 1m plot.",
+    "kind": "scan",
+    "files": [
+      [
+        "FreeCAD document",
+        "drawing.FCStd"
+      ],
+      [
+        "PDF",
+        "versions/letter-proof/source.pdf"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "spider-man": {
+    "title": "Spider-Man · bitmap and vector lettering",
+    "caption": "The finished Letter-size plot: colored screening, black detail and outlined vector lettering. 1h plot.",
+    "kind": "scan",
+    "files": [
+      [
+        "Editable SVG",
+        "source.svg"
+      ],
+      [
+        "PDF",
+        "versions/plotted/source.pdf"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "hilbert": {
+    "title": "Hilbert curve",
+    "caption": "A Hilbert curve cycling through the carousel colors, on Letter paper. 6m plot.",
+    "kind": "scan",
+    "files": [
+      [
+        "Pattern recipe",
+        "pattern-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "plant": {
+    "title": "Branching plant",
+    "caption": "Branches and green leaves, drawn on 11 × 17-inch paper. 7m plot.",
+    "kind": "photograph",
+    "files": [
+      [
+        "Pattern recipe",
+        "pattern-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg"
+  },
+  "hpgl": {
+    "title": "HPGL Studio · plot in progress",
+    "caption": "A screenshot of the live HPGL Studio Plotter drawer.",
+    "kind": "screenshot",
+    "image": "studio.png",
+    "files": []
+  },
+  "calibration": {
+    "title": "Pen calibration · real scan",
+    "caption": "A plotted calibration sheet scanned back in at 1200 dpi enables color and stroke width measurement. 1m plot.",
+    "kind": "scan",
+    "image": "sheet.jpg",
+    "files": []
+  },
+  "stroke": {
+    "title": "Measuring the actual stroke",
+    "caption": "A crop from that scan showing stroke width measurement.\nThis black pen measured 0.358 mm.",
+    "kind": "measurement",
+    "image": "stroke.png",
+    "files": []
+  },
+  "ravenna": {
+    "title": "Ravenna Park · relief map",
+    "files": [
+      [
+        "Map recipe",
+        "map-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg",
+    "kind": "photograph",
+    "caption": "Ravenna Park in relief, with forest hatching draped across the ravine. 35m plot."
+  },
+  "sierpinski": {
+    "title": "Sierpiński triangle",
+    "files": [
+      [
+        "Pattern recipe",
+        "pattern-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg",
+    "kind": "scan",
+    "caption": "Recursive triangles, drawn on Letter paper. 3m plot."
+  },
+  "spirograph": {
+    "title": "Spirograph",
+    "files": [
+      [
+        "Pattern recipe",
+        "pattern-recipe.json"
+      ]
+    ],
+    "image": "sheet.jpg",
+    "kind": "scan",
+    "caption": "A three-pen spirograph on Letter paper. 5m plot."
+  },
+  "seattle": {
+    "title": "Seattle · city map",
+    "caption": "Seattle, on 11 × 17-inch paper. 50m plot.",
+    "kind": "photograph",
+    "image": "sheet.jpg",
+    "files": [
+      [
+        "Map recipe",
+        "map-recipe.json"
+      ]
+    ]
+  },
+  "hex-maze": {
+    "title": "Hexagonal maze",
+    "caption": "A hexagonal maze and its solution, on 11 × 17-inch paper. 35m plot.",
+    "kind": "photograph",
+    "image": "sheet.jpg",
+    "files": [
+      [
+        "Maze recipe",
+        "maze-recipe.json"
+      ]
+    ]
+  },
+  "washington": {
+    "title": "Washington State · E-size map in the HP 7585B",
+    "caption": "Washington State, on 34 × 44-inch E-size paper. 8h plot.",
+    "kind": "photograph",
+    "image": "sheet.jpg",
+    "files": [
+      [
+        "Map recipe",
+        "map-recipe.json"
+      ]
+    ]
+  }
+}

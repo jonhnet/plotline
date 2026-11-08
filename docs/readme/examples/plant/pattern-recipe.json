@@ -1,0 +1,103 @@
+{
+  "custom_margin_mm": 15,
+  "family": "plant",
+  "inks": [
+    {
+      "color_srgb": "#ff0000",
+      "id": "ink-ae44cce9f49fc511f7abe15faf36d416",
+      "label": "red",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 2
+      },
+      "width_mm": 0.465
+    },
+    {
+      "color_srgb": "#008000",
+      "id": "ink-ce2c3ce7aec3ca7dec954ad85de9639f",
+      "label": "green",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 4
+      },
+      "width_mm": 0.677
+    },
+    {
+      "color_srgb": "#0000ff",
+      "id": "ink-d1df82afda21c9c5a2363c6dfed88559",
+      "label": "blue",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 5
+      },
+      "width_mm": 0.337
+    }
+  ],
+  "margin_mode": "plotter",
+  "media": {
+    "calibration": {
+      "device": "HP7585B",
+      "evidence": "2026-10-30 ruler margins back/front/left/right = 39/15/14.8/11 mm. Conservative intersection of two reported OH windows; nominal paper placement. Ruler uncertainty is not quantified. See docs/experiment-11.md.",
+      "hard_clip_units": [
+        -7539,
+        -5088,
+        7539,
+        5088
+      ],
+      "sheet_to_device_units": [
+        40,
+        0,
+        0,
+        -40,
+        -9116,
+        5512
+      ],
+      "uncertainty_mm": null,
+      "units_per_mm": 40
+    },
+    "content_inset_mm": 1,
+    "id": "hp7585-tabloid-landscape",
+    "label": "HP7585 / 17 x 11 in landscape, long dimension along feed",
+    "printable_rect_mm": [
+      39.425,
+      11,
+      376.95,
+      253.6
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      431.8,
+      279.4
+    ]
+  },
+  "name": "Branching plant",
+  "orientation": 0,
+  "paper_id": "hp7585-tabloid-landscape",
+  "params": {
+    "angle": 28,
+    "bend": 10,
+    "depth": 9,
+    "seed": 7
+  },
+  "roles": [
+    {
+      "ink_id": "ink-d1df82afda21c9c5a2363c6dfed88559",
+      "label": "Stem"
+    },
+    {
+      "ink_id": "ink-ae44cce9f49fc511f7abe15faf36d416",
+      "label": "Branches"
+    },
+    {
+      "ink_id": "ink-ce2c3ce7aec3ca7dec954ad85de9639f",
+      "label": "Leaves"
+    }
+  ],
+  "rotation": 0,
+  "size": 0.96,
+  "version": 1
+}

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HPGL Studio — Plotline</title><link rel="stylesheet" href="/inksets.css"><link rel="stylesheet" href="/studio.css"><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body class="studio hpgl-studio" data-studio="hpgl">
+<header class="masthead">
+ <a href="/" class="brand">HPGL Studio <small>Plotline</small></a>
+ <nav class="document-bar" aria-label="HPGL documents"><div id="document-tabs" role="tablist" aria-label="Open documents"></div><button id="upload-open" aria-label="Add HPGL document" title="Add HPGL">+</button></nav>
+ <span id="save-state" class="sr-only" role="status"></span>
+ <div class="header-actions"><button id="open-library">Open…</button><button id="revert" disabled>Revert</button><button id="save" class="primary" disabled>Save</button><button id="save-copy" disabled>Save As…</button></div>
+</header>
+<main class="studio-shell">
+ <section id="workspace" class="workspace" aria-label="HPGL preview">
+  <div class="preview-area">
+   <div id="empty"><h1>HPGL Studio</h1><p>Open a drawing to check its paper and pens.</p><button id="empty-open">Open…</button><button id="empty-upload">Add HPGL…</button></div>
+   <div id="viewport" tabindex="0" aria-label="Plot preview. Drag to pan; scroll or pinch to zoom."><svg id="paper-scene" aria-hidden="true"></svg><canvas id="preview-canvas" aria-label="Rendered HPGL preview"></canvas><div id="preview-loading" hidden>Opening preview…</div></div>
+   <div id="preview-tools"><button id="view-facing" aria-pressed="false" title="Switch between artwork and facing the plotter">Facing plotter</button><select id="preview-ink-colors" aria-label="Preview ink colors"><option value="design">Design colors</option><option value="measured" selected>Measured colors</option></select><label title="Show pen-up moves from the original upload"><input id="travel-toggle" type="checkbox">Pen-up</label></div>
+   <span id="zoom" class="sr-only">100%</span><span id="render-status" class="sr-only" role="status"></span>
+   <div id="notice" role="status" hidden></div><p id="plot-error" role="alert" hidden></p>
+  </div>
+  <div id="version-notice" role="status" hidden><span id="version-message"></span> <button id="open-latest" type="button">Open latest version</button></div>
+  <div class="export-bar">
+   <div class="utility-actions">
+    <button id="show-pens" class="drawer-toggle" aria-controls="ink-drawer" aria-expanded="true" title="Pens & mapping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 16-1 4 4-1L20 7l-3-3Zm9-9 3 3"/></svg><span>Pens</span><span id="drawer-warning" role="status"></span></button>
+    <button id="show-plotter" class="drawer-toggle" aria-controls="ink-drawer" aria-expanded="false" title="Plotter & paper"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9V3h14v6M5 17H3V9h18v8h-2M5 14h14v7H5Z"/></svg><span>Plotter</span></button>
+    <details id="export-tools" class="tray"><summary aria-label="Downloads" title="Downloads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></summary><div class="tray-body"><div class="tray-heading"><strong>Downloads</strong><button class="close-tray" aria-label="Close downloads">×</button></div><div class="export-actions"><a id="download" class="button" download>Original HPGL ↓</a><button id="export-plan">Prepared HPGL ↓</button></div><p><a id="pdf-edit" data-studio="pdf" hidden>Change PDF conversion ↗</a></p><p><a href="/pdf" data-studio="pdf">PDF Studio ↗</a></p></div></details>
+    <details id="composition-tools" class="tray"><summary aria-label="Drawing details" title="Drawing details"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg></summary><div class="tray-body"><div class="tray-heading"><strong>Drawing details</strong><button class="close-tray" aria-label="Close drawing details">×</button></div><p id="job-subtitle"></p>              <div class="stats">
+                <div>
+                  <span>Layout bounds</span><strong id="dimensions">—</strong
+                  ><small id="inches"></small>
+                </div>
+                <div>
+                  <span>Included ink travel</span
+                  ><strong id="down-distance">—</strong
+                  ><small id="path-count"></small>
+                </div>
+                <div>
+                  <span>Source pen-up travel</span
+                  ><strong id="up-distance">—</strong
+                  ><small>Known moves only</small>
+                </div>
+                <div>
+                  <span>Inks</span><strong id="pen-count">—</strong
+                  ><small>Mapping shown in Pens</small>
+                </div>
+              </div>
+
+<dl id="file-info"></dl><ul id="notes"></ul><p id="connection"></p></div></details>
+   </div>
+   <div class="studio-actions"><button id="show-active-plot" hidden>Show active plot</button><button id="plot-retry" hidden>Retry submission</button><button id="plot-open" class="primary" disabled>Plot</button></div>
+  </div>
+ </section>
+ <section id="ink-drawer" aria-label="Pens &amp; mapping"><div id="pen-review-panel"><div id="pen-reviews" class="ink-review-strip" aria-label="Pen changes to review" hidden></div></div><div class="ink-drawer-body">
+  <section id="pens-pane" aria-label="Pens and mapping">
+   <div class="ink-controls">
+    <div id="pens" class="pens"></div>
+    <div class="pen-tools" aria-label="Pen tools">
+     <a href="/calibration" class="button" target="_blank" rel="noopener">Calibration sheet ↗</a>
+     <a id="calibration-open" class="button" target="_blank" rel="noopener" hidden>Analyze calibration scan ↗</a>
+     <button id="carousel-refresh">Refresh carousel</button>
+     <button id="match-loaded-pens">Match loaded pens</button>
+     <div id="pen-arrangement"></div>
+     <button id="choose-inks" disabled>Choose inks…</button>
+     <div id="carousel-state" role="status"></div>
+    </div>
+   </div>
+   <p id="pen-readiness" class="hint"></p>
+  </section>
+  <section id="plotter-pane" aria-label="Plotter and paper" hidden><div class="plotter-columns">
+   <section id="plot-feedback"><div class="plotter-heading"><strong id="mode-label">Preview mode</strong><button id="plot-refresh">Refresh status</button><button id="check-paper" type="button">Check plotter &amp; paper</button><button id="plot-recover" type="button" disabled>Resume from here…</button></div><p id="paper-check-result" role="status" class="hint">Plotter response and loaded paper have not been checked.</p>
+  <section id="work-status" aria-label="Plot progress"><div class="plot-track"><progress id="idle-progress" max="100" value="0" aria-label="Plot progress"></progress>
+   <div id="plot-progress" role="progressbar" aria-label="Plot data sent" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><canvas id="plot-pen-bands" aria-hidden="true"></canvas><span id="plot-progress-unsent" aria-hidden="true"></span><span id="plot-progress-marker" aria-hidden="true"></span></div></div>
+   <div class="progress-line"><span id="work-detail" role="status">Open an HPGL document</span><span id="plot-estimate" role="status"></span><button id="estimate-retry" type="button" hidden>Retry estimate</button><span id="plot-time" hidden></span></div>
+   <span id="plot-issue" class="sr-only"></span><span id="plot-status" class="sr-only"></span>
+  </section>
+<section id="plot-panel"><div class="plot-actions">
+              <button id="plot-pause" class="secondary" hidden>Pause</button>
+              <button id="plot-resume" class="secondary" hidden>Resume</button>
+              <button id="plot-cancel" class="secondary" hidden>Cancel plot</button>
+              <button id="plot-complete" class="secondary" hidden>Pen parked · mark finished</button>
+              <button id="plot-reset" class="secondary" hidden>I reset the plotter</button>
+            </div>
+</section></section>
+   <section class="paper-section"><details id="loaded-paper"><summary>Paper &amp; placement</summary><p id="device-reading"></p><p id="paper-requirement" hidden></p>            <div class="paper-controls" id="paper-controls">
+              <label class="field"
+                >Drawing area<select id="paper-mode">
+                  <option value="planned">Planned sheet</option>
+                  <option value="reported" disabled>
+                    Last measured drawing area
+                  </option>
+                </select></label
+              >
+              <label class="field"
+                >Sheet size<select id="paper-preset">
+                  <option value="279.4,215.9">
+                    ANSI A (letter) · 8.5 × 11 in
+                  </option>
+                  <option value="431.8,279.4">ANSI B · 11 × 17 in</option>
+                  <option value="558.8,431.8">ANSI C · 17 × 22 in</option>
+                  <option value="863.6,558.8">ANSI D · 22 × 34 in</option>
+                  <option value="1117.6,863.6">ANSI E · 34 × 44 in</option>
+                  <option value="420,297">A3</option>
+                  <option value="297,210">A4</option>
+                  <option value="594,420">A2</option>
+                  <option value="841,594">A1</option>
+                  <option value="1189,841">A0</option>
+                  <option value="custom">Custom</option>
+                </select></label
+              >
+              <button
+                id="turn-sheet"
+                class="secondary"
+                type="button"
+                title="Turn sheet clockwise relative to artwork; applies to prepared HPGL"
+              >
+                Turn sheet ↻ <span id="angle">0°</span>
+              </button>
+            </div>
+            <details id="paper-details">
+              <summary>Sheet dimensions &amp; margins</summary>
+              <div class="paper-fields">
+                <label class="field"
+                  >Along feed · X (<span data-paper-unit>in</span>)<input
+                    id="paper-x" data-paper-length
+                    type="number"
+                    min="10"
+                    max="1600"
+                    step="0.1"
+                /></label>
+                <label class="field"
+                  >Across carriage · Y (<span data-paper-unit>in</span>)<input
+                    id="paper-y" data-paper-length
+                    type="number"
+                    min="10"
+                    max="1600"
+                    step="0.1"
+                /></label>
+                <label class="field"
+                  >Back margin (<span data-paper-unit>in</span>)<input
+                    id="margin-back" data-paper-length
+                    type="number"
+                    min="0"
+                    max="200"
+                    step="0.1"
+                /></label>
+                <label class="field"
+                  >Front margin (<span data-paper-unit>in</span>)<input
+                    id="margin-front" data-paper-length
+                    type="number"
+                    min="0"
+                    max="200"
+                    step="0.1"
+                /></label>
+                <label class="field"
+                  >Left margin (<span data-paper-unit>in</span>)<input
+                    id="margin-left" data-paper-length
+                    type="number"
+                    min="0"
+                    max="200"
+                    step="0.1"
+                /></label>
+                <label class="field"
+                  >Right margin (<span data-paper-unit>in</span>)<input
+                    id="margin-right" data-paper-length
+                    type="number"
+                    min="0"
+                    max="200"
+                    step="0.1"
+                /></label>
+              </div>
+              <button
+                id="swap-feed-edge"
+                class="secondary"
+                type="button"
+                title="Swap sheet dimensions along feed and across carriage"
+              >
+                Swap feed edge ↔
+              </button>
+              <p class="hint">
+                <span id="margin-hint"></span>
+              </p>
+            </details>
+            <p id="placement-status" role="status"></p>
+</details></section>
+  </div></section>
+ </div></section>
+</main>
+<dialog id="library"><div class="dialog-heading"><h2>Open document</h2><button id="close-library" aria-label="Close document library">×</button></div><label class="library-search">Find a document<input id="search" type="search" placeholder="Search HPGL documents" autocomplete="off"></label><div id="jobs" class="library-grid"></div><details id="pdf-intake-details"><summary>PDFs awaiting preparation</summary><div id="pdf-intake"></div></details><div class="library-actions"><button id="add-hpgl">Add HPGL…</button><button id="refresh">Refresh library</button></div></dialog>
+<dialog id="save-dialog"><form id="save-form"><div class="dialog-heading"><h2 id="save-heading">Save document</h2></div><label class="field">Name<input id="save-name" maxlength="160" required autocomplete="off"></label><p>Save paper choices and pen assignments for this HPGL.</p><div class="dialog-actions"><button type="button" id="cancel-save">Cancel</button><button type="submit" class="primary">Save</button></div></form></dialog>
+<dialog id="close-document-dialog"><form method="dialog"><h2>Save changes?</h2><p id="close-document-message"></p><div class="dialog-actions"><button value="cancel">Cancel</button><button value="discard">Don’t save</button><button value="save" class="primary">Save</button></div></form></dialog>
+    <dialog id="upload-dialog">
+      <form id="upload-form">
+        <div class="dialog-heading">
+          <div>
+            <div class="eyebrow">A new plot</div>
+            <h2>Add HPGL to the library</h2>
+          </div>
+          <button
+            id="upload-close"
+            type="button"
+            class="icon-button"
+            aria-label="Close upload dialog"
+          >
+            ×
+          </button>
+        </div>
+        <label class="file-picker"
+          >Choose .hpgl or .plt files<input
+            id="file-input"
+            type="file"
+            accept=".hpgl,.plt"
+            multiple
+            required
+          /><small>Up to 64 MiB per file. Vector HPGL paths only.</small></label
+        >
+        <label class="field"
+          >Coordinate scale<select id="scale">
+            <option value="40">Plotline — 40 units/mm</option>
+            <option value="40.19685039370079">
+              Historical controller — 1021 units/inch
+            </option>
+          </select></label
+        >
+        <p class="hint">
+          This tells the preview how to measure the drawing. It does not rescale
+          your file or calibrate the plotter.
+        </p>
+        <div id="upload-error" class="error" role="alert" hidden></div>
+        <div class="dialog-actions">
+          <span id="upload-progress"></span
+          ><button id="upload-submit" type="submit" class="primary">
+            Add to library
+          </button>
+        </div>
+      </form>
+    </dialog>
+<dialog id="recovery-dialog" aria-labelledby="recovery-heading">
+ <div class="dialog-heading"><h2 id="recovery-heading">Resume previous plot</h2><button id="recovery-close" aria-label="Close recovery preview">×</button></div>
+ <label class="recovery-attempt">Recorded attempt <select id="recovery-attempt"></select></label>
+ <p class="hint">Keep the sheet registered. Stroke numbers and the preview always refer to the full original plot.</p>
+ <div class="recovery-preview"><div id="recovery-viewport" tabindex="0" aria-label="Recorded plot preview"><canvas id="recovery-canvas"></canvas></div><div id="recovery-tools"></div><span id="recovery-loading" role="status"></span></div>
+ <div class="recovery-track"><canvas id="recovery-bands" aria-hidden="true"></canvas><input id="recovery-scrub" type="range" min="0" max="1" value="0" step="1" aria-label="Choose the next stroke" disabled></div>
+ <div class="recovery-position"><button id="recovery-previous" title="Previous stroke · Shift for ten" disabled>←</button><label>Next stroke <input id="recovery-stroke" type="number" min="1" value="1" step="1" disabled></label><span id="recovery-position"></span><button id="recovery-next" title="Next stroke · Shift for ten" disabled>→</button></div>
+ <p class="hint recovery-legend"><span>Full ink: already drawn</span><span>Faded: remaining</span><span>Orange: next stroke</span><span>Arrow keys: one stroke · Shift: ten</span></p>
+ <p id="recovery-error" class="error" role="alert" hidden></p>
+ <div class="dialog-actions"><label><input id="recovery-pen-change" type="checkbox" checked> Pause before next pen change</label><button id="recovery-resume" class="primary" disabled>Resume</button></div>
+</dialog>
+</body></html>

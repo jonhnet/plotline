@@ -1,0 +1,2 @@
+# JSON Schema validation for the PDF boundary fixtures and handoffs.
+jsonschema==4.25.1

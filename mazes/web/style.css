@@ -1,0 +1,1 @@
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.controls input[type=range]{width:100%;padding:0;accent-color:var(--studio-color)}.mask-picker input{width:100%;font-size:11px!important}.controls output{font-weight:600}#maze-note{line-height:1.5}

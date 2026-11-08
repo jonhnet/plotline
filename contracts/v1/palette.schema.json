@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plotline.invalid/contracts/v1/palette.schema.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "plotline.palette/1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inks": {
+      "type": "array",
+      "items": {
+        "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/ink"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "label",
+    "inks"
+  ],
+  "additionalProperties": false
+}

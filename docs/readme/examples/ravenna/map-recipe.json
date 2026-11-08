@@ -1,0 +1,209 @@
+{
+  "boundary": null,
+  "bounds": [
+    -122.43,
+    47.56,
+    -122.24,
+    47.69
+  ],
+  "camera": {
+    "azimuth_deg": 281,
+    "elevation_deg": 17,
+    "exaggeration": 5,
+    "relief": true
+  },
+  "center": [
+    -122.31065865899564,
+    47.6725540052165
+  ],
+  "data": {
+    "vector_template": "https://tiles.openfreemap.org/planet/20261025_080012_pt/{z}/{x}/{y}.pbf"
+  },
+  "extent": "viewport",
+  "features": {
+    "bridges": true,
+    "building_min_mm2": 0.3,
+    "buildings": "auto",
+    "contour_interval_m": 10,
+    "contours": true,
+    "hatch_spacing_mm": 2.5,
+    "hillshade": true,
+    "hillshade_spacing_mm": 2.5,
+    "labels": "normal",
+    "park_labels": true,
+    "park_treatment": "hatch",
+    "parks": true,
+    "roads": "all",
+    "shore": "line",
+    "terrain_edges": true,
+    "water_fill": true
+  },
+  "framing": {
+    "offset_mm": [
+      0,
+      0
+    ],
+    "scale_denominator": 3151.248565299302
+  },
+  "furniture": {
+    "compass": true,
+    "credits": false,
+    "legend": false,
+    "parameters": false,
+    "signature": false,
+    "title": true
+  },
+  "ink_roles": {
+    "bridges": "ink-06cdc916182e8bf2db86eea1c08b7473",
+    "buildings": "ink-06cdc916182e8bf2db86eea1c08b7473",
+    "hillshade": "ink-eb60fa508f54a6364953fccb46f8308c",
+    "labels": "ink-eb60fa508f54a6364953fccb46f8308c",
+    "parks": "ink-f8adfc856967d5b53a5841af9ad9edc3",
+    "roads": "ink-eb60fa508f54a6364953fccb46f8308c",
+    "silhouettes": "ink-eb60fa508f54a6364953fccb46f8308c",
+    "terrain": "ink-1df84871bf8c45ebb0455aeb8fd07779",
+    "water": "ink-2eb101b119b8ee5595ff4c87d3f5346b"
+  },
+  "lighting": {
+    "azimuth_deg": 180,
+    "elevation_deg": 45
+  },
+  "media": {
+    "calibration": {
+      "device": "HP7585B",
+      "evidence": "2026-10-30 ruler margins back/front/left/right = 39/15/14.8/11 mm. Conservative intersection of two reported OH windows; nominal paper placement. Ruler uncertainty is not quantified. See docs/experiment-11.md.",
+      "hard_clip_units": [
+        -7539,
+        -5088,
+        7539,
+        5088
+      ],
+      "sheet_to_device_units": [
+        40,
+        0,
+        0,
+        -40,
+        -9116,
+        5512
+      ],
+      "uncertainty_mm": null,
+      "units_per_mm": 40
+    },
+    "content_inset_mm": 1,
+    "id": "hp7585-tabloid-landscape",
+    "label": "HP7585 / 17 x 11 in landscape, long dimension along feed",
+    "printable_rect_mm": [
+      39.425,
+      11,
+      376.95,
+      253.6
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      431.8,
+      279.4
+    ]
+  },
+  "outside": {
+    "features": {
+      "bridges": true,
+      "building_min_mm2": 0.3,
+      "buildings": "none",
+      "contour_interval_m": 100,
+      "contours": false,
+      "hatch_spacing_mm": 2.5,
+      "hillshade": false,
+      "hillshade_spacing_mm": 2.5,
+      "labels": "sparse",
+      "park_labels": true,
+      "park_treatment": "outline",
+      "parks": true,
+      "roads": "major",
+      "shore": "line",
+      "terrain_edges": false,
+      "water_fill": false
+    },
+    "ink_roles": {
+      "bridges": "black",
+      "buildings": "black",
+      "hillshade": "black",
+      "labels": "black",
+      "parks": "black",
+      "roads": "black",
+      "silhouettes": "black",
+      "terrain": "black",
+      "water": "black"
+    }
+  },
+  "palette": {
+    "id": "map-palette",
+    "inks": [
+      {
+        "color_srgb": "#000000",
+        "id": "black",
+        "label": "Black",
+        "width_mm": 0.1411111111111111
+      },
+      {
+        "color_srgb": "#008000",
+        "id": "ink-f8adfc856967d5b53a5841af9ad9edc3",
+        "label": "green",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 6
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#009f7c",
+        "id": "ink-2eb101b119b8ee5595ff4c87d3f5346b",
+        "label": "Turquoise",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 7
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#ff0000",
+        "id": "ink-06cdc916182e8bf2db86eea1c08b7473",
+        "label": "red",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 2
+        },
+        "width_mm": 0.3
+      },
+      {
+        "color_srgb": "#000000",
+        "id": "ink-eb60fa508f54a6364953fccb46f8308c",
+        "label": "black",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 8
+        },
+        "width_mm": 0.5
+      },
+      {
+        "color_srgb": "#800080",
+        "id": "ink-1df84871bf8c45ebb0455aeb8fd07779",
+        "label": "purple",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 5
+        },
+        "width_mm": 0.7
+      }
+    ],
+    "label": "Document inks \u00b7 modeled widths",
+    "schema": "plotline.palette/1"
+  },
+  "schema": "plotline.map-recipe/2",
+  "title": "Ravenna Park"
+}

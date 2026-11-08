@@ -1,0 +1,55 @@
+{
+  "custom_margin_mm": 15,
+  "family": "sierpinski",
+  "ink_sequence": [
+    "ink-16f7dfb971b20f9ae9713682e3042b27"
+  ],
+  "inks": [
+    {
+      "color_srgb": "#000000",
+      "id": "ink-16f7dfb971b20f9ae9713682e3042b27",
+      "label": "black",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 1
+      },
+      "width_mm": 0.25
+    }
+  ],
+  "margin_mode": "plotter",
+  "media": {
+    "content_inset_mm": 1,
+    "id": "hp7585-27940-21590",
+    "label": "HP7585 / 11.0 \u00d7 8.5 in",
+    "orientation_deg": 90,
+    "printable_rect_mm": [
+      15,
+      39,
+      249.4,
+      161.9
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      279.4,
+      215.9
+    ]
+  },
+  "name": "Sierpi\u0144ski triangle",
+  "orientation": 0,
+  "paper_id": "hp7585-27940-21590",
+  "params": {
+    "depth": 6,
+    "height": 0.9
+  },
+  "roles": [
+    {
+      "ink_id": "ink-16f7dfb971b20f9ae9713682e3042b27",
+      "label": "Sequence ink 1"
+    }
+  ],
+  "rotation": 0,
+  "size": 0.96,
+  "version": 1
+}

@@ -1,0 +1,2102 @@
+{
+  "source_revision": "7c10c6338145ab3def3ac3edade92c6bfabf43b8",
+  "files": {
+    ".githooks/pre-push": {
+      "sha256": "f294b6abd27fd7eab324b967c9a06a17c37c930a67787ac4fdbde082ac97fb05",
+      "bytes": 629
+    },
+    ".gitignore": {
+      "sha256": "4c3a81674f2cb8cc08c0f82cb8fab7d583d49189264414c2744c62190286b712",
+      "bytes": 238
+    },
+    "AGENTS.md": {
+      "sha256": "8df5a9af91787bfd65df7c209a31254f993e6c147ecd61954fe8a5eee5796041",
+      "bytes": 3741
+    },
+    "Cargo.lock": {
+      "sha256": "10b54a0bb43458ff53d8e41a36375e37cb09195608801bd6f82976817a6bfed0",
+      "bytes": 7956
+    },
+    "Cargo.toml": {
+      "sha256": "eb44ee5d6df185af5d1f02a42d936ecac5258d49aafc5ee333b05fd3523ecd94",
+      "bytes": 487
+    },
+    "LICENSE": {
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6",
+      "bytes": 34520
+    },
+    "README.md": {
+      "sha256": "2eb6022f30d7d6364cd9e499059918d6b636d290921fbd987ee5f1ea0c46326b",
+      "bytes": 7419
+    },
+    "THIRD_PARTY.md": {
+      "sha256": "3bd29fe2800b2d53c514f48f76ee5399e64ba54136f9d86bd521358a2c08e751",
+      "bytes": 4092
+    },
+    "cartographer/README.md": {
+      "sha256": "6a872bf1520fe43b5028946f939bc2854ce311e2145d3be160576b7f730f20cc",
+      "bytes": 58134
+    },
+    "cartographer/__init__.py": {
+      "sha256": "cfc981d7c36539497f66f649f79fdab242cbd1b5183cc23dcf47c4bcedb064e9",
+      "bytes": 198
+    },
+    "cartographer/area_geometry.py": {
+      "sha256": "06d8fbb1dc475fd42ad309801f9679871d465c7775311a06335dcaff2521568d",
+      "bytes": 967
+    },
+    "cartographer/area_marks.py": {
+      "sha256": "6ea951ef52ebfc93739527485c14cb0b490e008dcb2db2338550e484058c283c",
+      "bytes": 4136
+    },
+    "cartographer/boundaries.py": {
+      "sha256": "d381f75a32d26ffe8254eaca46ef67eb5a0f191f95c01c7f18186d50c4948e69",
+      "bytes": 2775
+    },
+    "cartographer/bridges.py": {
+      "sha256": "945137265c30eb619bbbac745641e2085057677a6474faecbd3996454ae5aafe",
+      "bytes": 11061
+    },
+    "cartographer/build_cache.py": {
+      "sha256": "7d4383626fae9e4021d7d2c0d73ada1f126bf48500f42410b162ba2a7c3b835c",
+      "bytes": 4775
+    },
+    "cartographer/client.py": {
+      "sha256": "cf50acb4d8d8036dd369a27bd480995b0af8dd46894a575d2df20c06f4a37096",
+      "bytes": 8127
+    },
+    "cartographer/compose.py": {
+      "sha256": "3cc29e67cadc8dc96e5481b272cb58e56268d49cc842159a718d8a6baa00c7ed",
+      "bytes": 46274
+    },
+    "cartographer/contours.py": {
+      "sha256": "0319da5be4fec297692683cf263c34141cf169300a2dd0acd7b316579e08bd7e",
+      "bytes": 5505
+    },
+    "cartographer/fixtures/carousel.json": {
+      "sha256": "79f4331a29f312fdeaffd745110f28c85ce30c5b1585e0cd9ec2aee180b64995",
+      "bytes": 715
+    },
+    "cartographer/furniture.py": {
+      "sha256": "1425f5ad85a2d02c6738ff4b7dec27e44fc3cdd7f383f7e7c8db1b680c4f688d",
+      "bytes": 6858
+    },
+    "cartographer/geography.py": {
+      "sha256": "b46ab5b38205e487f8b53612e82483cd4ec41fa766f85ca77d48c9441b7e2868",
+      "bytes": 2804
+    },
+    "cartographer/jobs.py": {
+      "sha256": "bb9ab21cdfbc557410e65cf511284783c716f3349b8ebe487655d1b1891ca0f7",
+      "bytes": 8952
+    },
+    "cartographer/mesh_union.py": {
+      "sha256": "5dbf3c03979cebf5fcafbdc6bfd99a4ffde205cd21ff72770d25f310123a7dab",
+      "bytes": 2085
+    },
+    "cartographer/model.py": {
+      "sha256": "ae0da08d6ed3265b13bcc8b38709c37b2a01a47081421025cf38fb3108d37ed1",
+      "bytes": 13547
+    },
+    "cartographer/paper.py": {
+      "sha256": "1398d8d2a5e378fdc3b4e49a625eed88f4234ae8f2c401f3ace3df71da99a1ea",
+      "bytes": 3491
+    },
+    "cartographer/preparing.py": {
+      "sha256": "552bd0bb08fa9a2667875b8bb55eab9d64e8855ca17e4030c94f3874b391461e",
+      "bytes": 7732
+    },
+    "cartographer/printing.py": {
+      "sha256": "ffd6bad329e1712015084e0ca5dbf10f0ef47ed24338926c32ddc796a2b4dc44",
+      "bytes": 19085
+    },
+    "cartographer/progress.py": {
+      "sha256": "d928be111360c7701ee147abdc6ca6fd901739b30f518eebd4f0adccfa12e6e8",
+      "bytes": 5304
+    },
+    "cartographer/replay.py": {
+      "sha256": "cd809e2e2e3eab2930b62c0e384360e9a5bde2e010a89e882753f7f4d8f7bbad",
+      "bytes": 2401
+    },
+    "cartographer/retention.py": {
+      "sha256": "2a511822cf6d5ac979742f6c26971bd265594234d5fd3578fcca6e5e0f9148dd",
+      "bytes": 9053
+    },
+    "cartographer/service.py": {
+      "sha256": "dd218ae22e5cad8fa4cb3828e1bcb3fd109b413e9c5b67e98bf2413237011229",
+      "bytes": 17342
+    },
+    "cartographer/sources.py": {
+      "sha256": "dff7ca82946cd8ce53c56703dea2c2be93a5c3b14cad7359170c1c47b1fa4352",
+      "bytes": 15918
+    },
+    "cartographer/storage.py": {
+      "sha256": "f3dcce0415cdffe68203d47ef5a7051213da14e80419eb0668b0310d33e7efcf",
+      "bytes": 6414
+    },
+    "cartographer/terrain.py": {
+      "sha256": "2f1941e3b6187e9b0a118ea260d32567bd9fc0bb081f2b30951c7d39a24d812d",
+      "bytes": 20692
+    },
+    "cartographer/terrain_marks.py": {
+      "sha256": "a5d519ec8fdc9aed39b2cbf224b2ca3182efb6a81f4e6f7c340ef1073c9d3314",
+      "bytes": 7121
+    },
+    "cartographer/visibility.py": {
+      "sha256": "de78e82bb9dd8e045a45eb2936b98614c3a51afdf38f1767d7a8dc7fd381ded0",
+      "bytes": 3915
+    },
+    "cartographer/web/app.js": {
+      "sha256": "0b8dd4b2b5bd1eac0d31b02a4a17950dfa0c50dfa4488e660535fe996fc398c1",
+      "bytes": 78969
+    },
+    "cartographer/web/index.html": {
+      "sha256": "6357e7af7f85ab5d6872ec4a1b6f772efd404ffc8b8fc45b573a2ca8c4aaf29a",
+      "bytes": 17452
+    },
+    "cartographer/web/paper.js": {
+      "sha256": "9a9871a294013bdad6706afeb69bbdf7cdfe98f165c9d3728d9477b2f2138acf",
+      "bytes": 3378
+    },
+    "cartographer/web/style.css": {
+      "sha256": "d6107745efe5505244f4ecbacd235e01514d1181f1cc4e79f4773f0498b070f3",
+      "bytes": 14639
+    },
+    "contracts/v1/README.md": {
+      "sha256": "2c964d8014e330d226d709a25a9ab420495f8f9d7dafc8c5f9cb65199bbd3f3b",
+      "bytes": 24632
+    },
+    "contracts/v1/capabilities.schema.json": {
+      "sha256": "c58ce5e3e54f9e2613b0067ec6ceb25306148fa3cc98b972acf4b27d5307864e",
+      "bytes": 3326
+    },
+    "contracts/v1/defs.schema.json": {
+      "sha256": "2eb7d66f793cc99cce90f3903be3a558ef87869b69ded42fc7fc60dab49514be",
+      "bytes": 9603
+    },
+    "contracts/v1/examples/hp7585-tabloid-landscape.json": {
+      "sha256": "1ab776f079f1dae0d4f06812c861cf67df9dbe0c886c788e4fa81bbf2c2e5bd8",
+      "bytes": 822
+    },
+    "contracts/v1/examples/palette.json": {
+      "sha256": "ace27413af9549cddcf52307744893516e723d8a94b98aafda1c0cd163722ece",
+      "bytes": 611
+    },
+    "contracts/v1/media-profile.schema.json": {
+      "sha256": "1de76a170a33365fc47370c9fbd67ef1c3f63ae6d165abd8875bef46c5018368",
+      "bytes": 2305
+    },
+    "contracts/v1/palette.schema.json": {
+      "sha256": "79059d678e47c762feed12aea67fd6b7ef222888f4eb22fc6675d731f3eef191",
+      "bytes": 664
+    },
+    "contracts/v1/print-intent.schema.json": {
+      "sha256": "754fc7d79c19371aef8891d1bb1e1466be222ba6f7c89f189438a87cb5a34cc5",
+      "bytes": 3671
+    },
+    "contracts/v1/submission.md": {
+      "sha256": "9917c6a6b5741993e602bb0661f3a0d4271906d83a9089f49f686b780743f26e",
+      "bytes": 4473
+    },
+    "controller/.gitignore": {
+      "sha256": "ac8d4170ce1fc80c188bf3d18d86baee641b4a03b03ae202f0ae5993e56bdbee",
+      "bytes": 31
+    },
+    "controller/Cargo.lock": {
+      "sha256": "ec1ef211ecf2787f769728ceb4b4ce7c203250a260d91ab639c1683ff10a419c",
+      "bytes": 31021
+    },
+    "controller/Cargo.toml": {
+      "sha256": "87d072a7f15df17f2d04e9047b299d8d5233a35d1f1543fc322073518129f4f3",
+      "bytes": 801
+    },
+    "controller/README.md": {
+      "sha256": "fe5002d3ebbc6edcb7586a3068a62056338ff3c038db6377f509e3cfd5753dcd",
+      "bytes": 90733
+    },
+    "controller/appliance/README.md": {
+      "sha256": "2b77f81aab99058bbccdebabbe848cd5d90be004edab4c86ae128725566e7ec5",
+      "bytes": 12742
+    },
+    "controller/appliance/base-image.json": {
+      "sha256": "a5f83365ad632e45cae4405299fa0007c745c7ebf2757dc00452772ada55cad5",
+      "bytes": 613
+    },
+    "controller/appliance/boot_smoke.py": {
+      "sha256": "5a2a02366f51fcd5a8692430d01c83772f754f6bb0b1e9b6602555ed02567619",
+      "bytes": 8792
+    },
+    "controller/appliance/build_image.py": {
+      "sha256": "cd810b0e0c7e22a262094b2e8f70650d9b46122f77020aa6c3397f623753fd9b",
+      "bytes": 11008
+    },
+    "controller/appliance/device.py": {
+      "sha256": "12a17fb5cfc4ef19334348bc07a8bd5ee47e28d4d7e8ad10a3a100965bbf5206",
+      "bytes": 11759
+    },
+    "controller/appliance/example.json": {
+      "sha256": "e99a12eef8942c542ca91fedd33653986be9229c31571a9465f82fdf4b0ca872",
+      "bytes": 463
+    },
+    "controller/appliance/finalize_boot.py": {
+      "sha256": "f1588e8e3d13e7e407fa0912c0d3e6618612d0138d32450c675473cfad7321cb",
+      "bytes": 5354
+    },
+    "controller/appliance/flash_image.py": {
+      "sha256": "bec0cb4887dc49bb8aacc93574f10bd68d9e2768ff65de7842b060eaabf1fb99",
+      "bytes": 4017
+    },
+    "controller/appliance/install_agent.py": {
+      "sha256": "0df3950134cbdb9890f9ace83b661ebbc5fadec58febd526a0fb2418d139521a",
+      "bytes": 6410
+    },
+    "controller/appliance/plotline-device.service": {
+      "sha256": "deec8a8ec4d6ebea40796068990f948ac4627aa659ff41e9ca7867b258112af9",
+      "bytes": 531
+    },
+    "controller/appliance/rpc.py": {
+      "sha256": "8b820cb25f21d6e0d1c9f85ad357334333ea8ad1917fc17e038eadf2a6782d8f",
+      "bytes": 1184
+    },
+    "controller/appliance/test_device.py": {
+      "sha256": "3de3e51bd4f64da4e3f71199ba8d5a874706fedd8d3f6721c05383aa3719ec4d",
+      "bytes": 8511
+    },
+    "controller/appliance/test_finalize.py": {
+      "sha256": "9e39738d8c103928d4cfb8bd2744919d43234e01cc614c60e4adcfcdba3219ac",
+      "bytes": 3327
+    },
+    "controller/appliance/test_flash.py": {
+      "sha256": "a3df923ef34a55e0dd1ba5960ea1961b2d07f8a43958e16571f1bcc7346ddc08",
+      "bytes": 3843
+    },
+    "controller/appliance/test_image.py": {
+      "sha256": "9012737545422105387d786a76cef12ff925c216aed52b42268cbee99e3e3aad",
+      "bytes": 3990
+    },
+    "controller/build.rs": {
+      "sha256": "831be701491fefe7f2f2a1bf8ebdbf77885f54521da2b9fa842409cc131c55fa",
+      "bytes": 1339
+    },
+    "controller/docs/plot-timing.md": {
+      "sha256": "c2eda9f0cda0fcc9bf8837d490e388b03dec6bf713609d971fb9eec131b254df",
+      "bytes": 8144
+    },
+    "controller/docs/timing-extensions-2026-11-06.json": {
+      "sha256": "c03af8624d4f0d37216fa2dc4dd74cd4d2d6a7461af490faf94c86a527b54311",
+      "bytes": 203852
+    },
+    "controller/docs/timing-extensions-2026-11-06.md": {
+      "sha256": "cc803ec9a5c7db04fc767c932e9a8c684dad13dc64d2d1438fd876c506f6a1ab",
+      "bytes": 9228
+    },
+    "controller/docs/timing-model-2026-11-03.md": {
+      "sha256": "ff05b398f0b4b224e97f562ffe64be7ecdf50660ab5a947cb3373c6e7d396787",
+      "bytes": 11317
+    },
+    "controller/docs/timing-validation-2026-11-04.md": {
+      "sha256": "a95f585f71a3852534affa067d5a47f4138a7db6f888a966efa80be40a9455d2",
+      "bytes": 6462
+    },
+    "controller/docs/timing-validation-2026-11-06.json": {
+      "sha256": "c68a8a0c089cc7ded0b5a09d9f860a79e5b5afa96c0b7cd166976adaac0f9c4f",
+      "bytes": 38447
+    },
+    "controller/docs/timing-validation-2026-11-06.md": {
+      "sha256": "a164065227e5963e345e9f971583a133be95e2e88fd97922f4a6253205a56333",
+      "bytes": 8244
+    },
+    "controller/layouts/hp7585-letter-portrait.json": {
+      "sha256": "86b64f0f879a3489b17ed96118a5b509c2c6705c09c077bfd99108391386772d",
+      "bytes": 147
+    },
+    "controller/layouts/hp7585-tabloid-landscape.json": {
+      "sha256": "ab0b2ec9ecaef6856aad82a320e3a330fe4027d7d80b877bdca40a7f84854675",
+      "bytes": 168
+    },
+    "controller/models/hp7585-snoqualmie-v1.json": {
+      "sha256": "865cff745d7c1e0f53a194b3a2b5549e9c3ebb7ccd1cfffa26b1c794d46c792d",
+      "bytes": 6018
+    },
+    "controller/package-lock.json": {
+      "sha256": "dfda3c996656a12fd8bcfa69916e3eab1c2efaa71423b7bf9e26f5142f3dd075",
+      "bytes": 1227
+    },
+    "controller/package.json": {
+      "sha256": "336d2a6c0572f943f8ae3599a7152a08a708d6eb96e9f7c6e24270f1cf0e9e47",
+      "bytes": 742
+    },
+    "controller/retention-policy.json": {
+      "sha256": "77251e8cae2a96983c2112c1e0cbb00031a3c92b47d25bbc49144547a6d3482c",
+      "bytes": 127
+    },
+    "controller/samples/three-pens.hpgl": {
+      "sha256": "b8192d08245cea01cd82a6ea2333cf353e7fa35db81f7e0a64f6739a9e5a9889",
+      "bytes": 323
+    },
+    "controller/samples/timing-reference.hpgl": {
+      "sha256": "7af4c36dc28e22b4a42015d97a12a9f275ac7bed510ee1532ebd968f99d525d9",
+      "bytes": 3464
+    },
+    "controller/samples/timing-reference.json": {
+      "sha256": "5641317bc56a1870f3510c3a5ef65701ac986925b7b86bdcf5669fba26004aa1",
+      "bytes": 634
+    },
+    "controller/scripts/adjacent-patterns-smoke.mjs": {
+      "sha256": "433c635e7d776575f8d7380fa89b353e5dffb89b0ce541d769a7e59855dc38ac",
+      "bytes": 18759
+    },
+    "controller/scripts/browser-smoke.mjs": {
+      "sha256": "e6d4f63d9c46db7592db0a7be53ed5b5953a6946111254f20db278767881f9db",
+      "bytes": 32119
+    },
+    "controller/scripts/carousel-save-smoke.mjs": {
+      "sha256": "94bbbdbd74ec809cd2a589583f0f926fb1a51b8fd1aa94b39d050b4db29ebec8",
+      "bytes": 8389
+    },
+    "controller/scripts/carpet-corner-checks.mjs": {
+      "sha256": "93bc22efad76520f3e21d55aa2e86af42bdf8690017c7843a13b554bf9d9cffb",
+      "bytes": 3987
+    },
+    "controller/scripts/check-corpus.py": {
+      "sha256": "1f3acc723a137e7720d4fb7a52c760d2c3df0204beea8c8c0fa6e98ad9247c45",
+      "bytes": 1672
+    },
+    "controller/scripts/check-paper-smoke.mjs": {
+      "sha256": "1a134f9b666ca589a76da482213dd0ce4ff259dbbcbb3af23fff9a2a258f3860",
+      "bytes": 6309
+    },
+    "controller/scripts/complex-patterns-smoke.mjs": {
+      "sha256": "22b36891014c46101b745c41445dcd74886eb98840804dd1ae574dafffc25f0b",
+      "bytes": 16170
+    },
+    "controller/scripts/dev-server.py": {
+      "sha256": "8741e05a1776b895797eca099bfbebe571d9af9bb79b03338e52a4799a630604",
+      "bytes": 5309
+    },
+    "controller/scripts/fake-plotter.py": {
+      "sha256": "61428a3861d9b85144d93658d112994e5dd9888a7f7c5f52c0f4b2b97e95de08",
+      "bytes": 4847
+    },
+    "controller/scripts/hpgl-workspace-smoke.mjs": {
+      "sha256": "55df74a4c64defd05cce8e8f39c0688ae31f1e721998f3a1afe486d1a5232424",
+      "bytes": 11371
+    },
+    "controller/scripts/import-job.py": {
+      "sha256": "0b223e2a1b69d74a3bfb658a242f503f97f437d90fa4f3b54b28ec530db670aa",
+      "bytes": 4838
+    },
+    "controller/scripts/inspect-timing.py": {
+      "sha256": "4f6768418d46d3a1ebecd725efdfa930a9d9767a152ffa66bca38912a4d92f6b",
+      "bytes": 5433
+    },
+    "controller/scripts/intent-size-smoke.py": {
+      "sha256": "eece6a1defe2760195ee0c7c32ed9d8fd58e80fe7e18b9689e1bf3d4c405e5cd",
+      "bytes": 7514
+    },
+    "controller/scripts/ipp-flow-smoke.mjs": {
+      "sha256": "89e988af314deff51f4881f3ddb50bcd90bbf9b73dedc08de1d963158f31439d",
+      "bytes": 12762
+    },
+    "controller/scripts/maze-studio-smoke.mjs": {
+      "sha256": "4f2b38724368d29d11dfc6a4b25d44aa8f0ec0f5982f7967053d338ce95ea7c5",
+      "bytes": 11490
+    },
+    "controller/scripts/measure-preview.mjs": {
+      "sha256": "666e69352e4cff5be9636ca232f79eecf096a25e057806713d6b70c5c891779e",
+      "bytes": 2662
+    },
+    "controller/scripts/navigation-smoke.mjs": {
+      "sha256": "e97d37825aa63f6c84e470f18821a6dbfb0dfdfc4a2ee08456d692fd9af5bd00",
+      "bytes": 4700
+    },
+    "controller/scripts/paper-units-smoke.mjs": {
+      "sha256": "fe62c80f9f2f536e895ba7c71e2f6fe361259ecbbe669920679c77909464ac6b",
+      "bytes": 5137
+    },
+    "controller/scripts/pattern-gallery-checks.mjs": {
+      "sha256": "a126b017e0eafce85649861c8eaba20d79e01d556aaaa1766829e845c6267185",
+      "bytes": 3601
+    },
+    "controller/scripts/pattern-studio-smoke.mjs": {
+      "sha256": "13dd55efaccebad88cf1854f7ee8255ea2ec502d1acaf7a38302357af621f9f5",
+      "bytes": 17703
+    },
+    "controller/scripts/pattern-thumbnails-smoke.mjs": {
+      "sha256": "3327bc2e152dd53c92e74708535e2318c23213a659c334096bd01f942338f754",
+      "bytes": 6953
+    },
+    "controller/scripts/pdf-image-smoke.mjs": {
+      "sha256": "fcf376739cde5a616ea30ae2d18ff5d7d9a970cc2b6060d26e1eff0e3b0460b0",
+      "bytes": 7175
+    },
+    "controller/scripts/pdf-paper-smoke.mjs": {
+      "sha256": "cf6e6deb00e24dc7bead60de6cd65790deb1b741f610ea1eec88af1fd9080790",
+      "bytes": 11608
+    },
+    "controller/scripts/pdf-preview-plot-smoke.mjs": {
+      "sha256": "0a1c0f64d1d7239bd8027450d58c593120e7e605f8c216e91504f9950d650e09",
+      "bytes": 8652
+    },
+    "controller/scripts/pdf-raster-smoke.mjs": {
+      "sha256": "310452cba1310ad5e28b8ea9e01e197b8e4d7b08d6f45a5d3c1f4a3b686eb51e",
+      "bytes": 27197
+    },
+    "controller/scripts/pdf-replacement-smoke.mjs": {
+      "sha256": "e34312d19c0c14d8e84199e3c00efd87c053a4a4f6d32255da125f561d9c89f4",
+      "bytes": 12275
+    },
+    "controller/scripts/pdf-smoke.mjs": {
+      "sha256": "51eca7dffdb4d370961b4df4e840fef862a5a813ec9392e4afd52b8381e7c5b1",
+      "bytes": 19142
+    },
+    "controller/scripts/pdf-svg-smoke.mjs": {
+      "sha256": "407f237cb458b5eeb28ab8f5b1f8114a58ec70a2062f9c1e6c88f733af874b4a",
+      "bytes": 6526
+    },
+    "controller/scripts/pdf-workspace-smoke.mjs": {
+      "sha256": "2a80f89902891c8866ace95032e75e3c93ae7680849922fb71d5d4ee62a3e8b7",
+      "bytes": 11899
+    },
+    "controller/scripts/pen-workflow-smoke.mjs": {
+      "sha256": "2bad38bc46edbbdbb805f7bc989bac00ea96b030cfef34d4a0e97ad87a67d736",
+      "bytes": 24058
+    },
+    "controller/scripts/plot-smoke.mjs": {
+      "sha256": "42cac7e3347a971d10870c0dafe2a7c53f6bb87120b5145bce6c1d19b02287b3",
+      "bytes": 31724
+    },
+    "controller/scripts/preview-controls-checks.mjs": {
+      "sha256": "46afd4182a92d58e8e925d85134df05efa4a776082db6a2cb1c333d74fdb1430",
+      "bytes": 1729
+    },
+    "controller/scripts/recipe-import-smoke.mjs": {
+      "sha256": "51e85e57ad005e9f772301d269e1854e76de4b353b833a1cd049b51a31c1b1c3",
+      "bytes": 7905
+    },
+    "controller/scripts/recovery-smoke.mjs": {
+      "sha256": "8638d4957ddb8680a931a0db40819d67aa855a78c026f8782638becba237be05",
+      "bytes": 13897
+    },
+    "controller/scripts/render-page.py": {
+      "sha256": "dc9381e9b7be189d5fdeb4de5f39fece261562375ea945526d473d73f888ab19",
+      "bytes": 400
+    },
+    "controller/scripts/retention.py": {
+      "sha256": "9914c642775fa6677fd08d0293f6f6a36f734f4ba9a608762dec50a1a17ad022",
+      "bytes": 13463
+    },
+    "controller/scripts/studio-focus-firefox.mjs": {
+      "sha256": "02f72a4dcc91a3481e5d521f7376f3bf9376850596b6bf02108616d48ca7be2d",
+      "bytes": 6801
+    },
+    "controller/scripts/studio-navigation-smoke.mjs": {
+      "sha256": "9abe03e634e424dafbf3f304a1b60f8a3de0c8713be22b59202c1c6f9c582516",
+      "bytes": 15447
+    },
+    "controller/scripts/studio-notices-smoke.mjs": {
+      "sha256": "27215fb6dd4f537514fba4d98d54567128c5e807608f260f7bf1b16ffdd5efd3",
+      "bytes": 4454
+    },
+    "controller/scripts/studio-tabs-smoke.mjs": {
+      "sha256": "ef5e3cc4003596bc77d871d65b361307cc234a89623ece42f960e0d327ff8f4e",
+      "bytes": 10819
+    },
+    "controller/scripts/submission-smoke.py": {
+      "sha256": "d668a46353515efeab61586841fc5dc8bf0b32ed742ba9f71077678958531d79",
+      "bytes": 6249
+    },
+    "controller/scripts/test-retention.py": {
+      "sha256": "b7af6078c8e3c2944515db49872f4a73cb3bf6826b76baa329a2c5845fe6eaac",
+      "bytes": 7388
+    },
+    "controller/scripts/test_dev_server.py": {
+      "sha256": "115f83a6a361ae01054c10a1158ed28cd108e4508491331243e020ec2864eb3d",
+      "bytes": 2563
+    },
+    "controller/scripts/thin-detail-smoke.mjs": {
+      "sha256": "b6c05398bd1f3ce091b428aa1ee6becd787464c2ae8c56a5d4e2abdc07496657",
+      "bytes": 7007
+    },
+    "controller/src/calibration.rs": {
+      "sha256": "0489c62317be74a7526e544cfb23cb218d206d75c3355268a8ea913c96cb8267",
+      "bytes": 31969
+    },
+    "controller/src/carousel.rs": {
+      "sha256": "79f23b9dda57070c52eaf86abb5f007b156c49f052579f81f1c34700a1df188d",
+      "bytes": 13020
+    },
+    "controller/src/completion.rs": {
+      "sha256": "007725a515d25b6a5a2600678da8d62e943b2289cf8f59f10c3972119d5810f4",
+      "bytes": 7830
+    },
+    "controller/src/documents.rs": {
+      "sha256": "c566d95297539f2ea4733eb00f69e82e453dac7acf2edf7b5eb3ba5f07c77480",
+      "bytes": 88266
+    },
+    "controller/src/hpgl.rs": {
+      "sha256": "2c6fc3f50adb63b95a38d61df5b52add7241f7c93806de1c11bd761f0358fe68",
+      "bytes": 17661
+    },
+    "controller/src/hpgl_recipes.rs": {
+      "sha256": "f1f771230142659da4d8b66d018235161439db58cb0d6df5931be6f41ae2cd0e",
+      "bytes": 6592
+    },
+    "controller/src/layout.rs": {
+      "sha256": "2e2c87c4e51b1cac4352ea6fe396d0526a4e10517d3dac3644003a2250d1166e",
+      "bytes": 8934
+    },
+    "controller/src/main.rs": {
+      "sha256": "67f255675f4ef211e89ad87bca3eb32de44a72b8b2d7013c4d9e86331f456c12",
+      "bytes": 5992
+    },
+    "controller/src/maze.rs": {
+      "sha256": "440a03da140dd2413efcc873c0726f194800ab8991ec3ed4e55f664fec7e3496",
+      "bytes": 18045
+    },
+    "controller/src/mazes.rs": {
+      "sha256": "450e5a0e104ce6ef6f9065f91a8301cc9d11c6cdc8f4c5cdef25f46e64000d84",
+      "bytes": 4117
+    },
+    "controller/src/media.rs": {
+      "sha256": "c726ebec2957730ccdfa87a2e0994c29610d1c4c704824fd8cb2ed8adeb7dcc4",
+      "bytes": 15821
+    },
+    "controller/src/patterns.rs": {
+      "sha256": "ed0d17d0b27f428d5f9a5eef81c43285648a9a2f74c5bf528e8205903cf185f0",
+      "bytes": 19113
+    },
+    "controller/src/plot.rs": {
+      "sha256": "7d8c3d4943f909bed03640928bfd50ed9d0360a1cc6f304b8a7a732470a674e7",
+      "bytes": 75968
+    },
+    "controller/src/prepare.rs": {
+      "sha256": "c9cff6a4641ba362a602ad0a24bcb4fa8e0fb1b1270432a28abf35ef7eb6b47d",
+      "bytes": 19532
+    },
+    "controller/src/progress.rs": {
+      "sha256": "3efa173467a91ab90c524923034220f189bb3939c48c93a72f398d717c68b5fe",
+      "bytes": 3532
+    },
+    "controller/src/recovery.rs": {
+      "sha256": "de98a7c33b2107131e0a8bf80184d2c497a863ba480c4f66c625efbc108cb740",
+      "bytes": 4553
+    },
+    "controller/src/serial.rs": {
+      "sha256": "20c64bd026fc1587ed0117db692dd177cd406c5af398072a316b578bf653cd02",
+      "bytes": 12076
+    },
+    "controller/src/storage.rs": {
+      "sha256": "84e3bc73b3555f8266951376f6d812bf4b8c55e8498fdb9e24cebfb9f801b8e7",
+      "bytes": 3287
+    },
+    "controller/src/store.rs": {
+      "sha256": "b3e10e22301330c461049c6ec57a0077bb2514f953b76b05e1308f775a0a2efa",
+      "bytes": 13981
+    },
+    "controller/src/studios.rs": {
+      "sha256": "43057c328e926b24dac794b6b942f82a1cfc0e70ef3c7cdde9f402fea2ff5b60",
+      "bytes": 6507
+    },
+    "controller/src/timing.rs": {
+      "sha256": "19d3c0b370721fcbd349008de6b847c0827b80ee6d9e048b7e1f371b57420edb",
+      "bytes": 9531
+    },
+    "controller/src/web.rs": {
+      "sha256": "b92f5621edff158266c1c9dc2fb29ad925588c6c2b4e6e0d0e064ede6e88fd76",
+      "bytes": 36379
+    },
+    "controller/web/app.js": {
+      "sha256": "7ed6f24331d764810e35609ecaafb279181f79f67755246099aa24fe6622e442",
+      "bytes": 37472
+    },
+    "controller/web/calibration.css": {
+      "sha256": "6abf02df8272932ed15fa6b556cc0b4162d837d9795d95d2e422216399dd949d",
+      "bytes": 3027
+    },
+    "controller/web/calibration.html": {
+      "sha256": "03003bdaca2063089c1f086c8224f6720eb2e62b133264ac6b8c58bd7f885de4",
+      "bytes": 3721
+    },
+    "controller/web/calibration.js": {
+      "sha256": "949356d4aceec8efee8b6dfa5381ba3d88cd7681f35f5b7f4cc7cb8479d40167",
+      "bytes": 11845
+    },
+    "controller/web/carousel.js": {
+      "sha256": "1660c95f21216f09b9fdbd5cac0b6966d7bc846a0184734bf054392e8fecf76c",
+      "bytes": 2291
+    },
+    "controller/web/geometry.js": {
+      "sha256": "4b6a3fb4920b44fc36a704880d21f32b658176b071f2f785e78a09e80b75cbd9",
+      "bytes": 3618
+    },
+    "controller/web/home.html": {
+      "sha256": "9cd876e9ab89cd144b737a83f8a9c28963440fb1bb1b714020d0d878dc8426ae",
+      "bytes": 7063
+    },
+    "controller/web/home.js": {
+      "sha256": "f6f52ec3c0eb104df83d57837e080a542ff74c8b99f0169f3fd13dbed3e3180b",
+      "bytes": 3876
+    },
+    "controller/web/hpgl-workspace.js": {
+      "sha256": "5108a51d3a8783bca7c7c5bf67245d51e4c41bf8992c16e5bd012d545bd41565",
+      "bytes": 10639
+    },
+    "controller/web/index.html": {
+      "sha256": "d2423ae4d68ad07e6356130b8c8eb9b59253f0596b51285cf33bd77ab074339f",
+      "bytes": 17005
+    },
+    "controller/web/pdf-paper.js": {
+      "sha256": "cccd8ab973e4da723ec7252275141b52eeb7ba77a457b35657fa33103547b310",
+      "bytes": 2085
+    },
+    "controller/web/pdf-pens.js": {
+      "sha256": "1f153cd89c767fb1f6b381004de2a45a46eb153afc945c3bcd23d509a681429d",
+      "bytes": 6242
+    },
+    "controller/web/pdf-recipe.js": {
+      "sha256": "2b7db99ff1f958f9f0cb7944970e731f8cb5d7fbeb0af95f6300351c324af56c",
+      "bytes": 3085
+    },
+    "controller/web/pdf.css": {
+      "sha256": "1576033ffb6dce9ae6a55448bc85aa4ba92d75350d28e8efff8cca6927f52a25",
+      "bytes": 3421
+    },
+    "controller/web/pdf.html": {
+      "sha256": "815f2f8ae3b26c73168a52aa6be461ecc74e9389b15dde01fffe477beb176faf",
+      "bytes": 17255
+    },
+    "controller/web/pdf.js": {
+      "sha256": "ee338ad5641c761a862741746a263cd435b42f69d0efbd1999bd7b3e27c4cd2a",
+      "bytes": 68336
+    },
+    "controller/web/plot-controls.js": {
+      "sha256": "57bc3a75f21406b9a57258cdfa726d7f81e995057fcbc34977ac6a4de98738ad",
+      "bytes": 15307
+    },
+    "controller/web/progress.js": {
+      "sha256": "07bfa2fa059e61391946756b32b7d29ceede7f881e654cf8712beb1601f16236",
+      "bytes": 5816
+    },
+    "controller/web/recovery-worker.js": {
+      "sha256": "2022c9cf9da7c8ad98fd9b55a2746d97ed5506a29d0d073b08dfc56fc1b12d74",
+      "bytes": 4763
+    },
+    "controller/web/recovery.js": {
+      "sha256": "911f5e1e54bdc6956c35917ad8de21e38fab22a953518e41769182c00d3e5fa8",
+      "bytes": 7951
+    },
+    "controller/web/render-worker.js": {
+      "sha256": "ec98f5e6a7c562392133bd21a3bdf8555bd54f220ad089c0e5c45d30884ecf8f",
+      "bytes": 6823
+    },
+    "controller/web/style.css": {
+      "sha256": "3cc06cd99a21066206858050b7a2aaf4768cd377eb8f35d5ba35f0c485307854",
+      "bytes": 7778
+    },
+    "docs/GETTING_STARTED.md": {
+      "sha256": "238ac4cb82f8469b0cbd2651fb80c08d0c8b07833ddafa7089a1aaa0fe7957f3",
+      "bytes": 6548
+    },
+    "docs/PUBLICATION.md": {
+      "sha256": "52a2e2742fd5f3355de38d5623d1785be700522ec88d2b8b4eb3b4e60fd2a2e7",
+      "bytes": 3269
+    },
+    "docs/dependency-inventory.json": {
+      "sha256": "36ba3fd2a1d690e80ffd6dca3bd2b17e02f5089c76645661d5cebb410d4269ce",
+      "bytes": 218279
+    },
+    "docs/maze-studio.md": {
+      "sha256": "472546877fc848150798f9072fc06c738487a85b90edff5e4aa7a745ee048278",
+      "bytes": 8094
+    },
+    "docs/pattern-studio.md": {
+      "sha256": "8356c05702a595fddf00dea6100098cf522f480c9e6bfe0c9ec7d74627c96f68",
+      "bytes": 75910
+    },
+    "docs/pdf-raster.md": {
+      "sha256": "f024aa9c503c9c78ae40ddcd3793342bb459e7c213035e8f601fda95a242e08d",
+      "bytes": 15972
+    },
+    "docs/pen-continuity.md": {
+      "sha256": "4ce1a4beac9523573a71823ebbf0974e4dfd7d7d7f8d94a698021380d984d342",
+      "bytes": 4819
+    },
+    "docs/pen-width-calibration.md": {
+      "sha256": "f654d0c371ef863600b79c6262927b809a9de632e468b756566987a8f4a786d4",
+      "bytes": 11271
+    },
+    "docs/pen-workflow-plan.md": {
+      "sha256": "a22b6409419c5783377411d7d89a303a4f8c39c49a9320612e3612f30e392f45",
+      "bytes": 13262
+    },
+    "docs/printing-workflows.md": {
+      "sha256": "eec85b6434185563b375604a795ec19f23d5dd4d364ecd90f47c408bb08042e4",
+      "bytes": 7672
+    },
+    "docs/readme/.gitattributes": {
+      "sha256": "32626fef7b63d2aa552aa4a6e4017906b6a5736eb6013eae6fcbc55b506fb131",
+      "bytes": 182
+    },
+    "docs/readme/ASSET-LICENSE.md": {
+      "sha256": "72ba68a46d9ec50c7c53cd026760fe59d02dff82d5c2d7dcb799e6b98feb7736",
+      "bytes": 903
+    },
+    "docs/readme/CREDITS.md": {
+      "sha256": "c596aa06a208be0f24b4b22cdc4063e309f8668c545584e0333abd575bd3e5b0",
+      "bytes": 3057
+    },
+    "docs/readme/README.template.md": {
+      "sha256": "01f7b23e182d2df8e86539964d64d12642ca3a12bf237d06421ae2f7b68cfdb1",
+      "bytes": 2410
+    },
+    "docs/readme/examples/calibration/sheet.jpg": {
+      "sha256": "59305b748cf01e12533b75f772228c8f348152b07c24e50402005c6748fe5b54",
+      "bytes": 451357
+    },
+    "docs/readme/examples/freecad/capture/provenance.json": {
+      "sha256": "bfe276ad32343ced92a9e1ffe8f2e9f301fd4ae455e009d9ad65e9f60385c0ad",
+      "bytes": 996
+    },
+    "docs/readme/examples/freecad/drawing.FCStd": {
+      "sha256": "16e155f3abc09553917543577c927c0ec8d5cfebf530b704e25152deca0ffe33",
+      "bytes": 177858
+    },
+    "docs/readme/examples/freecad/sheet.jpg": {
+      "sha256": "2742b7c8705362f4106461c47fe376fa002ba6fc35b49265c9f5a84d383438dc",
+      "bytes": 190886
+    },
+    "docs/readme/examples/freecad/versions/letter-proof/source.pdf": {
+      "sha256": "7c92e7cb4a7a814fad696398a61e341f08a75c85712f4a5aadcdd4a31c2a9468",
+      "bytes": 29510
+    },
+    "docs/readme/examples/hex-maze/capture/provenance.json": {
+      "sha256": "642af769f1aa1d1ed5405607c240c3e4ca1dfa3812c3a2b0c53eaa281f368497",
+      "bytes": 1396
+    },
+    "docs/readme/examples/hex-maze/maze-recipe.json": {
+      "sha256": "2bfdbc712137d3fc926787e1375d0d53676bee74c80a0ae75f5920f0aab8cbb8",
+      "bytes": 2079
+    },
+    "docs/readme/examples/hex-maze/sheet.jpg": {
+      "sha256": "33ea2cfdef76fad2dcf36dc3bfbf215d01b4794bc4b7ea7bb62f2aa6d80b1fe1",
+      "bytes": 1526079
+    },
+    "docs/readme/examples/hilbert/capture/provenance.json": {
+      "sha256": "5e02baeff489e766aa6665f6d5962676f2218060089a1dc5b7866518c1ef53bf",
+      "bytes": 997
+    },
+    "docs/readme/examples/hilbert/pattern-recipe.json": {
+      "sha256": "40348a35071fd91bd65e9bf594c041968803952fc160d90435b2475dd6bde96f",
+      "bytes": 3432
+    },
+    "docs/readme/examples/hilbert/sheet.jpg": {
+      "sha256": "deec3a225d688f6ebd8530304aa9fdbca5549ba079fdcdd0cf058620035eed4b",
+      "bytes": 1176117
+    },
+    "docs/readme/examples/hpgl/studio.png": {
+      "sha256": "b7479f1d8106ede8fcba2c8d422833e673f5d21e3c03579bbb57c6fec188c882",
+      "bytes": 15006
+    },
+    "docs/readme/examples/paine-field/capture/provenance.json": {
+      "sha256": "86dfef7dbcaedc60b723af644c1e7101880e71b5e938e3dfba9cd68e331d8812",
+      "bytes": 1346
+    },
+    "docs/readme/examples/paine-field/map-recipe.json": {
+      "sha256": "ef445e0a57f640007fac5017b1066fd336c14cab381cfc300c49a8f5a4ecf8fd",
+      "bytes": 4506
+    },
+    "docs/readme/examples/paine-field/sheet.jpg": {
+      "sha256": "8bf605269b25d1a0bc19145e2ec26400c3c4bfa585b41b588ca0457fd5daa701",
+      "bytes": 1608350
+    },
+    "docs/readme/examples/plant/capture/provenance.json": {
+      "sha256": "4e346de118eb16ef95cf48732bcedfe3c24c65968aea1dfd6dba473d96460d23",
+      "bytes": 1316
+    },
+    "docs/readme/examples/plant/pattern-recipe.json": {
+      "sha256": "9d7a96e3cc3bd994b2c229897c268c9208954a4347d1b3d28f35d43103424194",
+      "bytes": 2265
+    },
+    "docs/readme/examples/plant/sheet.jpg": {
+      "sha256": "56746300d3feb81cc84f690eedc19e68ec706d14a1620323b0d2db11486fb7d7",
+      "bytes": 516022
+    },
+    "docs/readme/examples/plotter/loop.webp": {
+      "sha256": "651c0b67b9889705ec33cd8ea831acc92ce8499288d5876b04e91965d5812ca7",
+      "bytes": 2491480
+    },
+    "docs/readme/examples/plotter/poster.jpg": {
+      "sha256": "4590fe918fb0439f7ea717fc7fef131af1d3be1e89744e8b7f098ac881db7354",
+      "bytes": 136089
+    },
+    "docs/readme/examples/plotter/short.mp4": {
+      "sha256": "deee92b76d6c92f5414f80561aea8c85789a4ae583bbc19a573bca2d4feb1984",
+      "bytes": 2051547
+    },
+    "docs/readme/examples/plotter/timelapse.mp4": {
+      "sha256": "80651870ee7af1c1cf2c1975c97d3778de6a4bfa2880d186c08755b3bf835617",
+      "bytes": 4186749
+    },
+    "docs/readme/examples/ravenna/capture/provenance.json": {
+      "sha256": "7e5b684e7075a4cd0ae173c00428d6193a61d5fdabccfae0e5f2c1cb1cc6dd08",
+      "bytes": 1317
+    },
+    "docs/readme/examples/ravenna/map-recipe.json": {
+      "sha256": "79b58a744fa8b545c9cdb7d76c70d0373288ecc66bffcf82067e95fe10d79c82",
+      "bytes": 5040
+    },
+    "docs/readme/examples/ravenna/sheet.jpg": {
+      "sha256": "20f6f648be632f8b9edbcc0340e299d4f4e1e642c2089f7b55b01b9beff398bc",
+      "bytes": 1501051
+    },
+    "docs/readme/examples/seattle/capture/provenance.json": {
+      "sha256": "09a0353772f4079db54a1fe93d6b2dff346969e498dee36944ba7d49a5526d66",
+      "bytes": 1396
+    },
+    "docs/readme/examples/seattle/map-recipe.json": {
+      "sha256": "aa3038039a3b268692de34edb1497d23657016395ced22c14a14bbc5f88707d3",
+      "bytes": 93054
+    },
+    "docs/readme/examples/seattle/sheet.jpg": {
+      "sha256": "1bb886d4ba971f8aa0d21d8d7aa66663b932acf7cea4ae057eaf7b32f397b6da",
+      "bytes": 1062998
+    },
+    "docs/readme/examples/sierpinski/capture/provenance.json": {
+      "sha256": "3e0cf695ee83607ec9759677c7ca350198a03575c2c2f5605d62c6823a602fc3",
+      "bytes": 1088
+    },
+    "docs/readme/examples/sierpinski/pattern-recipe.json": {
+      "sha256": "661ddce637f7e6f2b19b41ec33bb52cc5e302a3944c89933260866833c45b465",
+      "bytes": 1072
+    },
+    "docs/readme/examples/sierpinski/sheet.jpg": {
+      "sha256": "0e8a62e928089bcb9e88fdc241c0dbaa7bd753de101c66a1b438735c88367bb5",
+      "bytes": 857523
+    },
+    "docs/readme/examples/snoqualmie/capture/provenance.json": {
+      "sha256": "c471f8179536707d1d64b0403db47d65b019201ea000f45f8eceffc43db8d72a",
+      "bytes": 1317
+    },
+    "docs/readme/examples/snoqualmie/map-recipe.json": {
+      "sha256": "81379216370d2cc19da6928194df18c13d1393d407092da7a3cc07ec3f3617ff",
+      "bytes": 5207
+    },
+    "docs/readme/examples/snoqualmie/sheet.jpg": {
+      "sha256": "bdc84cfcafe61bd5033cabadc753a2421cc374d57ed3cb3333b34a5583934b3f",
+      "bytes": 1763998
+    },
+    "docs/readme/examples/spider-man/capture/provenance.json": {
+      "sha256": "aa94210d7609e4e3155656c0a95b8add7fe0d2868e2019ee4e0154b254e1bab3",
+      "bytes": 997
+    },
+    "docs/readme/examples/spider-man/sheet.jpg": {
+      "sha256": "70180e942a3b009cccf125be39eae0ce7009be9d54fa8e0f89251bd048fd95b0",
+      "bytes": 1379442
+    },
+    "docs/readme/examples/spider-man/source.svg": {
+      "sha256": "f76d2c007378e133258b2a1cc822d146ef952893416768ff6facba6b228fcc8c",
+      "bytes": 5599495
+    },
+    "docs/readme/examples/spider-man/versions/plotted/source.pdf": {
+      "sha256": "e5855b2b185146e07058ce0b07226df42cab2a18656299b7627927f71d5e9e24",
+      "bytes": 3303908
+    },
+    "docs/readme/examples/spirograph/capture/provenance.json": {
+      "sha256": "a6d2d22b23e5577c398dfb890da3d21b030d0417485d0e5cf0150a3531d448d7",
+      "bytes": 997
+    },
+    "docs/readme/examples/spirograph/pattern-recipe.json": {
+      "sha256": "4eec25fe33d075d876efa7ab5ae279ec3edf78c50e2bebd27e787df31507b5b0",
+      "bytes": 1897
+    },
+    "docs/readme/examples/spirograph/sheet.jpg": {
+      "sha256": "ab1de7ccfb40be4650f1af42024489f410779e1ac9f9030cb6d4ce203b38ae6f",
+      "bytes": 762674
+    },
+    "docs/readme/examples/stroke/stroke.png": {
+      "sha256": "a683273909938c032ad612bccf3f5e56662f096e5da9d4f7fcaa22f7f8fb5a64",
+      "bytes": 195936
+    },
+    "docs/readme/examples/washington/capture/provenance.json": {
+      "sha256": "4e647bf7f68e6a5c82964844a521f9038899ff3b4d8cbeb0a6c76bd3c266de3f",
+      "bytes": 1194
+    },
+    "docs/readme/examples/washington/map-recipe.json": {
+      "sha256": "a4a2915868fb59864de879f989f79f4ccb8c4f4647b4775ed4df0260b4bf0898",
+      "bytes": 704343
+    },
+    "docs/readme/examples/washington/sheet.jpg": {
+      "sha256": "9994bc7b088b7e03a5b4bb4ddefc5268b8660725653ebbf29d76b75ef0e34b25",
+      "bytes": 1773427
+    },
+    "docs/readme/preview-smoke.mjs": {
+      "sha256": "301a91f83051fd55aebcd0e84ef349b363eb32f0485afadfb758866d382612ba",
+      "bytes": 5560
+    },
+    "docs/readme/preview.css": {
+      "sha256": "8db0ab46b98877d427174cccf8ca9b761a1d081309f378deb34b7c67865b7213",
+      "bytes": 3687
+    },
+    "docs/readme/preview.js": {
+      "sha256": "fbfb1fdcb5ba907723aeacecdb7e2e7e55307be0ded54e86ae3f923006859e93",
+      "bytes": 6697
+    },
+    "docs/readme/preview.py": {
+      "sha256": "903abfa88f05e4e416e0e33739770ff483435b8a7daa10c0df95dd2198e4ed52",
+      "bytes": 11208
+    },
+    "docs/readme/requirements-preview.txt": {
+      "sha256": "48f9dfffa3a99ccdc002808ada041957022fe03955195ce5f3f28bb6cf0f06c4",
+      "bytes": 115
+    },
+    "docs/readme/samples.json": {
+      "sha256": "87a8fde847dea0bbf05ed39e7cbca592d03e85c361ba3d2348d9898d15857525",
+      "bytes": 4581
+    },
+    "docs/studio-navigation.md": {
+      "sha256": "c79bbfc6aa8409c00b1e07aac7e01873437318cefc600d70c465b9e2cb3dca4f",
+      "bytes": 11683
+    },
+    "docs/thin-detail-recovery.md": {
+      "sha256": "c2bb6d002899bf968658f0f58048a9333e8eb9a828b3b46eb6463759aedcc361",
+      "bytes": 9319
+    },
+    "mazes/web/app.js": {
+      "sha256": "c692f5b6201086ac2d5122a6b2fa14da20d180e9301d11f1cc5255112c49b094",
+      "bytes": 28181
+    },
+    "mazes/web/geometry.js": {
+      "sha256": "ec36cc93c7ed252108b06f03b07fa93925f457c1c131b602c0db67a92b940e73",
+      "bytes": 3370
+    },
+    "mazes/web/index.html": {
+      "sha256": "d80d3bd18f7ad1ae9b3c722e5a105e8a9aafe973ce142d28e71b2b6e58087155",
+      "bytes": 6474
+    },
+    "mazes/web/style.css": {
+      "sha256": "54abea78998686b8bfba4c8fc8706fc542016389674be921b069bd6f62a189b2",
+      "bytes": 256
+    },
+    "native/cartographer-geometry/Cargo.lock": {
+      "sha256": "d23b7eb5558db7c103ef8d3e16056881ac1042edf9b2d6ccc815be5d93353431",
+      "bytes": 5654
+    },
+    "native/cartographer-geometry/Cargo.toml": {
+      "sha256": "6275ea8537a70cba9b70bd1b7699a9115e3cd2236908e2619a873e5d77071812",
+      "bytes": 334
+    },
+    "native/cartographer-geometry/src/lib.rs": {
+      "sha256": "aecd36de90eab146aa42b6c7e146372c130bfa906beee58cb6675b4deecc0a30",
+      "bytes": 5329
+    },
+    "package-lock.json": {
+      "sha256": "e292a6b08f62a692ad5d77227d6e6aec4923340a3888491b7e8a41748f58c3f3",
+      "bytes": 564
+    },
+    "package.json": {
+      "sha256": "c8a888fac1b529fd7097d6f19bfd75c689d66226be99d1c3bba7f73d1a81c4ed",
+      "bytes": 214
+    },
+    "packaging/public-source.json": {
+      "sha256": "4d2bed745e10ada2d28da2ca195ec88a84d3624cbf73301647cccde7533a5cda",
+      "bytes": 1867
+    },
+    "patterns/web/adjacent.js": {
+      "sha256": "bad1ab4123bc43b76e341e342082ec39a0cfc2148ba16660d75b4cd971e320af",
+      "bytes": 11211
+    },
+    "patterns/web/app.js": {
+      "sha256": "d605780fffe48cd3a6436db4f8320bf812bf9271cbca1ac87f0ed837f35391c9",
+      "bytes": 44305
+    },
+    "patterns/web/botanical.js": {
+      "sha256": "053777dc3a644b11eb28aa74a1c08dab3698564cc46139397d4f4caf00f20d4b",
+      "bytes": 6163
+    },
+    "patterns/web/collection.js": {
+      "sha256": "a04590234500b12c36563099b209c08d618bb73e0319d14b96462b90f5fb1f93",
+      "bytes": 456
+    },
+    "patterns/web/complex.js": {
+      "sha256": "2f707043a1db96121e62f9662d81d09e6ad637bf60b5a72cf487ba1879bb435d",
+      "bytes": 13665
+    },
+    "patterns/web/density.js": {
+      "sha256": "e3bb05acc8d2b7a54008cdd4f43a264b0588aa8fd43d079558eacb8be5ab8b49",
+      "bytes": 4112
+    },
+    "patterns/web/gallery.js": {
+      "sha256": "f873658d9ee7f055f6aa73c6ec64dfe98838f2055a286b8be6e4cc629cf003ac",
+      "bytes": 3253
+    },
+    "patterns/web/generators.js": {
+      "sha256": "9530ee658ed7377ac52504f3b23f22aedf9236454655972ddc1488c71aeef881",
+      "bytes": 19274
+    },
+    "patterns/web/groups.js": {
+      "sha256": "3d08b382a4c8b2ce1acaa3406f00348d047063117e86d17dbad857c61be3f221",
+      "bytes": 1114
+    },
+    "patterns/web/hatched-solids.js": {
+      "sha256": "bbc5ebc3d9ce30f580477e45719b4164410432d5d3a213fe9e18cb6ca5e87f6c",
+      "bytes": 5333
+    },
+    "patterns/web/index.html": {
+      "sha256": "8e5990382fd197bdf174e84235ed91d83b5f6684ac746b76a5483febefcc0369",
+      "bytes": 6242
+    },
+    "patterns/web/limits.json": {
+      "sha256": "7c96f14f0a81402b5ba2588dd210a3bae78b8076895c168888d26659b0def370",
+      "bytes": 119
+    },
+    "patterns/web/natural.js": {
+      "sha256": "9e4a20e1950a79a0535adb5e14e62a5e47c5cc3b214e30fdcc8a27a52d34d59d",
+      "bytes": 11450
+    },
+    "patterns/web/ornament.js": {
+      "sha256": "2194629a08c31c6b8499b477a2ede7dcdd6b6473825935be4aefa26be91f6435",
+      "bytes": 13742
+    },
+    "patterns/web/pinwheel.js": {
+      "sha256": "6662169a7ce5b81bd7f939b8a47c030c4a8a2443dae6c33794533a0f61ae4d09",
+      "bytes": 3096
+    },
+    "patterns/web/preview.js": {
+      "sha256": "0d08cc49590958f09f0f7110e99141959c7b9b331510dc53108cc49c9aa29e04",
+      "bytes": 1631
+    },
+    "patterns/web/recursive-art.js": {
+      "sha256": "fdc1646ad26ff7de721badb73a3305f257692ba95c61043792f07b0284035dfc",
+      "bytes": 7431
+    },
+    "patterns/web/schottky.js": {
+      "sha256": "5851fb6f6cb21b70c6daec6583c483e009df08529c97cab2097a26a784cea906",
+      "bytes": 2932
+    },
+    "patterns/web/spatial.js": {
+      "sha256": "37286ef522edddc77132a3f85154795b04076ae99eccff9680bd774971de53e7",
+      "bytes": 11105
+    },
+    "patterns/web/style.css": {
+      "sha256": "53725ef3c128ff2b85810376e9fc3fcf1ee946382c28cc306d1e8078c302a19e",
+      "bytes": 3370
+    },
+    "patterns/web/subdivision.js": {
+      "sha256": "001e03e7f8e307b2565bdd3b473de1dc53806bf62e00cec83b6e653fdde400d2",
+      "bytes": 4564
+    },
+    "patterns/web/textile.js": {
+      "sha256": "91de433ca2c65d1c9a18bee70926ddae68b039689010fdacc3d570d4a717c52b",
+      "bytes": 10824
+    },
+    "patterns/web/wave-fields.js": {
+      "sha256": "2385cbb678df8f3e711fe67884046bd202d2602a49de33d576c6786c71e09936",
+      "bytes": 5346
+    },
+    "patterns/web/worker.js": {
+      "sha256": "4080fd9f09dd83e6a5abf087d0004555252f241f34aa716aad808dca5dd46e1e",
+      "bytes": 4023
+    },
+    "raster_lab/README.md": {
+      "sha256": "9f901dbcc3a98cb43a16bd8001f45670d3c8a6baaa92a14a4b2aaa3c7c049fc1",
+      "bytes": 85073
+    },
+    "raster_lab/__init__.py": {
+      "sha256": "d19b723b00594a74471ff793a87e1551672ec400a3840ced47542f9c75bb5be3",
+      "bytes": 77
+    },
+    "raster_lab/browser-smoke.mjs": {
+      "sha256": "1791b9d009c0ca9d4085b2c1533d199587de98132ecbf74643128488ad16dbb1",
+      "bytes": 16639
+    },
+    "raster_lab/build.py": {
+      "sha256": "f61970b23104f3339a60923889830561f9530fa5c0a273698da1fedebc6bf66a",
+      "bytes": 12827
+    },
+    "raster_lab/check_combined.py": {
+      "sha256": "1a4e6bf274a04854c0533de23c4ef8606688f74464e33be05306e8530f20c9bf",
+      "bytes": 3505
+    },
+    "raster_lab/check_palette.py": {
+      "sha256": "b5648a2932f0e242cabdc9a409bf40f94b2749caab6d4b4ed8e282a644170de9",
+      "bytes": 4772
+    },
+    "raster_lab/check_portfolio.py": {
+      "sha256": "9cce8c55a6e3265db3c96ddd34725fb60fe663feb3ffec4bbcf6adcadb7b25a7",
+      "bytes": 16826
+    },
+    "raster_lab/combined.py": {
+      "sha256": "3170d3f7cdd59b0cf4dc604f7dcb627e7f4870ce5ddecad00f123afa190fe5dd",
+      "bytes": 8074
+    },
+    "raster_lab/comments.py": {
+      "sha256": "568cb1e08ff19f077f867691f51c2cbe8f95c7e1f339d14d7d8a58fde28286ba",
+      "bytes": 8146
+    },
+    "raster_lab/dependencies-ubuntu24.04.txt": {
+      "sha256": "169556ac44ae324152d71b632a3f58ebf73e4276bbb151c7b5e35d6367e033a1",
+      "bytes": 786
+    },
+    "raster_lab/engine.py": {
+      "sha256": "d81478c265548411a805d5e20b0f6840e518b0b1353abf4c2f2add1b310f135a",
+      "bytes": 15777
+    },
+    "raster_lab/experiments.json": {
+      "sha256": "c5bdca8adcd0f15c93af1aa1c1942b7d961e222099eba6d3f9d7ba1cef12f4a2",
+      "bytes": 58383
+    },
+    "raster_lab/fill_join.py": {
+      "sha256": "f740affc675f6beb94217c4c04bb46e21a53443ca0b907696c9bc4671b47d114",
+      "bytes": 4182
+    },
+    "raster_lab/focus.py": {
+      "sha256": "65d47a5fde1fb5836ce3d84660f8497d4925616caa2e325b98454f934fdc5108",
+      "bytes": 8643
+    },
+    "raster_lab/highlights.py": {
+      "sha256": "868b1eab96c0867acdee43208af3b67fcbc45340660f669ef5a20b982db0654d",
+      "bytes": 2291
+    },
+    "raster_lab/import_sources.py": {
+      "sha256": "ef202b0576bdd8dacd4af42610090c26f4b25afabe0b88bf06dbd1466dbcbb34",
+      "bytes": 2813
+    },
+    "raster_lab/ink_fit.py": {
+      "sha256": "3e474c977a0fbe55b086bfcbac6ff0447103b6ab3cd36f4e8be0bf41f3d1a1a9",
+      "bytes": 7634
+    },
+    "raster_lab/lettering.py": {
+      "sha256": "6e91e0a5a740dd2327dd2536fcc8903fbd8df31817bfdaa6b8458a435f7aa4bf",
+      "bytes": 8992
+    },
+    "raster_lab/lettering_stages.py": {
+      "sha256": "c4f158e64631508975ec959d74282cd5e859998f66b3dc1588543d6ef595270d",
+      "bytes": 4038
+    },
+    "raster_lab/palette-browser-smoke.mjs": {
+      "sha256": "4738c0a115f063904e63cf13ce7d47bd05c200258ff0e2e98e355cc814feb6b2",
+      "bytes": 3325
+    },
+    "raster_lab/palette-experiments.json": {
+      "sha256": "63e2631686dd9f303c119995b3c764226d7f44aea086fcf1e9f78b68ab3ba4d0",
+      "bytes": 14580
+    },
+    "raster_lab/palette.py": {
+      "sha256": "905b72792e61d354c44f01e15d139980e2afb7b4d09ad2cd9784b8bb7f96ed63",
+      "bytes": 7326
+    },
+    "raster_lab/palette_inputs.py": {
+      "sha256": "a4060d90a99c4ecf99b7809ca500ecccdf8f5bde37d6c6fd601f9a1e5d8335ca",
+      "bytes": 3441
+    },
+    "raster_lab/paper.py": {
+      "sha256": "76ebf08dfc16835d0d4d0fade050fa9da6a31b9638f116c070ce63cf5a79ca23",
+      "bytes": 2176
+    },
+    "raster_lab/pdf_fixture.py": {
+      "sha256": "e4b065841ae1830be4515115ac6e64aa5e6306c23174fb123ea84d8bbeb4379c",
+      "bytes": 4257
+    },
+    "raster_lab/pdf_render.py": {
+      "sha256": "0e850d2b7fcbda588d354d52d3e082e0d1d350a7634eeda1404b533629ec74d7",
+      "bytes": 7025
+    },
+    "raster_lab/portfolio.json": {
+      "sha256": "840b1bec7ac4f272773689d2c266e25aafb2bead2a83166ec5eeffa1800faee8",
+      "bytes": 595
+    },
+    "raster_lab/preferences.json": {
+      "sha256": "8f018808293c550b0af4b37b5b6b4bc1a218a2849f7423437c703c2a9357ee49",
+      "bytes": 26925
+    },
+    "raster_lab/server.py": {
+      "sha256": "7706ece5c7d120e76a7026d51d598669d99d5e73c93b2afbb13f6db9d6d97490",
+      "bytes": 5692
+    },
+    "raster_lab/study.py": {
+      "sha256": "fca802dca76856d60306d118d6f90ccf78d1df26a5b245886ffd54bb39159e2b",
+      "bytes": 4308
+    },
+    "raster_lab/tone_strip.py": {
+      "sha256": "fbc87d87b784f575cd20c409085c60c64c248d5727d4f449d30c1069065944aa",
+      "bytes": 2236
+    },
+    "raster_lab/waves.py": {
+      "sha256": "0b6f024d2631f71b8204f26754d227ef621a18a7ce1ffee6dc6904cabe77c31a",
+      "bytes": 10064
+    },
+    "raster_lab/web/app.js": {
+      "sha256": "0a18372e8c7888b78a054fb69708ad7dc78b7dff6f13d2a9883b31f1fb848089",
+      "bytes": 30194
+    },
+    "raster_lab/web/index.html": {
+      "sha256": "7e193fc236185449ce5cf673df40a15149f77337eb0f24649d036e305eacb5bf",
+      "bytes": 9122
+    },
+    "raster_lab/web/notes.js": {
+      "sha256": "4f066d86dc017018eb0a59f6b44a86c576aa58b1f3a3b72caf7a121dedcc8502",
+      "bytes": 7367
+    },
+    "raster_lab/web/style.css": {
+      "sha256": "63c92078993f48c8ed60f55b7eedba60405c2ac4e2a41e9a55f35b580c74e24f",
+      "bytes": 9982
+    },
+    "requirements-calibration.txt": {
+      "sha256": "d239da2d8333259ff17c0b5f33c548c76d72de8358bd8f89f2f62e38ba569abf",
+      "bytes": 122
+    },
+    "requirements-cartographer.txt": {
+      "sha256": "aef3b4a8de934c389971ce5e279915a691fd8f32cb2ca95917bc831840f0a27a",
+      "bytes": 271
+    },
+    "requirements-contracts.txt": {
+      "sha256": "e76028f1f3d8b7642eb2af644e80b1775613dcacdfaa59402112d4dcb4136c14",
+      "bytes": 88
+    },
+    "requirements-map.txt": {
+      "sha256": "54922581aa708858dfcc7ddcb40ad2513143cb4d38723513d759303332a151dd",
+      "bytes": 74
+    },
+    "requirements-native.txt": {
+      "sha256": "9c1b81727ce3c805588e2acaebcae3f8e99a27b531cbf0ee125a4fecce30198b",
+      "bytes": 329
+    },
+    "requirements-timing.txt": {
+      "sha256": "c4d7adfa11aed74f65c3e7bdf142a430b3dd0e9e652a7390a703fb832df1328d",
+      "bytes": 136
+    },
+    "shared/web/authoring-print.js": {
+      "sha256": "ba74d5175d0cffa24cc142dc19131e9ca1eb4fa9db1f4dbb1dae3a3f9715886d",
+      "bytes": 5268
+    },
+    "shared/web/inksets.css": {
+      "sha256": "dca13f9502c57ca94447c42f324017dddb558eb3312586294c947561093d7e34",
+      "bytes": 7884
+    },
+    "shared/web/inksets.js": {
+      "sha256": "f9a234062267b662673ae5da110f5c58700db1900e6b1398ce25be94180e8953",
+      "bytes": 29834
+    },
+    "shared/web/paper-units.js": {
+      "sha256": "bedad57ea037c68998e019a5ad5ff44506e1607e33a974e572c2c1b217eea8c2",
+      "bytes": 4754
+    },
+    "shared/web/preview-navigation.js": {
+      "sha256": "4a29314e60d1220708b118454675ac0cd10f5cee1b54bf34d46e4f8a74ca605d",
+      "bytes": 5496
+    },
+    "shared/web/recipe-files.js": {
+      "sha256": "701d886963663ec195abbdb9c9cf27086ac7cd76c1d3d9c48350fc2fa6418063",
+      "bytes": 4407
+    },
+    "shared/web/studio-navigation.js": {
+      "sha256": "a8fddfff2969bc1f51fce30f1a0d7374a346e2340c14081cbb597acebb515f66",
+      "bytes": 15570
+    },
+    "shared/web/studio.css": {
+      "sha256": "aa0cc08d515945f3c3cd52050099b10fbbdfb845bd6196df32b4b4bc299ddd4b",
+      "bytes": 20708
+    },
+    "shared/web/studio.js": {
+      "sha256": "158598f89a3638cc45ae0a79c45fd3652f11f9195219d7056be1cb4d27883b63",
+      "bytes": 11484
+    },
+    "src/continuity.rs": {
+      "sha256": "e0d6f2c4d3f6afe2fad3df356fd6322fdd841be63a99c3c3280f5043da29741e",
+      "bytes": 4999
+    },
+    "src/geometry.rs": {
+      "sha256": "d192120538db35ad9d748af1fec676a9fb53c43089ec85d861e02e7fa834a753",
+      "bytes": 20937
+    },
+    "src/hpgl.rs": {
+      "sha256": "0be114c5ca282ccf8eb631b9005b8e80e2db2b01fd8c0143c0c3a5f26f0f8dc9",
+      "bytes": 7509
+    },
+    "src/lib.rs": {
+      "sha256": "1030512a5bd37c098ac229c056cc60c2f912ba1ff9568ece734bd0af3c3ca3d5",
+      "bytes": 225
+    },
+    "src/main.rs": {
+      "sha256": "798fb39f6fc6d0a9d44f4a05ac332cb3c2963cdca67fe124a2f31e3ff0f799b3",
+      "bytes": 9350
+    },
+    "src/model.rs": {
+      "sha256": "0f66604a75faa3a9cc7d4f0b2487e99a9719f8b56709477b3f716d71e4ea3216",
+      "bytes": 6067
+    },
+    "src/output.rs": {
+      "sha256": "4a5f3f880e443dea7ebc7f25b742e6c44cdff4bef45fa9e393682b71af801fa7",
+      "bytes": 8354
+    },
+    "src/palette.rs": {
+      "sha256": "550e3ba7e31fe293197875012382bfec408cfdd20681a478208dca3d84bda4db",
+      "bytes": 866
+    },
+    "src/plan.rs": {
+      "sha256": "37ddae7d0013600c10b638ddaadd1ffed5aaf6ddeed19946a4e660b6955eef2e",
+      "bytes": 58200
+    },
+    "src/plan/tests.rs": {
+      "sha256": "c3a49688f31817690716747595de54e2b3cbbebe79967473893951d1bf0d5e92",
+      "bytes": 21056
+    },
+    "src/progress.rs": {
+      "sha256": "f31b84a986bc361e366e45a91a24ece7763581c023a14ad915be34d035a3ceae",
+      "bytes": 2322
+    },
+    "src/route.rs": {
+      "sha256": "3df08140f98e99949f1d4d59356015b651cd82713ae247ef99fad614e270fdef",
+      "bytes": 5826
+    },
+    "src/summary.rs": {
+      "sha256": "93427432d6673accb1d57be010aef4dad04082cd8aea2f38edffbf27f85a1fd8",
+      "bytes": 4456
+    },
+    "src/thin.rs": {
+      "sha256": "79399956734a4cce5cf181e79b795569047dd9d06fcc6f514647f5403a907201",
+      "bytes": 11618
+    },
+    "src/visibility.rs": {
+      "sha256": "2e647d23594b1ae9695951067a4f0960690c92875a3d38aa09b02f16dc9a554b",
+      "bytes": 22681
+    },
+    "src/width.rs": {
+      "sha256": "65388dec08f5aa7a26ccab4269dd85a4907f009945c8d63d7a67191f2836faeb",
+      "bytes": 2035
+    },
+    "src/work.rs": {
+      "sha256": "b1adc3e8f071bdec56976257d192742be47e43c74e8b7019c61896e7f1843d60",
+      "bytes": 5758
+    },
+    "styles/plotter.json": {
+      "sha256": "5198f642e61fd163979a5bc68b4ded5a5b05c442ade8acedee80e568b60ba7c2",
+      "bytes": 787
+    },
+    "styles/ravenna-letter-hp7585.json": {
+      "sha256": "316fc4d4c6634dd52088256fa25e6b520a7c210f01094c1ede7ab3f099400f61",
+      "bytes": 853
+    },
+    "styles/ravenna-letter.json": {
+      "sha256": "dc1748deed9d64a35e4290096e3ad77e35ce4e8dc65d7265326c9558770d29ec",
+      "bytes": 784
+    },
+    "styles/ravenna-northwest-letter-hp7585.json": {
+      "sha256": "75e63151ff37f60a6f1b684f09b93704cef3796f8a5b88edfa0dfb9e9a36a028",
+      "bytes": 853
+    },
+    "styles/seattle-11x17.json": {
+      "sha256": "7ebad66cebb2d19ba1d5056f8ef51de768f5554a8ed4eb73fabbf39d30663ad5",
+      "bytes": 5520
+    },
+    "styles/seattle-relief-11x17.json": {
+      "sha256": "f884a4f0a8bcfe40382a222cd1c43fe8120e7c4466d7835e02c1825622249cd5",
+      "bytes": 1473
+    },
+    "styles/seattle-relief-hp7585-11x17.json": {
+      "sha256": "29405bbf8fdb257a8797542735df2fc777acb8ac578544aae8213ceaddda9dc8",
+      "bytes": 2521
+    },
+    "styles/waterways-11x17.json": {
+      "sha256": "30d6807ad4f9619ff2fb5c28051031a3308aa2127a564552a638e2aa24045139",
+      "bytes": 4632
+    },
+    "tests/artifacts.rs": {
+      "sha256": "019ef18a6c4d2d1a3a951b8cdc0d65aff75eaadfc0366017de42c5ac8ce59f51",
+      "bytes": 2265
+    },
+    "tests/continuity.rs": {
+      "sha256": "064ac01d9aaaa5e240022f3da51f816f223300305473cf52f48d3a9c768bf6ba",
+      "bytes": 7576
+    },
+    "tests/fixtures/README.md": {
+      "sha256": "ef7e2a8a977feaacab19ce043daa0b6b2192493a7faf19d011a66fa6c7b8980f",
+      "bytes": 2584
+    },
+    "tests/fixtures/cartographer/contact-occlusion.json": {
+      "sha256": "caacc62498c56c4eaaff6614f63775faeff3d8dfc9d5db5a009e31511d53233f",
+      "bytes": 4461
+    },
+    "tests/fixtures/house-width-clipped.json": {
+      "sha256": "3da39a35639ecce0e7ad7db46816ec0e3a87a5a2c7bc9c5a5254b6e589acb857",
+      "bytes": 3216
+    },
+    "tests/fixtures/house-width-corner.json": {
+      "sha256": "bea40ab02a421457e85c22ab5dff041a2669552cd6fc8e02a7151227c15e0786",
+      "bytes": 2957
+    },
+    "tests/fixtures/house-width-grid-neighbor.json": {
+      "sha256": "998c682f5a52f2c8efecba1987ee22787fe5868256c088efd975a43e6e3fc66a",
+      "bytes": 7205
+    },
+    "tests/fixtures/house-width-grid-road.json": {
+      "sha256": "237241b72ee76345ecf71934d0f86dc95536aac080833fd2befa12a373977ea4",
+      "bytes": 8112
+    },
+    "tests/fixtures/transformed-glyph.json": {
+      "sha256": "8cb509441a960df3525a11778f6fba0e7acf7c50f8960f371ffb0aefe027161e",
+      "bytes": 6600
+    },
+    "tests/fixtures/woodland-overlap.wkt": {
+      "sha256": "bee31e40558393a4ba189a8fe509a7fcd6ef592fc4f9bda70f13df2ec28e4fd2",
+      "bytes": 254
+    },
+    "tests/fixtures/woodland-rotation-hole.wkt": {
+      "sha256": "fe4cd7954d44a119c9b448b543050024b69aa1680090bc05e1800225cc9b520d",
+      "bytes": 641
+    },
+    "tests/geometry.rs": {
+      "sha256": "4240e14b555adc576015106b163ea69089aca99653652e80c2d0f165f98d1123",
+      "bytes": 43009
+    },
+    "tests/raster.rs": {
+      "sha256": "c9525e01fcfef333b656467fb189ee0f4f490b5cb1b32eef2e6033aa0b1f89f8",
+      "bytes": 5607
+    },
+    "tests/test_cartographer.py": {
+      "sha256": "443ad301bc071ce78c4a58cc4aba78a51291f61d3d9060d0c775992437f271fe",
+      "bytes": 36816
+    },
+    "tests/test_cartographer_area_marks.py": {
+      "sha256": "f7093d84c9863ee6bb957e93778893e6d3f96c266bfa3674f8e25cb3913567a2",
+      "bytes": 10934
+    },
+    "tests/test_cartographer_bridges.py": {
+      "sha256": "9f8f60c51ef72eeeafacde2497ca50bec8383b35794e347ff43a129931b3395a",
+      "bytes": 6397
+    },
+    "tests/test_cartographer_build_cache.py": {
+      "sha256": "c43fed148947e769b42219afdee2705d579d5ea55494c01cb6c02cec2711a2bd",
+      "bytes": 14037
+    },
+    "tests/test_cartographer_contours.py": {
+      "sha256": "27fad0cf99fd73f65f9798ed4f4a34c08d91572c7709900a3be64b24bd168398",
+      "bytes": 6034
+    },
+    "tests/test_cartographer_documents.py": {
+      "sha256": "f290027f3a207d4ca65247c7b07394972b530fc721fb9deb5a9a0a03f5c1eb51",
+      "bytes": 7300
+    },
+    "tests/test_cartographer_flat_hillshade.py": {
+      "sha256": "1229ebcfef2af9f8223f20d4a93db1bfcc96d29fca4d630abbe02e684f9e5f57",
+      "bytes": 4898
+    },
+    "tests/test_cartographer_furniture.py": {
+      "sha256": "e893242d9f3a902b311ebabb4db9832e45483c54c923e4e0e70b362feeb3c654",
+      "bytes": 6499
+    },
+    "tests/test_cartographer_hatch_topology.py": {
+      "sha256": "7ee1dc4a272905a53f2061d1d929757a1a33aed903f655114482cc98587e66fe",
+      "bytes": 3109
+    },
+    "tests/test_cartographer_hatching.py": {
+      "sha256": "ed0781b3d2f79666115692a397115d5ba478d6d5df334bbade20ae3691c82647",
+      "bytes": 2634
+    },
+    "tests/test_cartographer_mesh_union.py": {
+      "sha256": "145d89aba79c5fb59d8fc43fdddbdbd93a125d485a36e7192ea22b3a43041583",
+      "bytes": 2144
+    },
+    "tests/test_cartographer_paper.py": {
+      "sha256": "f31eb7854a4d5d6be2eb95bb20f61b8ced9ee4cefdd5a07795c685f347cfe2d4",
+      "bytes": 4541
+    },
+    "tests/test_cartographer_preparing.py": {
+      "sha256": "b1bb7b42871a5221fff9a18e81f49ec0703cbf95919ecbc813258e721ab7824a",
+      "bytes": 10464
+    },
+    "tests/test_cartographer_printing.py": {
+      "sha256": "7ca37579c5b60ee4582f44ae60bc96e202ef362c17ecbf7ff8b4e8e152fa22d1",
+      "bytes": 19476
+    },
+    "tests/test_cartographer_retention.py": {
+      "sha256": "91ac6873d899fd1813e6093c3e48dd60459c9c697bdd6da470a80b8ef835112a",
+      "bytes": 3736
+    },
+    "tests/test_cartographer_runtime.py": {
+      "sha256": "74d55b490c816de40f17edf7294ee450a31853129ce1c41505795cf6897176a8",
+      "bytes": 5100
+    },
+    "tests/test_cartographer_terrain.py": {
+      "sha256": "288ecf8adbabe461f53ba11aa79475207b52fb7e8bff0b96071afbbf475d4ad7",
+      "bytes": 6650
+    },
+    "tests/test_cartographer_terrain_marks.py": {
+      "sha256": "00fef663ca10bb1b6d50fc915b6642c43600d8de9c76168e8e25fac51d6d03b0",
+      "bytes": 10687
+    },
+    "tests/test_cartographer_visibility.py": {
+      "sha256": "fcb5570ed65008db7091957ea0456c2c6624c66fc5d784fe2e723f3d95bd9430",
+      "bytes": 5996
+    },
+    "tests/test_collection_geometry.py": {
+      "sha256": "90334ed058c3b24f08a3b7cf699b18360f9245b70650b0e1de3fc427c0565f04",
+      "bytes": 2281
+    },
+    "tests/test_map.py": {
+      "sha256": "1663dfad287e86ca9fbc1c8b2a07564c36087907c8cabc9a1fa7c863d5d8359c",
+      "bytes": 5074
+    },
+    "tests/test_maze_export.py": {
+      "sha256": "fd463cacb345f0d1a8e8dcb2ffaf7f52a2c4c6ff406b61df14098a317af30efb",
+      "bytes": 2120
+    },
+    "tests/test_ornament_geometry.py": {
+      "sha256": "482043094dab353082a92b93df32331d89785c37e377488331e638b59e3b41c3",
+      "bytes": 1589
+    },
+    "tests/test_patterns.py": {
+      "sha256": "ba02084aec3a97fd45ab141d1db1865ee6b5b47d2a4c0074191d9fb32e3b9e98",
+      "bytes": 4540
+    },
+    "tests/test_pdf_driver.py": {
+      "sha256": "f34b32320bfd5a936e0504d47a8f34108fbef898b0cd64fd0c6511f552e5e09b",
+      "bytes": 27070
+    },
+    "tests/test_pdf_input.py": {
+      "sha256": "37ad159a2feea446d14e3b7ac715aeba6f95aa2dceec1b536acd0eb3abfb2970",
+      "bytes": 6563
+    },
+    "tests/test_pdf_raster.py": {
+      "sha256": "9613fc39dc791c366fa3699de89d895ed6d96f6af4062250ba35fd443622bc26",
+      "bytes": 10028
+    },
+    "tests/test_pdf_raster_renderer.py": {
+      "sha256": "66b806be2764f7665290cb1293140f198d8eb0b8f45f0b21fcaf6c9903f2b5ea",
+      "bytes": 9541
+    },
+    "tests/test_pen_calibration.py": {
+      "sha256": "8d743174c1189b34e49fbd75c954fee2f5d6f4e3b1659f16ba2df6abee7a0e54",
+      "bytes": 10101
+    },
+    "tests/test_pen_workflow.py": {
+      "sha256": "3f67675d69cf890bef24e7fc15d3d36a37f4d0077b1d43ed198d95fa635954ab",
+      "bytes": 4911
+    },
+    "tests/test_plot_timing.py": {
+      "sha256": "53f2ee981a450cded1d217e25bbe73c67474b5d9f17757aac29332b02cb4d05a",
+      "bytes": 9042
+    },
+    "tests/test_plot_timing_extensions.py": {
+      "sha256": "097d0ccd946325ca267450cb3ae62acc36abeaca5079de9c81cef7d2c12b38f3",
+      "bytes": 3576
+    },
+    "tests/test_print_contract.py": {
+      "sha256": "9f488b7337ab38701b8f3f202bda2d0132154b46e87453bf3510de4c226f31df",
+      "bytes": 7810
+    },
+    "tests/test_print_sink.py": {
+      "sha256": "32dcf61f668998126fb5d9b74d0d101fda18b1cffd171ea22f6cdfcdd234c24e",
+      "bytes": 11144
+    },
+    "tests/test_public_source.py": {
+      "sha256": "306347154a972ce307e653880dfff5bad99e1b90ec41f03ecd5a1858e54ef056",
+      "bytes": 4604
+    },
+    "tests/test_raster_combined.py": {
+      "sha256": "92305f76c66bb20c973afe0607a4321bebb23ccff8f99a30ea26f7555b66e1e6",
+      "bytes": 5414
+    },
+    "tests/test_raster_comments.py": {
+      "sha256": "6ab4a9d1584210afe0c2596065c49dcc9d44d382a03ab526adf5b65cf374863b",
+      "bytes": 7175
+    },
+    "tests/test_raster_compare.py": {
+      "sha256": "e8d4929b944b6408a06c2c73965aeeb1e8b493f50038112f315cd12c700ceaab",
+      "bytes": 4227
+    },
+    "tests/test_raster_fill_join.py": {
+      "sha256": "de4a86f504277edd3e6d3413b00fbdcf6c7e7cf33c0ef93b15175e7e956e4133",
+      "bytes": 4245
+    },
+    "tests/test_raster_focus.py": {
+      "sha256": "0e6367065440c8eaaa354ea752db48be5914f4719fee118d268b433541a085e6",
+      "bytes": 6228
+    },
+    "tests/test_raster_highlights.py": {
+      "sha256": "6a18a2a63bc368dbbffdc5aa0b9eab5a6b77ecdcb727a7da9450c3b242440e4f",
+      "bytes": 7842
+    },
+    "tests/test_raster_ink_fit.py": {
+      "sha256": "0f2a7ef14cc0309010baed49800c33383a49510ab6d282046f9138d412fb9378",
+      "bytes": 4351
+    },
+    "tests/test_raster_lab.py": {
+      "sha256": "5cae410cfd9324f7491b6421be497827b8acaf22dd552c3092c841606edab70f",
+      "bytes": 7304
+    },
+    "tests/test_raster_lettering.py": {
+      "sha256": "b6ed07739fd0bfa783a55433bea6e3a81f0a65efe00806ce1c803f337e857a92",
+      "bytes": 8377
+    },
+    "tests/test_raster_palette.py": {
+      "sha256": "89bfe098f09ae7f4501959ed03ba90d4ff5007b7fa3e0059dd43ef8da7c3a85c",
+      "bytes": 7730
+    },
+    "tests/test_raster_paper.py": {
+      "sha256": "95680bfa6b6db948b28569cbb5d6ddcd731de5014965626dde835f009d648c77",
+      "bytes": 4069
+    },
+    "tests/test_raster_round3.py": {
+      "sha256": "3a1e17427c5180dfb07b4490c267e9b9c88d781ce0a7302f2050e2bbb4aad716",
+      "bytes": 5232
+    },
+    "tests/test_raster_study.py": {
+      "sha256": "6413eb8d39793621399b01088cfd1c8572a0441e4829e875767825d1a76e679a",
+      "bytes": 7920
+    },
+    "tests/test_raster_thinning.py": {
+      "sha256": "79c90508d849f380ce7fabb44da10faa6c9fbb88274c84ade8a17f9e47122ee8",
+      "bytes": 5882
+    },
+    "tests/test_raster_waves.py": {
+      "sha256": "7a56350d1d3a22285718e991d364782443e9e14179d532773824472fc5be0959",
+      "bytes": 3807
+    },
+    "tests/test_regional.py": {
+      "sha256": "d236841db21aaf867dd674f87ecad9ab48ed1cde030103c2c65b951b5fc38c5b",
+      "bytes": 1647
+    },
+    "tests/test_svg_input.py": {
+      "sha256": "d9c98f9da7aff42b7f90f058382aca18157151b5289d554ceb7324e4046f944c",
+      "bytes": 7558
+    },
+    "tests/test_terrain.py": {
+      "sha256": "42ce21bf9f3d1dd156e877fa83ea633aa5ffdddce1846cffe597f771c988b909",
+      "bytes": 8519
+    },
+    "tests/test_thin_detail.py": {
+      "sha256": "ed5588826c3b2863870e4113ea4a4158ac67c8247abb843125b8e8a495b56ad7",
+      "bytes": 3420
+    },
+    "tests/thin.rs": {
+      "sha256": "c8553565efac39e0980528d12c3ad16e1a0d1d1895c6b500f27d1ad80ba5ea3e",
+      "bytes": 12176
+    },
+    "tools/authoring-print.test.mjs": {
+      "sha256": "f09e0e0453eda2091f8b7e5aa1d41f719659464593008ea562a6f1a2d43bcc44",
+      "bytes": 3876
+    },
+    "tools/benchmark_cartographer.py": {
+      "sha256": "0c41e04b68c9c557667aeff61ac7879732863f0d71e2a1e01720b0d09c80d2f9",
+      "bytes": 6069
+    },
+    "tools/build-pattern-thumbnails.mjs": {
+      "sha256": "b03ec4024437db152a9bd870bd7fa39f51acb76440fdbc92f4a6dad5e96d6bbc",
+      "bytes": 3376
+    },
+    "tools/build_cartographer_geometry.py": {
+      "sha256": "366693c0a0e4f848bd46787a1400d4250527302b43ccd93380605b166ebc0aa9",
+      "bytes": 1853
+    },
+    "tools/build_map.py": {
+      "sha256": "c3155f27ad25d348c1e7ad0df7fedaf767f2bf227957b9537ed981550afff166",
+      "bytes": 20937
+    },
+    "tools/check.py": {
+      "sha256": "e511fd9d7cca90257eee39c62185a1c77cd947846a67232758c9cc7d5076de67",
+      "bytes": 8854
+    },
+    "tools/check_cartographer.cjs": {
+      "sha256": "e47975af0748150f75a14706abf1cfdd65d3cdbad1699a9c1b932a7a8ab49c76",
+      "bytes": 8062
+    },
+    "tools/check_cartographer_area_marks.cjs": {
+      "sha256": "3f8f0452266c68c3fd70549f7a71b4e36c559a6ad325214a2f50eeda652092bf",
+      "bytes": 5063
+    },
+    "tools/check_cartographer_area_marks.py": {
+      "sha256": "2670b17006b0c67677b2181eb6c6d17bae49f9946a18376d8693fc0ae71c619c",
+      "bytes": 1322
+    },
+    "tools/check_cartographer_bridges.cjs": {
+      "sha256": "e8fc16a948bb654b038a4c5692fd663fdd3a13d102df88994a6de8db935192d4",
+      "bytes": 2721
+    },
+    "tools/check_cartographer_cache.cjs": {
+      "sha256": "ba23263178b895ec2b80053d0c6832bb66d3ac7d63af9be13a552cbfa881fc55",
+      "bytes": 3532
+    },
+    "tools/check_cartographer_documents.cjs": {
+      "sha256": "75a3caea6fe3094fd0604752a5aeb9b0f89e36dc9c713583be9635e054d14529",
+      "bytes": 13160
+    },
+    "tools/check_cartographer_documents.py": {
+      "sha256": "fa489b22e4a6c2322939453cfa6603f9b83aaa1b15bca975ac73cd2a6c2bf273",
+      "bytes": 1325
+    },
+    "tools/check_cartographer_furniture.cjs": {
+      "sha256": "b0f718610f81dffc709331bfcecca7d9ba6dcf7c4b110e5fc48a1473cba17f10",
+      "bytes": 3270
+    },
+    "tools/check_cartographer_navigation.cjs": {
+      "sha256": "9a003728b88b642532a85adfa9f5e74212068b6d57d03dd20e116f8c8975f903",
+      "bytes": 13784
+    },
+    "tools/check_cartographer_navigation.py": {
+      "sha256": "6547580b0da13715ce1bb2b19c2a25278a857684d0c3cb3f404f22134b06a0f0",
+      "bytes": 1391
+    },
+    "tools/check_cartographer_orientation.cjs": {
+      "sha256": "d6938c9771392a6975063a4dae3c2f15d027f84cadd5f00f77f3f89e0f8583b8",
+      "bytes": 1702
+    },
+    "tools/check_cartographer_orientation.py": {
+      "sha256": "405fd399c691b48b7c7499de46c2e3bbd5cc873ebd3c28fda4e8bede0e2051f5",
+      "bytes": 6523
+    },
+    "tools/check_cartographer_paper.cjs": {
+      "sha256": "48a419eed988575cad3f2da2cd1d439b2a277ecace4a53d2d94277fdf2d752ad",
+      "bytes": 10283
+    },
+    "tools/check_cartographer_paper.py": {
+      "sha256": "ecb35cb2762fb4935ec0be98b26b0623fe3b5c8187c50c9fe781841cfa16af58",
+      "bytes": 1346
+    },
+    "tools/check_cartographer_pens.cjs": {
+      "sha256": "75630935078784d765d357e8bade1b3bb944f244458649e320788c94017c2187",
+      "bytes": 25315
+    },
+    "tools/check_cartographer_pens.py": {
+      "sha256": "e2589ce963244b8b860841814d2f56453fd322c85ad34b3515b301b60d276c2c",
+      "bytes": 1319
+    },
+    "tools/check_cartographer_print.cjs": {
+      "sha256": "3b65dd8ac87bac65afb5c87a97b3e0a96812ad5d1bc2e63e0681d93f86b1bf27",
+      "bytes": 9509
+    },
+    "tools/check_cartographer_print.py": {
+      "sha256": "4f76d008bb57c4bcdb8d771dd9b5ddad89bc1b4f8f64e12e06218cad15f9fafc",
+      "bytes": 9968
+    },
+    "tools/check_cartographer_progress.cjs": {
+      "sha256": "deb3e12e9c9f0b57dcef38ada89d6d4edd40987415a77d44c4be0ef2336b72dc",
+      "bytes": 9362
+    },
+    "tools/check_cartographer_restore.cjs": {
+      "sha256": "f4696186eeb1e6ff236634e38bd62a0e7b1564f62356dcf5a8e0b9df866dd518",
+      "bytes": 7714
+    },
+    "tools/check_cartographer_roads.py": {
+      "sha256": "771545d5092b7d6f86826ca70b16b2e2ddb49e9ee257ad6ae246aeabb9404492",
+      "bytes": 5042
+    },
+    "tools/check_cartographer_terrain_marks.cjs": {
+      "sha256": "0aae57206eeeb322728ec87a42e22a059d295c9c2506c12702dddfce96bc6415",
+      "bytes": 5279
+    },
+    "tools/check_letter.py": {
+      "sha256": "98948153443e9c462171f0a3388590c5e8a94eb9245bf9d112850f7ef1f2274f",
+      "bytes": 6072
+    },
+    "tools/check_map.py": {
+      "sha256": "397ab2b28e538e5cca3368de4ca039b9be8c58d7a5489269dc52912fbf168fe1",
+      "bytes": 4250
+    },
+    "tools/check_northwest_letter.py": {
+      "sha256": "8f1d4e64c623a9174cd3ffbf0f803deb1354b9b4e7459612cc2f141c11d87629",
+      "bytes": 6250
+    },
+    "tools/check_pen_calibration.cjs": {
+      "sha256": "8d33bbffa7b11022e763a5e1438bce98af26795e009da6506fcce9c07b67d299",
+      "bytes": 14615
+    },
+    "tools/check_pen_calibration.py": {
+      "sha256": "557bccad28e4bf491538f6d5263afe7ccc4c8e8bc1504587b71c5abc8420fe37",
+      "bytes": 3424
+    },
+    "tools/check_raster_review.mjs": {
+      "sha256": "c2925060f3f9bd975faf16e26b59babb9d072fd52dfaa26513ac2370c1ea5169",
+      "bytes": 2538
+    },
+    "tools/check_regional.py": {
+      "sha256": "ec4eea21c21c23046a6f4593678d75a406498580e10f9d1d6d429f1c507fce93",
+      "bytes": 5893
+    },
+    "tools/check_roosevelt.py": {
+      "sha256": "980fbe172cf8c9d18eeb08d06958aa6f47f3a71e190acf3daf3e3df1f4d6ca1b",
+      "bytes": 3205
+    },
+    "tools/check_terrain.py": {
+      "sha256": "0965fdba89b7cdb50d9a3879d332d693c05bc03f071ec943060c4103b89ddaa3",
+      "bytes": 13321
+    },
+    "tools/check_visibility_change.py": {
+      "sha256": "dc060ccade4ca0e34a0fa6e0daa0fc8a6735b072a58afc8e5940ad1e4a389644",
+      "bytes": 4133
+    },
+    "tools/check_widths.py": {
+      "sha256": "6ab19ec89e17e38b95bafb5e63db384280e0c91e5c6c163d41e603dc92c0f1a8",
+      "bytes": 2575
+    },
+    "tools/collection-patterns.test.mjs": {
+      "sha256": "d1924ceeeebb81c938a624d60d879e3cf9cf3177b7ed93d44b618626eaab6ccd",
+      "bytes": 10181
+    },
+    "tools/compare_cartographer.py": {
+      "sha256": "feed5dad749d4f735c36773978aec14492638c075cd61d72cb64d1a7f57bd3af",
+      "bytes": 3949
+    },
+    "tools/dependency_inventory.py": {
+      "sha256": "c0990e867efb910d8e4e8dfa98a71b84b517bb6852871ff55294a75183243f0a",
+      "bytes": 2985
+    },
+    "tools/fetch_elevation.py": {
+      "sha256": "f52f5222106a27493e8d15bdffaca9b05496ce3de8a6e46512add60f34b9e73b",
+      "bytes": 2375
+    },
+    "tools/fetch_osm.py": {
+      "sha256": "fbb5f692afe35f8b4666fc45a09b6690b28185133f7f97d36dad3390aed309f6",
+      "bytes": 3098
+    },
+    "tools/fetch_region.py": {
+      "sha256": "536f879f9c8778cf79ee622c4cbe1d611c32a37e44b83f0940d1d6f2e4fb2732",
+      "bytes": 3555
+    },
+    "tools/make-fixtures.mjs": {
+      "sha256": "e02631a8000e4621180122e012f724e41505c900604002d36f76fd104c00b129",
+      "bytes": 2092
+    },
+    "tools/make_boundary_fixture.py": {
+      "sha256": "f07883b5095e6e8759b3e7283846c557db46871074fc3d64c467e42bad526eab",
+      "bytes": 9104
+    },
+    "tools/make_native_fixture.py": {
+      "sha256": "3da495ba32e2bebf433dd5874fd5ab2342ba7e42887b2e0fb847984530e6e97d",
+      "bytes": 1040
+    },
+    "tools/make_pattern_fixtures.py": {
+      "sha256": "a9f5a2fe805bb70281859f8da862f81451dbcf6edc73a2103b630b818110198f",
+      "bytes": 2779
+    },
+    "tools/make_raster_pdf_fixture.py": {
+      "sha256": "ec0eea282ebd45afade191d29c5b578cfbc006eec0c3b50218caab9b6be2502d",
+      "bytes": 1749
+    },
+    "tools/make_raster_review.py": {
+      "sha256": "af8eb602e77f1cb4b62b7562a404aef74e34fc3775d548566df0b1e6a1a8fa65",
+      "bytes": 3819
+    },
+    "tools/make_thin_fixture.py": {
+      "sha256": "a89fd5c95a1d090460048a8a91987414641aa397305a57d5ebb3982a6407bdd7",
+      "bytes": 2256
+    },
+    "tools/maze-geometry.test.mjs": {
+      "sha256": "0a229a6de813a14e06c55c8aa7f232374dfea2d6fb6f6e9ac6ed18853c1d668f",
+      "bytes": 3238
+    },
+    "tools/ornament-patterns.test.mjs": {
+      "sha256": "aa16812371146b31cb15c8e4a2ebec57142f4dfc87ce71d3b2548ededdce5615",
+      "bytes": 8587
+    },
+    "tools/package_public_source.py": {
+      "sha256": "d1f1bba57bb1782880866cec93c1babe3d4ce2c6b90c50f86b04c6a48c2b5594",
+      "bytes": 5856
+    },
+    "tools/pattern-generators.test.mjs": {
+      "sha256": "db2795e9c27861b20745865b2e560b4045a63c19b6d6fb98defe541f557b1a01",
+      "bytes": 22628
+    },
+    "tools/pattern-review.mjs": {
+      "sha256": "804c5e19493fa4962c2fe57959aa8ebd62c7ce75088ab700cb8d185798eb3747",
+      "bytes": 4732
+    },
+    "tools/pattern_pdf.py": {
+      "sha256": "896c86b1e8659a3028a34db60cd2c1c509e6c24b2b6a95d951ac4b7e0a10d47c",
+      "bytes": 6657
+    },
+    "tools/pdf-events.mjs": {
+      "sha256": "f5c1316af32af4505f4a6fc67ecdcfe78b35a60e916974876834d7d46c869628",
+      "bytes": 5200
+    },
+    "tools/pdf-events.test.mjs": {
+      "sha256": "2f2964f734be9831acc290c6b8b20cced0e76136454237c87d7bc96f4558505e",
+      "bytes": 2138
+    },
+    "tools/pdf_driver.py": {
+      "sha256": "8cd168027bb80445595ea2ca27d433aaed5931a2746788f537ca8006f2364300",
+      "bytes": 28930
+    },
+    "tools/pdf_inks.py": {
+      "sha256": "39510098501eb59d8119099bbd940e3d75f22423d51ffb8c59bc4747c377bf25",
+      "bytes": 3475
+    },
+    "tools/pdf_input.py": {
+      "sha256": "6e30ce6f0e73391f325021e073ae770f17c472d0acdabef2f21a3863e33a3a0e",
+      "bytes": 2310
+    },
+    "tools/pdf_native.py": {
+      "sha256": "ac4a452401c3a10904bd644b501714b206a074117de0324772117ddb7b0df90b",
+      "bytes": 12945
+    },
+    "tools/pdf_preview.py": {
+      "sha256": "69cd912a774f47fc47436996bb6a6ca85eeb7c9cfa49a9d4dcec8c4510a32412",
+      "bytes": 403
+    },
+    "tools/pdf_raster.py": {
+      "sha256": "b7eca5733d4ecb94c34599b55215d10d6bd1a68c89b9d93cb44fc1f15d65a943",
+      "bytes": 3774
+    },
+    "tools/pen_calibration.py": {
+      "sha256": "45bd820f8092167cad68a6b6562d25b2a6b6d931406ed18183b5dd4a6dc645bc",
+      "bytes": 18134
+    },
+    "tools/plot_map.py": {
+      "sha256": "fb19b31039a4d831d3f8e5328de67df5660f482f5ed08e4463eac3915fec6344",
+      "bytes": 3241
+    },
+    "tools/plot_timing/__init__.py": {
+      "sha256": "7f7efa31950b6766ea14779b02ec1fe2c6d75fcec7423b2c56601424b2a5c31b",
+      "bytes": 73
+    },
+    "tools/plot_timing/evaluate.py": {
+      "sha256": "b21889b3fa4ac588a5a4903af4a35fedb89d9b8f9540f0440e3db169231d63f7",
+      "bytes": 14124
+    },
+    "tools/plot_timing/extensions.py": {
+      "sha256": "e6ee5f8bb9c2515a5f748617ed595cdf3049a6f52caa5850c05d0a4fa56b64cb",
+      "bytes": 22086
+    },
+    "tools/plot_timing/fit.py": {
+      "sha256": "fda1fdbd31bf6fa42b8948d1e0573684890da1b48cc3d02b2fec8b103cc443aa",
+      "bytes": 17495
+    },
+    "tools/plot_timing/model.py": {
+      "sha256": "c53030f94f4dcc486a11d259b600db8b5bf0e34fe169ed78740d481f10013b9f",
+      "bytes": 9922
+    },
+    "tools/plot_timing/review.py": {
+      "sha256": "32479b6afa8012aea459576249d9e6eef7d552365472584b77ca9462454bca58",
+      "bytes": 14122
+    },
+    "tools/print_contract.py": {
+      "sha256": "ff7af2b4b4dd054d4e6ac29c7917c68e9e8f517f404d5d8f9e306ff4a58ce592",
+      "bytes": 9145
+    },
+    "tools/print_sink/README.md": {
+      "sha256": "a4d9d46f720a11e151f59e6df222553fcfacf9c40149acdadeca4ad29d12d072",
+      "bytes": 11811
+    },
+    "tools/print_sink/build_server.py": {
+      "sha256": "275e2dcef2473d9ac579718c307cf7364b83a8b8fc39306e001c5610c0417cfd",
+      "bytes": 2392
+    },
+    "tools/print_sink/capabilities.py": {
+      "sha256": "4edd7c11e99c130d1835d919d725c9fcdc4d92e4ef9ff4bdf5c4a24612b37661",
+      "bytes": 3974
+    },
+    "tools/print_sink/capture.py": {
+      "sha256": "b9a517819f8d52e1d4c47836bc2405f46e2506e18ff2fe7306cc1ea79d101325",
+      "bytes": 6662
+    },
+    "tools/print_sink/capture.sh": {
+      "sha256": "b0af5e7e655fb9ea3abd9b3e1d04456fb7f1e61c03042082e9a3a412525a4c9c",
+      "bytes": 140
+    },
+    "tools/print_sink/dev-server.py": {
+      "sha256": "06a518b298581e988b746855498bb97087188a25bd563390f96078aa5ef9bb44",
+      "bytes": 3010
+    },
+    "tools/print_sink/pdf-format-option.patch": {
+      "sha256": "bc3bfd42fa80724bab1b8011729d696374d795620dcc411389b6b34e9f4c4795",
+      "bytes": 1274
+    },
+    "tools/print_sink/run.sh": {
+      "sha256": "44cef4e4a906894568dc915b9d9ba962ab709675152c74d256a1c3117f191ca2",
+      "bytes": 1493
+    },
+    "tools/profiling/clearance/fast-clip.patch": {
+      "sha256": "da50d631c0642b42c1e2468de73b241d064b89f1912fb56dc6788cc88007700e",
+      "bytes": 1400
+    },
+    "tools/profiling/clearance/simplify.patch": {
+      "sha256": "7898f4ec938f5fd7713e80629f1d66cc1f9a18f9b033a1135afa54332e23a3b7",
+      "bytes": 783
+    },
+    "tools/profiling/clearance/tile.patch": {
+      "sha256": "3efb54d6c2520a4c2eee2a02f58ff4b8edffe2068e0ddc401c132e76f305397a",
+      "bytes": 2213
+    },
+    "tools/profiling/clearance_compare.py": {
+      "sha256": "a7365de38ebac3272adcf6ef5a202aa51f5dd207a1a7b795f1338cb2c9ecee0f",
+      "bytes": 2505
+    },
+    "tools/profiling/clip_footprint_audit.py": {
+      "sha256": "0ebc405a1c3ec646963e5fbae549ebf2881f2dc0bf3482483dae8be9ab4a7fbd",
+      "bytes": 4490
+    },
+    "tools/profiling/clip_segment_audit.py": {
+      "sha256": "2b0ebbbc6ca508bd0f801ecfcbb3e777de3b3736dc0ae7f28a1590b00e9c0d41",
+      "bytes": 1953
+    },
+    "tools/profiling/restored_hatch_audit.py": {
+      "sha256": "138ce7bf1b4a1da120898a3c82da1e45b20e5d5251da263c59031f8b9dfb5885",
+      "bytes": 4162
+    },
+    "tools/raster-review.html": {
+      "sha256": "079deb2c164d40534fd2bb50acaba91bdaabf6689994e613efc8613c3fdf3c02",
+      "bytes": 12580
+    },
+    "tools/raster_compare.py": {
+      "sha256": "d19c1e52961badf7e9b840bb60f76ed541174bf8eb2987d7d38d4034dbd1f9d9",
+      "bytes": 4568
+    },
+    "tools/recipe-files.test.mjs": {
+      "sha256": "bf0a09e71209479785e9cd3b53fe2961f5505dfa1c6ae2bf115c86ce4b86860e",
+      "bytes": 1913
+    },
+    "tools/recursive-patterns.test.mjs": {
+      "sha256": "1e066314705d45aa7561c926aa1ccef3f13d621313f453cbf2ab158cdac08645",
+      "bytes": 6008
+    },
+    "tools/regional_map.py": {
+      "sha256": "1e37639b37b47731d257911eaa0e29dac380f11e3e81ccbed21249be0f005350",
+      "bytes": 16799
+    },
+    "tools/render-pdf.mjs": {
+      "sha256": "40c16b3844565ea4b97173d1c7c1dd07d784799460e68ac01eae487e9c3d69c5",
+      "bytes": 725
+    },
+    "tools/render_native.py": {
+      "sha256": "71c7d87df3b271c757bcca1f771529715dece17169231ea6cc83fe77c003b173",
+      "bytes": 1375
+    },
+    "tools/serve_studio_fixture.py": {
+      "sha256": "ec211ac98b9562166b5c85523bd0cc243ccf9d0286aa7dd279902ee654a8b42f",
+      "bytes": 1066
+    },
+    "tools/spatial-patterns.test.mjs": {
+      "sha256": "cef9354a52e876280da1a9e7cb3d37a1f1aeb8ea4513adddc5cb871159faf7d3",
+      "bytes": 8142
+    },
+    "tools/studio-storage.test.mjs": {
+      "sha256": "e3a0c205ff1f6ff76ca0735a4199891a1b7ee01dc70ee8787e12e51018274022",
+      "bytes": 1644
+    },
+    "tools/subdivision-density.test.mjs": {
+      "sha256": "868afa7c16903b2dd951b3e71e5256afe98e3bc5dd7a48aa19a4d2e4c95c6b0e",
+      "bytes": 8160
+    },
+    "tools/summarize_plot.py": {
+      "sha256": "1e0bfdad0c508f4dff8802f4432967deadadc0d37196598a04964e5cde68a818",
+      "bytes": 7393
+    },
+    "tools/svg_input.py": {
+      "sha256": "bb1d35c6a3e8b8f1fa0ac7d1f2aa7e1dd5cf6b0b6bc0900607d71389c8a7a9e9",
+      "bytes": 7808
+    },
+    "tools/terrain_geometry.py": {
+      "sha256": "35d2b774c1dd652f91f17a94d0a2f1273fb784c35a30e37d189031653e022acb",
+      "bytes": 11710
+    },
+    "tools/terrain_map.py": {
+      "sha256": "59b969c212a9aff258f173a2e9ba85df142ec899b7e8bb858771fa580a5eb4e3",
+      "bytes": 17538
+    },
+    "tools/textile-patterns.test.mjs": {
+      "sha256": "7887b420b62354f36b9aafca09a7f8366896f322dc758a3c59c09c38ff8afbdb",
+      "bytes": 11965
+    }
+  },
+  "notes": "Initial public source snapshot; contributor guidance, publication notes and push guard were prepared for the history cutover. Frozen at the initial commit."
+}

@@ -1,0 +1,9 @@
+IN;PA;
+CO"Plotline Studios preview fixture; 40 units per mm";
+CO"pen id=1 r=23 g=29 b=33 width_mm=0.3";
+CO"pen id=2 r=209 g=62 b=54 width_mm=0.7";
+CO"pen id=3 r=37 g=134 b=75 width_mm=0.3";
+SP1;VS5;FS4;PU0,0;PD4000,0,4000,3000,0,3000,0,0;PU;
+SP2;VS5;FS4;PU500,500;PD3500,2500;PU;
+SP3;VS5;FS4;PU500,2500;PD3500,500;PU;
+SP0;

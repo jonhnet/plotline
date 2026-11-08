@@ -1,0 +1,1088 @@
+{
+  "schema": "plotline.timing-review.v1",
+  "before": "2026-11-07",
+  "train_before": "2026-11-06",
+  "model": "controller/models/hp7585-snoqualmie-v1.json",
+  "model_sha256": "865cff745d7c1e0f53a194b3a2b5549e9c3ebb7ccd1cfffa26b1c794d46c792d",
+  "original_calibration_attempt": "88cb8e31-bf26-46e0-8f7f-bb11bba67294",
+  "excluded": [
+    {
+      "attempt": "db814e0a-0255-4072-8c98-a43f58700465",
+      "name": "Ravenna \u2014 Letter proof, consistent outlines.hpgl",
+      "created_at": 1793339292,
+      "bytes": 1165977,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "96c55970-7a44-46aa-bb64-90d4eb77195f",
+      "name": "Ravenna \u2014 Letter proof, consistent outlines.hpgl",
+      "created_at": 1793340609,
+      "bytes": 1165977,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "a626cc9b-0544-47ce-8457-d66a8ea62011",
+      "name": "Ravenna \u2014 Letter proof, consistent outlines.hpgl",
+      "created_at": 1793341806,
+      "bytes": 1165977,
+      "reason": "[Errno 2] No such file or directory: 'controller/state/jobs/plots/a626cc9b-0544-47ce-8457-d66a8ea62011/serial-timing.jsonl.gz'"
+    },
+    {
+      "attempt": "0d7d654a-c333-4dad-8e78-b87ddd71508a",
+      "name": "Ravenna \u2014 Letter proof, consistent outlines.hpgl",
+      "created_at": 1793378276,
+      "bytes": 1165977,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "96a4dae8-2b6e-4674-8cba-54f2d4322da6",
+      "name": "Seattle \u2014 Relief HP7585 11\u00d717 landscape.hpgl",
+      "created_at": 1793380643,
+      "bytes": 1543663,
+      "reason": "[Errno 2] No such file or directory: 'controller/state/jobs/plots/96a4dae8-2b6e-4674-8cba-54f2d4322da6/serial-timing.jsonl.gz'"
+    },
+    {
+      "attempt": "5087d2b0-62c5-459a-9edd-6d5720e3332f",
+      "name": "Cabin - Snoqualmie Pass \u00b7 page 1.hpgl",
+      "created_at": 1793645161,
+      "bytes": 1817685,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "aca0a89a-ca5c-47e8-b400-10a79fb98d7a",
+      "name": "shrek-5-felicia.jpg \u00b7 page 1.hpgl",
+      "created_at": 1793930824,
+      "bytes": 4050894,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "cbc1b68a-408e-4382-b9c2-a4a4ca32b293",
+      "name": "shrek-5-felicia.jpg \u00b7 page 1.hpgl",
+      "created_at": 1793933436,
+      "bytes": 4050894,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "a6c4a0e0-9f9d-4923-bd43-d25824f4bb67",
+      "name": "shrek-5-felicia.jpg \u00b7 page 1.hpgl",
+      "created_at": 1793933474,
+      "bytes": 4050894,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "4ab33cd0-1ee5-4fe3-9263-c3a753439ade",
+      "name": "Sierpi\u0144ski triangle \u00b7 page 1.hpgl",
+      "created_at": 1793939123,
+      "bytes": 382333,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "8cb13e20-e77d-4271-bda1-c191507158c7",
+      "name": "Branching plant \u00b7 page 1.hpgl",
+      "created_at": 1793941720,
+      "bytes": 453,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "e0e0a42c-e51c-41d6-8e8a-37c25145ad27",
+      "name": "Branching plant \u00b7 page 1.hpgl",
+      "created_at": 1793941759,
+      "bytes": 453,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "cc655c36-61e3-4f1f-8080-343dd0215c6e",
+      "name": "Branching plant \u00b7 page 1.hpgl",
+      "created_at": 1793941790,
+      "bytes": 453,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "5f40ee38-aa89-4f53-894f-7470b3a96eba",
+      "name": "Hilbert curve \u00b7 page 1.hpgl",
+      "created_at": 1793944723,
+      "bytes": 0,
+      "reason": "Incomplete, cancelled, or not executed"
+    },
+    {
+      "attempt": "02c15e5a-fc64-4a6b-8027-683be8f095d0",
+      "name": "Hilbert curve \u00b7 page 1.hpgl",
+      "created_at": 1793945188,
+      "bytes": 119772,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "e2959a6b-1757-4a79-ad0c-6009677acfde",
+      "name": "Hilbert curve \u00b7 page 1.hpgl",
+      "created_at": 1793945271,
+      "bytes": 61520,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "0c07101c-3a33-49e8-8749-e54559b612cd",
+      "name": "Pen calibration 252190.hpgl",
+      "created_at": 1793945519,
+      "bytes": 293,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "2e6efcd6-c2be-4f6d-b595-69d5149a870c",
+      "name": "Pen calibration 252190.hpgl",
+      "created_at": 1793945548,
+      "bytes": 293,
+      "reason": "Recovery suffix; not an independent complete drawing"
+    },
+    {
+      "attempt": "15042b16-686b-4541-aa3a-955f2f22eec7",
+      "name": "happy_shreksgiving__by_comicninja409_dkzho9s \u00b7 page 1.hpgl",
+      "created_at": 1793946223,
+      "bytes": 4225885,
+      "reason": "Incomplete, cancelled, or not executed"
+    }
+  ],
+  "plots": [
+    {
+      "attempt": "88cb8e31-bf26-46e0-8f7f-bb11bba67294",
+      "name": "Cabin - Snoqualmie Pass \u00b7 page 1.hpgl",
+      "created_at": 1793645466,
+      "bytes": 1817685,
+      "source_sha256": "47387daef4f6a712dfac16fb4ef1f5e86c06b47012bc0c9077affec65d5052aa",
+      "trace_sha256": "28650a04c58a0a091d61346f996ceb6b7e6ceaa8aa811bdd469b7200b650bf30",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": null,
+      "feed": {
+        "actual_s": 3719.35230876,
+        "predicted_s": 3689.3113441653973,
+        "error_s": -30.040964594602883,
+        "error_percent": -0.8076934396305746
+      },
+      "completion": null
+    },
+    {
+      "attempt": "d01d3b55-b760-4cf6-9e64-5fd2dd613330",
+      "name": "Ravenna Park \u00b7 page 1.hpgl",
+      "created_at": 1793678224,
+      "bytes": 970576,
+      "source_sha256": "16d50ab43b9d3d55b43f22c9c4742b704c9c0f1eaa1953ad9cfcc2d3d6365815",
+      "trace_sha256": "20972e6a6ddf6973996d8dfccd9401be4d273362b4d005154a7fd980398d6e66",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": null,
+      "feed": {
+        "actual_s": 2049.05947958,
+        "predicted_s": 2064.5989794340467,
+        "error_s": 15.53949985404688,
+        "error_percent": 0.7583723170999424
+      },
+      "completion": null
+    },
+    {
+      "attempt": "aada5cc2-04fe-43d8-8952-5b52c49b1370",
+      "name": "Paine Field \u00b7 page 1.hpgl",
+      "created_at": 1793760390,
+      "bytes": 1009524,
+      "source_sha256": "1dc606c0067a1f3f32a3f15e6f8fa17453946f12f0a33b91c396bc9481ace561",
+      "trace_sha256": "5da32669d0e901a425f6937b94ad61d432c5de132bd42bb3b22fb7dc9dda3483",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 2368.881953681,
+        "predicted_s": 2375.7079605551985,
+        "error_s": 6.826006874198356,
+        "error_percent": 0.28815310377081627
+      },
+      "completion": {
+        "actual_s": 2372.134149485,
+        "predicted_s": 2382.1299093424045,
+        "error_s": 9.995759857404664,
+        "error_percent": 0.42138257060946316
+      }
+    },
+    {
+      "attempt": "f7421d34-777e-48e0-beb9-f0802a5d2223",
+      "name": "Pen calibration 374756.hpgl",
+      "created_at": 1793767751,
+      "bytes": 4265,
+      "source_sha256": "d45db5876329752fb6a509ab0edaf1e1770bf981d4562ac22256400da565ed2f",
+      "trace_sha256": "0b0518b71c3fdb6fc09924bd0794ed0052d5d87aa5eeeb92ab3b960b31d1a954",
+      "category": "calibration",
+      "period": "training",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 48.608194914,
+        "predicted_s": 57.21434184569133,
+        "error_s": 8.606146931691327,
+        "error_percent": 17.705135825178743
+      },
+      "completion": {
+        "actual_s": 57.233317215,
+        "predicted_s": 69.42886534141708,
+        "error_s": 12.19554812641708,
+        "error_percent": 21.308476810113696
+      }
+    },
+    {
+      "attempt": "a2380177-fa2b-4270-a944-d732538385eb",
+      "name": "Pen calibration 443263.hpgl",
+      "created_at": 1793850802,
+      "bytes": 4739,
+      "source_sha256": "ba326c5f54a1b313f8d78ec3e57a5adf54f394c27dc823a41e483abd5b6cf921",
+      "trace_sha256": "e76adeea74e79de2864eeeba399e0e724d35dbad7415d7642cd541ba0a46c0d8",
+      "category": "calibration",
+      "period": "training",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 36.760392104,
+        "predicted_s": 45.667092395342685,
+        "error_s": 8.906700291342688,
+        "error_percent": 24.22906770456761
+      },
+      "completion": {
+        "actual_s": 64.446549782,
+        "predicted_s": 78.01509220606975,
+        "error_s": 13.568542424069747,
+        "error_percent": 21.053946983922888
+      }
+    },
+    {
+      "attempt": "e0fc70ea-8b3f-4476-811b-7d8e4894c8b7",
+      "name": "principal_s_office_by_comicninja409_dg7qq8t-fullview \u00b7 page 1.hpgl",
+      "created_at": 1793852285,
+      "bytes": 264515,
+      "source_sha256": "05123d3453df4fcecae75bb66e27bb9565f9962603cb5bbcd268fc45cdf49134",
+      "trace_sha256": "39675e83709be475135913c5f3733de0dc4f343c5948a4d2d5830b84e9c75606",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 521.001128875,
+        "predicted_s": 526.2296264349197,
+        "error_s": 5.228497559919788,
+        "error_percent": 1.003548220943351
+      },
+      "completion": {
+        "actual_s": 524.844328001,
+        "predicted_s": 531.8532776296995,
+        "error_s": 7.008949628699497,
+        "error_percent": 1.335434004859093
+      }
+    },
+    {
+      "attempt": "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b",
+      "name": "IMG_0456 \u00b7 page 1.hpgl",
+      "created_at": 1793853462,
+      "bytes": 11218102,
+      "source_sha256": "246252ef4f9818985c25eb63bb90b1f7bdd019ed9c8a842f16bead0d4185127b",
+      "trace_sha256": "dbd89fef3655c793ea50e3f8bb056cf8e90c06d7a9c3ebc8e91906c0b8590954",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 18530.573334546,
+        "predicted_s": 18013.943729563667,
+        "error_s": -516.6296049823322,
+        "error_percent": -2.787985000006421
+      },
+      "completion": {
+        "actual_s": 18534.335228905,
+        "predicted_s": 18018.7818836772,
+        "error_s": -515.5533452278032,
+        "error_percent": -2.7816122826125333
+      }
+    },
+    {
+      "attempt": "16682ad0-2e23-44e4-8258-07ed90c0170e",
+      "name": "shrek-5-felicia.jpg \u00b7 page 1.hpgl",
+      "created_at": 1793893815,
+      "bytes": 4481399,
+      "source_sha256": "e774b7bd131692af821bec797d955db6466eddcc2f5351faf00a9cf159283a72",
+      "trace_sha256": "d907009ceaf73dcaba31806b6bdbb74f5c912fac2828e2c2986b1dd258725f87",
+      "category": "artwork",
+      "period": "training",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 6879.529390968,
+        "predicted_s": 6955.802758255972,
+        "error_s": 76.27336728797127,
+        "error_percent": 1.1087003623839298
+      },
+      "completion": {
+        "actual_s": 6882.721976598,
+        "predicted_s": 6960.28424055651,
+        "error_s": 77.5622639585099,
+        "error_percent": 1.1269126404092722
+      }
+    },
+    {
+      "attempt": "6126a1d3-8bb5-48bb-9c9b-17b3c0a15591",
+      "name": "Sierpi\u0144ski triangle \u00b7 page 1.hpgl",
+      "created_at": 1793939403,
+      "bytes": 382333,
+      "source_sha256": "375037f1663dd3f4b056b8f642ea206b1fa66ff38ce2e5a98827c5fb6f6ac8f5",
+      "trace_sha256": "945a1375a7e90e45186279ad70125f2cc9db30d1fff9bba8394ccc45817fad6b",
+      "category": "artwork",
+      "period": "holdout",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 993.890976838,
+        "predicted_s": 999.799667200805,
+        "error_s": 5.9086903628049185,
+        "error_percent": 0.5945008557782794
+      },
+      "completion": {
+        "actual_s": 997.768342256,
+        "predicted_s": 1005.6227476095288,
+        "error_s": 7.8544053535288185,
+        "error_percent": 0.7871972902818047
+      }
+    },
+    {
+      "attempt": "1cda0652-ec12-4ded-be44-b602efefdc04",
+      "name": "Branching plant \u00b7 page 1.hpgl",
+      "created_at": 1793941244,
+      "bytes": 188661,
+      "source_sha256": "fd1b95ebfc5d47d9913adbbaf5ce815e78a1705f489adb4c3eb4e02800fe8ba4",
+      "trace_sha256": "e17fe7b010dc401c4d49f661a00934733bb33c1b10c4bdddcc300c0d034b12d3",
+      "category": "artwork",
+      "period": "holdout",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 388.947097851,
+        "predicted_s": 379.77340640904254,
+        "error_s": -9.173691441957487,
+        "error_percent": -2.358596192809692
+      },
+      "completion": {
+        "actual_s": 402.022979327,
+        "predicted_s": 395.5419035557491,
+        "error_s": -6.4810757712508575,
+        "error_percent": -1.61211575072161
+      }
+    },
+    {
+      "attempt": "b58f9b2c-ab69-49e4-8b6e-3075b5efc2bb",
+      "name": "Sierpi\u0144ski triangle \u00b7 page 1.hpgl",
+      "created_at": 1793944336,
+      "bytes": 39958,
+      "source_sha256": "adc2bdf127851037a54f99dca649c2be0f89eb04b9cf336eaf64f49cb5bd2117",
+      "trace_sha256": "0c1821778bd8ba8b90ddae4f7a24709b7c8df1ba70966df4c8e8c7d667fd0572",
+      "category": "artwork",
+      "period": "holdout",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 193.262117228,
+        "predicted_s": 201.3091097669539,
+        "error_s": 8.046992538953901,
+        "error_percent": 4.163771283463946
+      },
+      "completion": {
+        "actual_s": 199.398446302,
+        "predicted_s": 209.7153789089387,
+        "error_s": 10.316932606938707,
+        "error_percent": 5.174028583609491
+      }
+    },
+    {
+      "attempt": "e97282fe-c06d-498d-9866-95103d44e6a9",
+      "name": "Hilbert curve \u00b7 page 1.hpgl",
+      "created_at": 1793944741,
+      "bytes": 218095,
+      "source_sha256": "0c5f7f566cfa57d6b3d2cc02d1c2761b690f6b7ae00437e835fd95699f37d726",
+      "trace_sha256": "cc19ba0c6d88cb35a5ac6206cc98762f9836b6d55f8c6815ace41e2a7e64e2b0",
+      "category": "artwork",
+      "period": "holdout",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": -5.684341886080802e-14,
+      "feed": {
+        "actual_s": 380.45241346,
+        "predicted_s": 372.43660035900837,
+        "error_s": -8.015813100991636,
+        "error_percent": -2.1069160865855308
+      },
+      "completion": {
+        "actual_s": 383.525317016,
+        "predicted_s": 376.67085899722275,
+        "error_s": -6.854458018777223,
+        "error_percent": -1.7872243929313414
+      }
+    },
+    {
+      "attempt": "db4be81e-6b95-44a7-9fd3-ac0d44ec006a",
+      "name": "Pen calibration 252190.hpgl",
+      "created_at": 1793945437,
+      "bytes": 4683,
+      "source_sha256": "f7f399e548e54feca376579adc7dd786733a65e6e90c28c3e77fa7adc10c39b2",
+      "trace_sha256": "4563102f80ef182e2d988629bea78030e03c33ce0d8df73740bc47446e0dbbf0",
+      "category": "calibration",
+      "period": "holdout",
+      "block_fit_eligible": false,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 37.376715418,
+        "predicted_s": 45.325404038846976,
+        "error_s": 7.948688620846973,
+        "error_percent": 21.266418228443417
+      },
+      "completion": {
+        "actual_s": 64.663752959,
+        "predicted_s": 77.67340384957404,
+        "error_s": 13.009650890574036,
+        "error_percent": 20.118923346163964
+      }
+    },
+    {
+      "attempt": "6c47f040-ac7e-49e1-965c-2e82cc679714",
+      "name": "happy_shreksgiving__by_comicninja409_dkzho9s \u00b7 page 1.hpgl",
+      "created_at": 1793946266,
+      "bytes": 4225885,
+      "source_sha256": "0bc68e0381b6bd0ccf28cd0a3ebbe3d6ea50809a167fcad20551528d15a3afd0",
+      "trace_sha256": "418e5988e8f76ea746bac76a5bd9921428a5a5820a550d0153574abb59b17911",
+      "category": "artwork",
+      "period": "holdout",
+      "block_fit_eligible": true,
+      "saved_motion_difference_s": 0.0,
+      "feed": {
+        "actual_s": 6663.733848319,
+        "predicted_s": 6721.720936032516,
+        "error_s": 57.9870877135163,
+        "error_percent": 0.8701891317004495
+      },
+      "completion": {
+        "actual_s": 6666.009084164,
+        "predicted_s": 6725.837661007248,
+        "error_s": 59.8285768432479,
+        "error_percent": 0.8975171813878635
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "name": "speed-and-vector-floor",
+      "objective": "Equal-drawing guarded calibration sections; acceleration and sender turnaround fixed",
+      "parameters": {
+        "draw_speed_scale": 0.7773412823659052,
+        "pen_up_mm_s": 349.1118035329503,
+        "acceleration_mm_s2": 1000000000.0,
+        "lift_lower_cycle_s": 0.03395850355138274,
+        "pen_change_s": 2.644666843150594,
+        "minimum_vector_s": 0.018338149651399648,
+        "buffer_bytes": 1024.0
+      },
+      "training_attempts": [
+        "88cb8e31-bf26-46e0-8f7f-bb11bba67294",
+        "d01d3b55-b760-4cf6-9e64-5fd2dd613330",
+        "aada5cc2-04fe-43d8-8952-5b52c49b1370",
+        "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b",
+        "16682ad0-2e23-44e4-8258-07ed90c0170e"
+      ],
+      "scores": {
+        "88cb8e31-bf26-46e0-8f7f-bb11bba67294": {
+          "feed": {
+            "actual_s": 3719.35230876,
+            "predicted_s": 3668.9673456408786,
+            "error_s": -50.384963119121494,
+            "error_percent": -1.3546703548478645
+          }
+        },
+        "d01d3b55-b760-4cf6-9e64-5fd2dd613330": {
+          "feed": {
+            "actual_s": 2049.05947958,
+            "predicted_s": 2033.5999462328937,
+            "error_s": -15.459533347106117,
+            "error_percent": -0.7544697214096896
+          }
+        },
+        "aada5cc2-04fe-43d8-8952-5b52c49b1370": {
+          "feed": {
+            "actual_s": 2368.881953681,
+            "predicted_s": 2340.380087734737,
+            "error_s": -28.501865946263024,
+            "error_percent": -1.2031779760901196
+          },
+          "completion": {
+            "actual_s": 2372.134149485,
+            "predicted_s": 2346.723384435402,
+            "error_s": -25.410765049598012,
+            "error_percent": -1.0712195621446985
+          }
+        },
+        "f7421d34-777e-48e0-beb9-f0802a5d2223": {
+          "feed": {
+            "actual_s": 48.608194914,
+            "predicted_s": 55.12870176783812,
+            "error_s": 6.520506853838121,
+            "error_percent": 13.414418834878617
+          },
+          "completion": {
+            "actual_s": 57.233317215,
+            "predicted_s": 66.95352595594382,
+            "error_s": 9.720208740943818,
+            "error_percent": 16.9834795778643
+          }
+        },
+        "a2380177-fa2b-4270-a944-d732538385eb": {
+          "feed": {
+            "actual_s": 36.760392104,
+            "predicted_s": 43.95217909716137,
+            "error_s": 7.191786993161372,
+            "error_percent": 19.563956153718
+          },
+          "completion": {
+            "actual_s": 64.446549782,
+            "predicted_s": 75.24214225048839,
+            "error_s": 10.79559246848838,
+            "error_percent": 16.751234170030926
+          }
+        },
+        "e0fc70ea-8b3f-4476-811b-7d8e4894c8b7": {
+          "feed": {
+            "actual_s": 521.001128875,
+            "predicted_s": 519.2343580063634,
+            "error_s": -1.7667708686365131,
+            "error_percent": -0.33911075633397125
+          },
+          "completion": {
+            "actual_s": 524.844328001,
+            "predicted_s": 524.8624201697405,
+            "error_s": 0.018092168740508896,
+            "error_percent": 0.00344714952134062
+          }
+        },
+        "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b": {
+          "feed": {
+            "actual_s": 18530.573334546,
+            "predicted_s": 18122.61453992083,
+            "error_s": -407.9587946251704,
+            "error_percent": -2.201544373506381
+          },
+          "completion": {
+            "actual_s": 18534.335228905,
+            "predicted_s": 18127.464513151273,
+            "error_s": -406.8707157537283,
+            "error_percent": -2.1952269165780414
+          }
+        },
+        "16682ad0-2e23-44e4-8258-07ed90c0170e": {
+          "feed": {
+            "actual_s": 6879.529390968,
+            "predicted_s": 6997.858707065857,
+            "error_s": 118.32931609785646,
+            "error_percent": 1.7200205039200611
+          },
+          "completion": {
+            "actual_s": 6882.721976598,
+            "predicted_s": 7002.3408831887555,
+            "error_s": 119.61890659075561,
+            "error_percent": 1.7379592986244807
+          }
+        },
+        "6126a1d3-8bb5-48bb-9c9b-17b3c0a15591": {
+          "feed": {
+            "actual_s": 993.890976838,
+            "predicted_s": 978.9306116582006,
+            "error_s": -14.960365179799396,
+            "error_percent": -1.505232015225133
+          },
+          "completion": {
+            "actual_s": 997.768342256,
+            "predicted_s": 984.6676826795028,
+            "error_s": -13.10065957649715,
+            "error_percent": -1.31299611559893
+          }
+        },
+        "1cda0652-ec12-4ded-be44-b602efefdc04": {
+          "feed": {
+            "actual_s": 388.947097851,
+            "predicted_s": 374.3019636154225,
+            "error_s": -14.64513423557753,
+            "error_percent": -3.765328065563267
+          },
+          "completion": {
+            "actual_s": 402.022979327,
+            "predicted_s": 389.4692133094141,
+            "error_s": -12.553766017585872,
+            "error_percent": -3.1226488691271537
+          }
+        },
+        "b58f9b2c-ab69-49e4-8b6e-3075b5efc2bb": {
+          "feed": {
+            "actual_s": 193.262117228,
+            "predicted_s": 191.7898501255404,
+            "error_s": -1.4722671024595968,
+            "error_percent": -0.7617980820952552
+          },
+          "completion": {
+            "actual_s": 199.398446302,
+            "predicted_s": 199.91580960365013,
+            "error_s": 0.5173633016501356,
+            "error_percent": 0.2594620526112701
+          }
+        },
+        "e97282fe-c06d-498d-9866-95103d44e6a9": {
+          "feed": {
+            "actual_s": 380.45241346,
+            "predicted_s": 370.7329012071645,
+            "error_s": -9.7195122528355,
+            "error_percent": -2.5547248247006826
+          },
+          "completion": {
+            "actual_s": 383.525317016,
+            "predicted_s": 374.95818802147033,
+            "error_s": -8.56712899452964,
+            "error_percent": -2.233784476390177
+          }
+        },
+        "db4be81e-6b95-44a7-9fd3-ac0d44ec006a": {
+          "feed": {
+            "actual_s": 37.376715418,
+            "predicted_s": 43.628773152548526,
+            "error_s": 6.252057734548522,
+            "error_percent": 16.72714593732769
+          },
+          "completion": {
+            "actual_s": 64.663752959,
+            "predicted_s": 74.91873630587554,
+            "error_s": 10.254983346875534,
+            "error_percent": 15.858936231829436
+          }
+        },
+        "6c47f040-ac7e-49e1-965c-2e82cc679714": {
+          "feed": {
+            "actual_s": 6663.733848319,
+            "predicted_s": 6798.164113923743,
+            "error_s": 134.430265604743,
+            "error_percent": 2.017341458477584
+          },
+          "completion": {
+            "actual_s": 6666.009084164,
+            "predicted_s": 6802.31594538217,
+            "error_s": 136.30686121816962,
+            "error_percent": 2.044804612432727
+          }
+        }
+      }
+    },
+    {
+      "name": "six-parameter-refit",
+      "objective": "Equal-drawing guarded calibration sections; acceleration and sender turnaround fixed",
+      "parameters": {
+        "draw_speed_scale": 0.7865563592395041,
+        "pen_up_mm_s": 382.3854515802286,
+        "acceleration_mm_s2": 1000000000.0,
+        "lift_lower_cycle_s": 0.03877549730271027,
+        "pen_change_s": 1.9541531480708605,
+        "minimum_vector_s": 0.017964010645409624,
+        "buffer_bytes": 992.0
+      },
+      "training_attempts": [
+        "88cb8e31-bf26-46e0-8f7f-bb11bba67294",
+        "d01d3b55-b760-4cf6-9e64-5fd2dd613330",
+        "aada5cc2-04fe-43d8-8952-5b52c49b1370",
+        "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b",
+        "16682ad0-2e23-44e4-8258-07ed90c0170e"
+      ],
+      "scores": {
+        "88cb8e31-bf26-46e0-8f7f-bb11bba67294": {
+          "feed": {
+            "actual_s": 3719.35230876,
+            "predicted_s": 3710.342347749698,
+            "error_s": -9.00996101030205,
+            "error_percent": -0.24224543044985003
+          }
+        },
+        "d01d3b55-b760-4cf6-9e64-5fd2dd613330": {
+          "feed": {
+            "actual_s": 2049.05947958,
+            "predicted_s": 2043.5706056756098,
+            "error_s": -5.488873904389948,
+            "error_percent": -0.2678728440579481
+          }
+        },
+        "aada5cc2-04fe-43d8-8952-5b52c49b1370": {
+          "feed": {
+            "actual_s": 2368.881953681,
+            "predicted_s": 2347.553614521357,
+            "error_s": -21.328339159643292,
+            "error_percent": -0.9003546642119997
+          },
+          "completion": {
+            "actual_s": 2372.134149485,
+            "predicted_s": 2353.081944076152,
+            "error_s": -19.05220540884784,
+            "error_percent": -0.8031672834769576
+          }
+        },
+        "f7421d34-777e-48e0-beb9-f0802a5d2223": {
+          "feed": {
+            "actual_s": 48.608194914,
+            "predicted_s": 50.62435038168219,
+            "error_s": 2.0161554676821893,
+            "error_percent": 4.1477686452855655
+          },
+          "completion": {
+            "actual_s": 57.233317215,
+            "predicted_s": 61.551828089141765,
+            "error_s": 4.318510874141765,
+            "error_percent": 7.545449196870857
+          }
+        },
+        "a2380177-fa2b-4270-a944-d732538385eb": {
+          "feed": {
+            "actual_s": 36.760392104,
+            "predicted_s": 44.00799826674218,
+            "error_s": 7.24760616274218,
+            "error_percent": 19.715802111788538
+          },
+          "completion": {
+            "actual_s": 64.446549782,
+            "predicted_s": 69.07935428606811,
+            "error_s": 4.632804504068105,
+            "error_percent": 7.188599730690393
+          }
+        },
+        "e0fc70ea-8b3f-4476-811b-7d8e4894c8b7": {
+          "feed": {
+            "actual_s": 521.001128875,
+            "predicted_s": 518.5766522281344,
+            "error_s": -2.4244766468655143,
+            "error_percent": -0.4653495957102183
+          },
+          "completion": {
+            "actual_s": 524.844328001,
+            "predicted_s": 523.3614265034353,
+            "error_s": -1.4829014975647397,
+            "error_percent": -0.28254120668746996
+          }
+        },
+        "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b": {
+          "feed": {
+            "actual_s": 18530.573334546,
+            "predicted_s": 18074.11357255164,
+            "error_s": -456.4597619943597,
+            "error_percent": -2.463279218368253
+          },
+          "completion": {
+            "actual_s": 18534.335228905,
+            "predicted_s": 18078.244691585845,
+            "error_s": -456.0905373191563,
+            "error_percent": -2.460787137419773
+          }
+        },
+        "16682ad0-2e23-44e4-8258-07ed90c0170e": {
+          "feed": {
+            "actual_s": 6879.529390968,
+            "predicted_s": 6904.743848851942,
+            "error_s": 25.214457883941577,
+            "error_percent": 0.36651428391374363
+          },
+          "completion": {
+            "actual_s": 6882.721976598,
+            "predicted_s": 6908.490172160643,
+            "error_s": 25.768195562643086,
+            "error_percent": 0.37438960414581945
+          }
+        },
+        "6126a1d3-8bb5-48bb-9c9b-17b3c0a15591": {
+          "feed": {
+            "actual_s": 993.890976838,
+            "predicted_s": 1011.7700579695572,
+            "error_s": 17.8790811315572,
+            "error_percent": 1.7988976203847207
+          },
+          "completion": {
+            "actual_s": 997.768342256,
+            "predicted_s": 1016.7897890440493,
+            "error_s": 19.021446788049275,
+            "error_percent": 1.906399109139989
+          }
+        },
+        "1cda0652-ec12-4ded-be44-b602efefdc04": {
+          "feed": {
+            "actual_s": 388.947097851,
+            "predicted_s": 376.5543382305417,
+            "error_s": -12.392759620458321,
+            "error_percent": -3.186232700778713
+          },
+          "completion": {
+            "actual_s": 402.022979327,
+            "predicted_s": 390.12717907242825,
+            "error_s": -11.895800254571725,
+            "error_percent": -2.9589851491787056
+          }
+        },
+        "b58f9b2c-ab69-49e4-8b6e-3075b5efc2bb": {
+          "feed": {
+            "actual_s": 193.262117228,
+            "predicted_s": 193.82021014520674,
+            "error_s": 0.5580929172067499,
+            "error_percent": 0.2887751232427682
+          },
+          "completion": {
+            "actual_s": 199.398446302,
+            "predicted_s": 201.1867915669968,
+            "error_s": 1.7883452649967921,
+            "error_percent": 0.8968702104570347
+          }
+        },
+        "e97282fe-c06d-498d-9866-95103d44e6a9": {
+          "feed": {
+            "actual_s": 380.45241346,
+            "predicted_s": 359.94012547596253,
+            "error_s": -20.51228798403747,
+            "error_percent": -5.391551547140883
+          },
+          "completion": {
+            "actual_s": 383.525317016,
+            "predicted_s": 363.4057591502986,
+            "error_s": -20.11955786570138,
+            "error_percent": -5.245952997898707
+          }
+        },
+        "db4be81e-6b95-44a7-9fd3-ac0d44ec006a": {
+          "feed": {
+            "actual_s": 37.376715418,
+            "predicted_s": 43.67659451451793,
+            "error_s": 6.299879096517927,
+            "error_percent": 16.85509019736926
+          },
+          "completion": {
+            "actual_s": 64.663752959,
+            "predicted_s": 68.74795053384386,
+            "error_s": 4.084197574843856,
+            "error_percent": 6.31605403019746
+          }
+        },
+        "6c47f040-ac7e-49e1-965c-2e82cc679714": {
+          "feed": {
+            "actual_s": 6663.733848319,
+            "predicted_s": 6778.5485555628375,
+            "error_s": 114.8147072438378,
+            "error_percent": 1.722978586139079
+          },
+          "completion": {
+            "actual_s": 6666.009084164,
+            "predicted_s": 6781.980413507968,
+            "error_s": 115.97132934396723,
+            "error_percent": 1.739741543699247
+          }
+        }
+      }
+    },
+    {
+      "name": "calibration-pen-change-only",
+      "objective": "Older calibration-sheet completion seconds; all other coefficients fixed",
+      "parameters": {
+        "draw_speed_scale": 0.7241217019414906,
+        "pen_up_mm_s": 349.1118035329503,
+        "acceleration_mm_s2": 1000000000.0,
+        "lift_lower_cycle_s": 0.03395850355138274,
+        "pen_change_s": 0.9285856371560944,
+        "minimum_vector_s": 0.01771114956000515,
+        "buffer_bytes": 1024.0
+      },
+      "training_attempts": [
+        "f7421d34-777e-48e0-beb9-f0802a5d2223",
+        "a2380177-fa2b-4270-a944-d732538385eb"
+      ],
+      "scores": {
+        "88cb8e31-bf26-46e0-8f7f-bb11bba67294": {
+          "feed": {
+            "actual_s": 3719.35230876,
+            "predicted_s": 3682.4470193414054,
+            "error_s": -36.90528941859475,
+            "error_percent": -0.992250433810038
+          }
+        },
+        "d01d3b55-b760-4cf6-9e64-5fd2dd613330": {
+          "feed": {
+            "actual_s": 2049.05947958,
+            "predicted_s": 2056.0185734040665,
+            "error_s": 6.959093824066713,
+            "error_percent": 0.3396238075769942
+          }
+        },
+        "aada5cc2-04fe-43d8-8952-5b52c49b1370": {
+          "feed": {
+            "actual_s": 2368.881953681,
+            "predicted_s": 2368.8436357312016,
+            "error_s": -0.03831794979851111,
+            "error_percent": -0.001617554211130745
+          },
+          "completion": {
+            "actual_s": 2372.134149485,
+            "predicted_s": 2373.5495033124134,
+            "error_s": 1.4153538274135826,
+            "error_percent": 0.059665842579814665
+          }
+        },
+        "f7421d34-777e-48e0-beb9-f0802a5d2223": {
+          "feed": {
+            "actual_s": 48.608194914,
+            "predicted_s": 46.917854609724245,
+            "error_s": -1.6903403042757574,
+            "error_percent": -3.477480098296981
+          },
+          "completion": {
+            "actual_s": 57.233317215,
+            "predicted_s": 57.41629689945556,
+            "error_s": 0.18297968445556023,
+            "error_percent": 0.31970833311685265
+          }
+        },
+        "a2380177-fa2b-4270-a944-d732538385eb": {
+          "feed": {
+            "actual_s": 36.760392104,
+            "predicted_s": 40.51884877735917,
+            "error_s": 3.75845667335917,
+            "error_percent": 10.224201805916543
+          },
+          "completion": {
+            "actual_s": 64.446549782,
+            "predicted_s": 64.28644255811388,
+            "error_s": -0.1601072238861292,
+            "error_percent": -0.24843412785899854
+          }
+        },
+        "e0fc70ea-8b3f-4476-811b-7d8e4894c8b7": {
+          "feed": {
+            "actual_s": 521.001128875,
+            "predicted_s": 524.5135452289258,
+            "error_s": 3.5124163539258006,
+            "error_percent": 0.6741667453792566
+          },
+          "completion": {
+            "actual_s": 524.844328001,
+            "predicted_s": 528.421115217711,
+            "error_s": 3.5767872167109545,
+            "error_percent": 0.6814948787450925
+          }
+        },
+        "e1cbe1f9-2f10-4ce2-b8fc-fee510e8cd1b": {
+          "feed": {
+            "actual_s": 18530.573334546,
+            "predicted_s": 18001.93116112098,
+            "error_s": -528.642173425018,
+            "error_percent": -2.8528106706740997
+          },
+          "completion": {
+            "actual_s": 18534.335228905,
+            "predicted_s": 18005.05323402852,
+            "error_s": -529.2819948764809,
+            "error_percent": -2.855683726120617
+          }
+        },
+        "16682ad0-2e23-44e4-8258-07ed90c0170e": {
+          "feed": {
+            "actual_s": 6879.529390968,
+            "predicted_s": 6943.790189813877,
+            "error_s": 64.2607988458767,
+            "error_percent": 0.9340871329112099
+          },
+          "completion": {
+            "actual_s": 6882.721976598,
+            "predicted_s": 6946.5555909084205,
+            "error_s": 63.83361431042067,
+            "error_percent": 0.9274472298526959
+          }
+        },
+        "6126a1d3-8bb5-48bb-9c9b-17b3c0a15591": {
+          "feed": {
+            "actual_s": 993.890976838,
+            "predicted_s": 998.083585994811,
+            "error_s": 4.192609156810931,
+            "error_percent": 0.42183793338677056
+          },
+          "completion": {
+            "actual_s": 997.768342256,
+            "predicted_s": 1002.1905851975403,
+            "error_s": 4.422242941540276,
+            "error_percent": 0.44321339475867916
+          }
+        },
+        "1cda0652-ec12-4ded-be44-b602efefdc04": {
+          "feed": {
+            "actual_s": 388.947097851,
+            "predicted_s": 376.34124399705354,
+            "error_s": -12.605853853946485,
+            "error_percent": -3.241020160221275
+          },
+          "completion": {
+            "actual_s": 402.022979327,
+            "predicted_s": 388.6775787317711,
+            "error_s": -13.345400595228853,
+            "error_percent": -3.3195616373893566
+          }
+        },
+        "b58f9b2c-ab69-49e4-8b6e-3075b5efc2bb": {
+          "feed": {
+            "actual_s": 193.262117228,
+            "predicted_s": 199.59302856095945,
+            "error_s": 6.3309113329594595,
+            "error_percent": 3.275815986994801
+          },
+          "completion": {
+            "actual_s": 199.398446302,
+            "predicted_s": 206.28321649694976,
+            "error_s": 6.884770194949766,
+            "error_percent": 3.45277023097883
+          }
+        },
+        "e97282fe-c06d-498d-9866-95103d44e6a9": {
+          "feed": {
+            "actual_s": 380.45241346,
+            "predicted_s": 360.4240319170476,
+            "error_s": -20.02838154295239,
+            "error_percent": -5.264359177224176
+          },
+          "completion": {
+            "actual_s": 383.525317016,
+            "predicted_s": 362.9422093492675,
+            "error_s": -20.583107666732474,
+            "error_percent": -5.366818500243564
+          }
+        },
+        "db4be81e-6b95-44a7-9fd3-ac0d44ec006a": {
+          "feed": {
+            "actual_s": 37.376715418,
+            "predicted_s": 40.17716042086346,
+            "error_s": 2.800445002863455,
+            "error_percent": 7.4924855529568735
+          },
+          "completion": {
+            "actual_s": 64.663752959,
+            "predicted_s": 63.944754201618174,
+            "error_s": -0.7189987573818328,
+            "error_percent": -1.1119038479528331
+          }
+        },
+        "6c47f040-ac7e-49e1-965c-2e82cc679714": {
+          "feed": {
+            "actual_s": 6663.733848319,
+            "predicted_s": 6709.708367590439,
+            "error_s": 45.97451927143902,
+            "error_percent": 0.6899213011491545
+          },
+          "completion": {
+            "actual_s": 6666.009084164,
+            "predicted_s": 6712.109011359176,
+            "error_s": 46.09992719517595,
+            "error_percent": 0.6915671222935016
+          }
+        }
+      }
+    }
+  ]
+}

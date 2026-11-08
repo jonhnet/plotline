@@ -1,0 +1,16 @@
+/research/
+/build/
+/state/print-sink/
+/state/raster-lab/
+/state/cartographer/
+/worktrees/
+/target/
+/node_modules/
+/.venv
+__pycache__/
+*.pyc
+
+# Private historical inputs are retained separately.
+/archealogy/
+/data/
+/docs/readme/originals/

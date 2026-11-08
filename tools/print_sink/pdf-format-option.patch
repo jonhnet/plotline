@@ -1,0 +1,22 @@
+--- a/tools/ippeveprinter.c
++++ b/tools/ippeveprinter.c
+@@ -559 +558,0 @@
+-	      legacy     = 1;
+@@ -3654 +3653,4 @@
+-    httpAssembleURI(HTTP_URI_CODING_ALL, uri, sizeof(uri), WEB_SCHEME, NULL, client->host_field, client->host_port, "/");
++    if (getenv("PLOTLINE_REVIEW_URL"))
++      strlcpy(uri, getenv("PLOTLINE_REVIEW_URL"), sizeof(uri));
++    else
++      httpAssembleURI(HTTP_URI_CODING_ALL, uri, sizeof(uri), WEB_SCHEME, NULL, client->host_field, client->host_port, "/");
+@@ -6043 +6045,2 @@
++      (!getenv("PLOTLINE_SINK_HOST_ALIAS") || strcasecmp(client->host_field, getenv("PLOTLINE_SINK_HOST_ALIAS"))) &&
+       (!ptr || (strcmp(ptr, ".local") && strcmp(ptr, ".local."))))
+@@ -7217 +7220,4 @@
+-  httpAssembleURI(HTTP_URI_CODING_ALL, adminurl, sizeof(adminurl), WEB_SCHEME, NULL, printer->hostname, printer->port, "/");
++  if (getenv("PLOTLINE_REVIEW_URL"))
++    strlcpy(adminurl, getenv("PLOTLINE_REVIEW_URL"), sizeof(adminurl));
++  else
++    httpAssembleURI(HTTP_URI_CODING_ALL, adminurl, sizeof(adminurl), WEB_SCHEME, NULL, printer->hostname, printer->port, "/");
+@@ -8885 +8891 @@
+-	    if ((x_value < x_min || x_value > x_max) && (y_value < y_min || y_value > y_max))
++	    if (x_value >= x_min && x_value <= x_max && y_value >= y_min && y_value <= y_max)

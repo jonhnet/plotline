@@ -1,0 +1,15 @@
+{
+  "hostname": "stain",
+  "admin_user": "pi",
+  "timezone": "Etc/UTC",
+  "admin_keys": ["REPLACE with your operator SSH public key"],
+  "service_keys": ["REPLACE with a separate Plotline Studios SSH public key"],
+  "network": {
+    "version": 2,
+    "renderer": "NetworkManager",
+    "ethernets": {"eth0": {"dhcp4": true, "optional": true}}
+  },
+  "device": {
+    "device": "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
+  }
+}

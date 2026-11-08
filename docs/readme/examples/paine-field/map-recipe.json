@@ -1,0 +1,190 @@
+{
+  "boundary": null,
+  "bounds": [
+    -122.43,
+    47.56,
+    -122.24,
+    47.69
+  ],
+  "camera": {
+    "azimuth_deg": 0,
+    "elevation_deg": 35,
+    "exaggeration": 3,
+    "relief": false
+  },
+  "center": [
+    -122.27857337305221,
+    47.908094346658416
+  ],
+  "data": {
+    "vector_template": "https://tiles.openfreemap.org/planet/20261025_080012_pt/{z}/{x}/{y}.pbf"
+  },
+  "extent": "viewport",
+  "features": {
+    "bridges": true,
+    "building_min_mm2": 0.3,
+    "buildings": "all",
+    "contour_interval_m": 100,
+    "contours": false,
+    "hatch_spacing_mm": 2.5,
+    "hillshade": false,
+    "hillshade_spacing_mm": 2.5,
+    "labels": "normal",
+    "park_labels": true,
+    "park_treatment": "hatch",
+    "parks": true,
+    "roads": "all",
+    "shore": "line",
+    "terrain_edges": false,
+    "water_fill": false
+  },
+  "framing": {
+    "offset_mm": [
+      0,
+      0
+    ],
+    "scale_denominator": 11200.000000000004
+  },
+  "furniture": {
+    "compass": true,
+    "credits": false,
+    "legend": false,
+    "parameters": false,
+    "signature": false,
+    "title": true
+  },
+  "ink_roles": {
+    "bridges": "ink-43d140a76ae721b71b830e0eb886d8db",
+    "buildings": "ink-43d140a76ae721b71b830e0eb886d8db",
+    "hillshade": "ink-c179ed02c245554f075d1ca1ab4491a6",
+    "labels": "ink-c179ed02c245554f075d1ca1ab4491a6",
+    "parks": "ink-65a49c119ff34e0b83b1808681ef3def",
+    "roads": "ink-c179ed02c245554f075d1ca1ab4491a6",
+    "silhouettes": "ink-c179ed02c245554f075d1ca1ab4491a6",
+    "terrain": "ink-8e2685e9e252d8e0654ec16dae16c246",
+    "water": "ink-02ccfa1faf5ae4d103e00de0f98d637f"
+  },
+  "lighting": {
+    "azimuth_deg": 180,
+    "elevation_deg": 45
+  },
+  "media": {
+    "content_inset_mm": 1,
+    "id": "hp7585-27940-43180-r270",
+    "label": "HP7585 / 11.0 \u00d7 17.0 in",
+    "orientation_deg": 270,
+    "printable_rect_mm": [
+      11,
+      15.425,
+      253.59999999999997,
+      376.95
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      279.4,
+      431.8
+    ]
+  },
+  "outside": {
+    "features": {
+      "bridges": true,
+      "building_min_mm2": 0.3,
+      "buildings": "none",
+      "contour_interval_m": 100,
+      "contours": false,
+      "hatch_spacing_mm": 2.5,
+      "hillshade": false,
+      "hillshade_spacing_mm": 2.5,
+      "labels": "sparse",
+      "park_labels": true,
+      "park_treatment": "outline",
+      "parks": true,
+      "roads": "major",
+      "shore": "line",
+      "terrain_edges": false,
+      "water_fill": false
+    },
+    "ink_roles": {
+      "bridges": "black",
+      "buildings": "black",
+      "hillshade": "black",
+      "labels": "black",
+      "parks": "black",
+      "roads": "black",
+      "silhouettes": "black",
+      "terrain": "black",
+      "water": "black"
+    }
+  },
+  "palette": {
+    "id": "map-palette",
+    "inks": [
+      {
+        "color_srgb": "#000000",
+        "id": "black",
+        "label": "Black",
+        "width_mm": 0.1411111111111111
+      },
+      {
+        "color_srgb": "#ff0000",
+        "id": "ink-43d140a76ae721b71b830e0eb886d8db",
+        "label": "red",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 2
+        },
+        "width_mm": 0.3
+      },
+      {
+        "color_srgb": "#000000",
+        "id": "ink-c179ed02c245554f075d1ca1ab4491a6",
+        "label": "black",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 8
+        },
+        "width_mm": 0.5
+      },
+      {
+        "color_srgb": "#009f7c",
+        "id": "ink-02ccfa1faf5ae4d103e00de0f98d637f",
+        "label": "Turquoise",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 7
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#800080",
+        "id": "ink-8e2685e9e252d8e0654ec16dae16c246",
+        "label": "purple",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 5
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#008000",
+        "id": "ink-65a49c119ff34e0b83b1808681ef3def",
+        "label": "green",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 6
+        },
+        "width_mm": 0.7
+      }
+    ],
+    "label": "Document inks \u00b7 modeled widths",
+    "schema": "plotline.palette/1"
+  },
+  "schema": "plotline.map-recipe/2",
+  "title": "Paine Field"
+}

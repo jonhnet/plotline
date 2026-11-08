@@ -1,0 +1,13 @@
+{
+  "revision": 5,
+  "slots": {
+    "1": {"label": "black · dry", "state": "unavailable", "color": "#000000", "width_mm": null},
+    "2": {"label": "red", "state": "loaded", "color": "#ff0000", "width_mm": 0.3},
+    "3": {"label": "broken", "state": "unavailable", "color": null, "width_mm": null},
+    "4": {"label": "hot pink", "state": "loaded", "color": "#ff1493", "width_mm": null},
+    "5": {"label": "green", "state": "loaded", "color": "#008000", "width_mm": 1.0},
+    "6": {"label": "purple", "state": "loaded", "color": "#800080", "width_mm": 0.5},
+    "7": {"label": "", "state": "empty", "color": null, "width_mm": null},
+    "8": {"label": "", "state": "empty", "color": null, "width_mm": null}
+  }
+}

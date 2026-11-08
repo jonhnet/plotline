@@ -1,0 +1,8 @@
+# Native PDF paint extraction/conversion; no layout, OCR or ML runtime.
+# python3 -m venv .venv && .venv/bin/pip install -r requirements-map.txt -r requirements-contracts.txt
+numpy==2.5.4
+orjson==3.13.0
+pymupdf-lite==2.0
+# Validate self-contained SVG/XML and CSS before the Inkscape PDF import.
+defusedxml==0.7.1
+tinycss2==1.5.1

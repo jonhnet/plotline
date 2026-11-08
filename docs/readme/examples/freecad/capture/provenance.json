@@ -1,0 +1,27 @@
+{
+  "capture_type": "scan",
+  "original_file": "16b4a6f7-plot-2.png",
+  "original": {
+    "sha256": "aeb5209cbf867862d5c60b753f09a60d1c090b00410dcd8010180afc7598b4de",
+    "bytes": 13289428
+  },
+  "original_exif_oriented_size": [
+    2548,
+    3300
+  ],
+  "processing": {
+    "rotate_clockwise": 90,
+    "highlight_white": 0.92,
+    "scanner_edge_px": 22,
+    "paper_grid_px": 80,
+    "long_edge": 2200
+  },
+  "method": "EXIF orientation; optional four-corner homography to physical paper aspect; local 95th-percentile paper RGB normalization; neutral highlight cleanup with protection for faint colored strokes; Lanczos display resize; JPEG 94, 4:4:4.",
+  "limits": "Display correction, not a calibrated measurement of ink color. No stroke replacement, inpainting, sharpening or generated artwork. A homography does not flatten paper curl.",
+  "files": {
+    "../sheet.jpg": {
+      "sha256": "2742b7c8705362f4106461c47fe376fa002ba6fc35b49265c9f5a84d383438dc",
+      "bytes": 190886
+    }
+  }
+}

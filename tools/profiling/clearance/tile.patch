@@ -1,0 +1,59 @@
+diff --git a/src/geometry.rs b/src/geometry.rs
+index a090df9..c5da55e 100644
+--- a/src/geometry.rs
++++ b/src/geometry.rs
+@@ -415,7 +415,8 @@ pub(crate) fn centerline_inset(geometry: &Geometry, radius: f64) -> Result<Geome
+     }
+     let mut output = Vec::new();
+     for i in 0..geometry.get_num_geometries()? {
+-        let inset = geometry.get_geometry_n(i)?.buffer(-radius, QUADRANTS)?;
++        let part = geometry.get_geometry_n(i)?;
++        let inset = spatial_inset(&Geom::clone(&part)?, radius)?;
+         if inset.is_empty()? {
+             continue;
+         }
+@@ -434,6 +435,44 @@ pub(crate) fn centerline_inset(geometry: &Geometry, radius: f64) -> Result<Geome
+     })
+ }
+
++// Experimental subdivision with a halo; original curve precision is retained.
++fn spatial_inset(shape: &Geometry, radius: f64) -> Result<Geometry> {
++    if shape.get_num_coordinates()? < 2048 {
++        return round_buffer(shape, -radius);
++    }
++    let b = shape.get_extent()?;
++    let prepared = geos::PreparedGeometry::new(shape)?;
++    let step = 64. * radius;
++    let nx = ((b[2] - b[0]) / step).ceil() as usize;
++    let ny = ((b[3] - b[1]) / step).ceil() as usize;
++    if nx.saturating_mul(ny) > 10000 {
++        return round_buffer(shape, -radius);
++    }
++    let mut output = Vec::new();
++    for x in 0..nx {
++        for y in 0..ny {
++            let x0 = b[0] + x as f64 * step;
++            let y0 = b[1] + y as f64 * step;
++            let core = Geometry::create_rectangle(x0, y0, x0 + step, y0 + step)?;
++            if !prepared.intersects(&core)? {
++                continue;
++            }
++            let halo = Geometry::create_rectangle(
++                x0 - radius * 2.,
++                y0 - radius * 2.,
++                x0 + step + radius * 2.,
++                y0 + step + radius * 2.,
++            )?;
++            let local = shape.intersection(&halo)?;
++            let ink = round_buffer(&local, -radius)?.intersection(&core)?;
++            if !ink.is_empty()? {
++                output.push(ink);
++            }
++        }
++    }
++    union(output)
++}
++
+ pub fn round_buffer(geometry: &Geometry, distance: f64) -> Result<Geometry> {
+     Ok(geometry.buffer(distance, QUADRANTS)?)
+ }

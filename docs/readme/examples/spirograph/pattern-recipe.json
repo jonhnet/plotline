@@ -1,0 +1,90 @@
+{
+  "custom_margin_mm": 15,
+  "family": "spirograph",
+  "ink_sequence": [
+    "ink-1b5a9495bf1a8f52428626030555256f",
+    "ink-5fed841c95a640dcd671c9956fe23ee2",
+    "ink-dc4e89d623c46b6f58e0490780d2e728"
+  ],
+  "inks": [
+    {
+      "color_srgb": "#ff0000",
+      "id": "ink-1b5a9495bf1a8f52428626030555256f",
+      "label": "red",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 2
+      },
+      "width_mm": 0.465
+    },
+    {
+      "color_srgb": "#008000",
+      "id": "ink-5fed841c95a640dcd671c9956fe23ee2",
+      "label": "green",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 4
+      },
+      "width_mm": 0.677
+    },
+    {
+      "color_srgb": "#0000ff",
+      "id": "ink-dc4e89d623c46b6f58e0490780d2e728",
+      "label": "blue",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 35,
+        "slot": 5
+      },
+      "width_mm": 0.337
+    }
+  ],
+  "margin_mode": "plotter",
+  "media": {
+    "content_inset_mm": 1,
+    "id": "hp7585-27940-21590",
+    "label": "HP7585 / 11.0 \u00d7 8.5 in",
+    "orientation_deg": 90,
+    "printable_rect_mm": [
+      15,
+      39,
+      249.4,
+      161.9
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      279.4,
+      215.9
+    ]
+  },
+  "name": "Spirograph",
+  "orientation": 0,
+  "paper_id": "hp7585-27940-21590",
+  "params": {
+    "gear": 1,
+    "layers": 8,
+    "offset": 0.85,
+    "outside": 0,
+    "twist": 6
+  },
+  "roles": [
+    {
+      "ink_id": "ink-1b5a9495bf1a8f52428626030555256f",
+      "label": "Sequence ink 1"
+    },
+    {
+      "ink_id": "ink-5fed841c95a640dcd671c9956fe23ee2",
+      "label": "Sequence ink 2"
+    },
+    {
+      "ink_id": "ink-dc4e89d623c46b6f58e0490780d2e728",
+      "label": "Sequence ink 3"
+    }
+  ],
+  "rotation": 0,
+  "size": 0.96,
+  "version": 1
+}

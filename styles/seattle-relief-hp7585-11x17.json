@@ -1,0 +1,159 @@
+{
+  "width_in": 17,
+  "height_in": 11,
+  "elevation_file": "data/seattle-elevation-2026-10-29.tif",
+  "vector_directory": "data/seattle-region-2026-10-29",
+  "mesh_stride": 2,
+  "vertical_exaggeration": 6,
+  "camera_azimuth_deg": 215,
+  "camera_elevation_deg": 22,
+  "contour_interval_m": 15,
+  "minimum_park_area_m2": 30000,
+  "park_hatch_spacing_m": 220,
+  "road_classes": [
+    1,
+    4,
+    5
+  ],
+  "road_outer_width_pt": 2.8,
+  "road_core_width_pt": 1.4,
+  "pen_width_pt": 0.4,
+  "stroke_width_tolerance": 0.75,
+  "labels": [
+    {
+      "text": "Queen Anne",
+      "location": [
+        -122.356,
+        47.637
+      ],
+      "offset_pt": [
+        -18,
+        -26
+      ],
+      "size": 12
+    },
+    {
+      "text": "Magnolia",
+      "location": [
+        -122.399,
+        47.65
+      ],
+      "offset_pt": [
+        -12,
+        -20
+      ],
+      "size": 12
+    },
+    {
+      "text": "Capitol Hill",
+      "location": [
+        -122.312,
+        47.63
+      ],
+      "offset_pt": [
+        25,
+        -22
+      ],
+      "size": 12
+    },
+    {
+      "text": "Downtown",
+      "location": [
+        -122.335,
+        47.608
+      ],
+      "offset_pt": [
+        0,
+        -15
+      ],
+      "size": 11
+    },
+    {
+      "text": "Ballard",
+      "location": [
+        -122.382,
+        47.675
+      ],
+      "offset_pt": [
+        0,
+        -16
+      ],
+      "size": 11
+    },
+    {
+      "text": "Fremont",
+      "location": [
+        -122.35,
+        47.651
+      ],
+      "offset_pt": [
+        0,
+        -15
+      ],
+      "size": 11
+    },
+    {
+      "text": "Lake Union",
+      "location": [
+        -122.333,
+        47.639
+      ],
+      "offset_pt": [
+        0,
+        0
+      ],
+      "size": 12,
+      "font": "serif"
+    },
+    {
+      "text": "Elliott Bay",
+      "location": [
+        -122.375,
+        47.608
+      ],
+      "offset_pt": [
+        0,
+        0
+      ],
+      "size": 14,
+      "font": "serif"
+    },
+    {
+      "text": "Lake Washington",
+      "location": [
+        -122.265,
+        47.64
+      ],
+      "offset_pt": [
+        20,
+        -6
+      ],
+      "size": 12,
+      "font": "serif"
+    },
+    {
+      "text": "Puget Sound",
+      "location": [
+        -122.427,
+        47.646
+      ],
+      "offset_pt": [
+        0,
+        0
+      ],
+      "size": 13,
+      "font": "serif"
+    }
+  ],
+  "margins_mm": {
+    "left": 39,
+    "top": 11,
+    "right": 15,
+    "bottom": 14.8
+  },
+  "hard_clip_size_mm": [
+    376.95,
+    254.45
+  ],
+  "content_inset_mm": 1
+}

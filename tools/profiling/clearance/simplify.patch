@@ -1,0 +1,19 @@
+diff --git a/src/geometry.rs b/src/geometry.rs
+index a090df9..8661685 100644
+--- a/src/geometry.rs
++++ b/src/geometry.rs
+@@ -407,6 +407,14 @@ pub(crate) fn centerline_inset(geometry: &Geometry, radius: f64) -> Result<Geome
+         radius.is_finite() && radius > 0.,
+         "Invalid pen-clearance radius"
+     );
++    // Experimental clearance-only simplification; source coverage is unchanged.
++    let simplified;
++    let geometry = if geometry.get_num_coordinates()? >= 256 && geometry.is_valid()? {
++        simplified = geometry.topology_preserve_simplify(0.001)?;
++        &simplified
++    } else {
++        geometry
++    };
+     if geometry.geometry_type()? != GeometryTypes::MultiPolygon
+         || geometry.get_num_coordinates()? < 256
+         || !geometry.is_valid()?

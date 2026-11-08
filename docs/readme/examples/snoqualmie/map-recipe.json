@@ -1,0 +1,215 @@
+{
+  "boundary": null,
+  "bounds": [
+    -122.427,
+    47.622,
+    -122.265,
+    47.68
+  ],
+  "camera": {
+    "azimuth_deg": 296,
+    "elevation_deg": 13,
+    "exaggeration": 1.5,
+    "relief": true
+  },
+  "center": [
+    -121.39811015567659,
+    47.373977869748714
+  ],
+  "data": {
+    "vector_template": "https://tiles.openfreemap.org/planet/20261025_080012_pt/{z}/{x}/{y}.pbf"
+  },
+  "extent": "viewport",
+  "features": {
+    "bridges": true,
+    "building_min_mm2": 0.3,
+    "buildings": "auto",
+    "contour_interval_m": 100,
+    "contours": true,
+    "hatch_spacing_mm": 2.5,
+    "hillshade": true,
+    "hillshade_spacing_mm": 2.5,
+    "labels": "normal",
+    "park_labels": false,
+    "park_treatment": "hatch",
+    "parks": false,
+    "roads": "all",
+    "shore": "echo",
+    "terrain_edges": true,
+    "water_fill": false
+  },
+  "framing": {
+    "offset_mm": [
+      0,
+      0
+    ],
+    "scale_denominator": 108892.52899168826
+  },
+  "furniture": {
+    "compass": true,
+    "credits": false,
+    "legend": false,
+    "parameters": false,
+    "signature": false,
+    "title": true
+  },
+  "ink_roles": {
+    "bridges": "ink-0d7f7a59a696227a5c9b8cf1bce46a6f",
+    "buildings": "ink-9f7e3dd1877fb3f65bf5953313d00335",
+    "hillshade": "ink-419a5bc04fdae6823b4e295421b82a6b",
+    "labels": "ink-419a5bc04fdae6823b4e295421b82a6b",
+    "parks": "ink-a42fa9a4dae2f09f3b530b92cf9692f2",
+    "roads": "ink-0d7f7a59a696227a5c9b8cf1bce46a6f",
+    "silhouettes": "ink-419a5bc04fdae6823b4e295421b82a6b",
+    "terrain": "ink-map1793414176863wji9",
+    "water": "ink-3e8449c20c810d3b6ab33d9466bcb222"
+  },
+  "lighting": {
+    "azimuth_deg": 230,
+    "elevation_deg": 25
+  },
+  "media": {
+    "calibration": {
+      "device": "HP7585B",
+      "evidence": "2026-10-30 ruler margins back/front/left/right = 39/15/14.8/11 mm. Conservative intersection of two reported OH windows; nominal paper placement. Ruler uncertainty is not quantified. See docs/experiment-11.md.",
+      "hard_clip_units": [
+        -7539,
+        -5088,
+        7539,
+        5088
+      ],
+      "sheet_to_device_units": [
+        40,
+        0,
+        0,
+        -40,
+        -9116,
+        5512
+      ],
+      "uncertainty_mm": null,
+      "units_per_mm": 40
+    },
+    "content_inset_mm": 1,
+    "id": "hp7585-tabloid-landscape",
+    "label": "HP7585 / 17 x 11 in landscape, long dimension along feed",
+    "printable_rect_mm": [
+      39.425,
+      11,
+      376.95,
+      253.6
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      431.8,
+      279.4
+    ]
+  },
+  "outside": {
+    "features": {
+      "bridges": true,
+      "building_min_mm2": 0.3,
+      "buildings": "none",
+      "contour_interval_m": 100,
+      "contours": false,
+      "hatch_spacing_mm": 2.5,
+      "hillshade": false,
+      "hillshade_spacing_mm": 2.5,
+      "labels": "sparse",
+      "park_labels": true,
+      "park_treatment": "outline",
+      "parks": true,
+      "roads": "major",
+      "shore": "line",
+      "terrain_edges": false,
+      "water_fill": false
+    },
+    "ink_roles": {
+      "bridges": "black",
+      "buildings": "black",
+      "hillshade": "black",
+      "labels": "black",
+      "parks": "black",
+      "roads": "black",
+      "silhouettes": "black",
+      "terrain": "black",
+      "water": "black"
+    }
+  },
+  "palette": {
+    "id": "map-palette",
+    "inks": [
+      {
+        "color_srgb": "#000000",
+        "id": "black",
+        "label": "Study black",
+        "width_mm": 0.1411111111111111
+      },
+      {
+        "color_srgb": "#800080",
+        "id": "ink-map1793414176863wji9",
+        "label": "purple",
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#ff0000",
+        "id": "ink-0d7f7a59a696227a5c9b8cf1bce46a6f",
+        "label": "red",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 8,
+          "slot": 2
+        },
+        "width_mm": 0.3
+      },
+      {
+        "color_srgb": "#000000",
+        "id": "ink-419a5bc04fdae6823b4e295421b82a6b",
+        "label": "black \u00b7 dry",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 8,
+          "slot": 1
+        },
+        "width_mm": 0.5
+      },
+      {
+        "color_srgb": "#ff1493",
+        "id": "ink-9f7e3dd1877fb3f65bf5953313d00335",
+        "label": "hot pink",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 9,
+          "slot": 4
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#009f7c",
+        "id": "ink-3e8449c20c810d3b6ab33d9466bcb222",
+        "label": "Turquoise",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 7
+        },
+        "width_mm": 0.7
+      },
+      {
+        "color_srgb": "#008000",
+        "id": "ink-a42fa9a4dae2f09f3b530b92cf9692f2",
+        "label": "green",
+        "source": {
+          "kind": "squidprint-carousel",
+          "revision": 15,
+          "slot": 6
+        },
+        "width_mm": 0.7
+      }
+    ],
+    "label": "Study inks \u00b7 modeled widths",
+    "schema": "plotline.palette/1"
+  },
+  "schema": "plotline.map-recipe/2",
+  "title": "Cabin & Snoqualmie Pass"
+}

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plotline · PDF interpretation review</title>
+<style>
+  * { box-sizing:border-box } :root { font-family:system-ui,sans-serif;color:#202b36;background:#f4f5f7 }
+  body { margin:0 } header { padding:16px 22px 10px;background:white;border-bottom:1px solid #d9dee4 }
+  h1 { font-size:22px;letter-spacing:-.4px;margin:0 0 4px } p { margin:5px 0;color:#53606e;font-size:13px }
+  #score { font-variant-numeric:tabular-nums;color:#9d215e } .toolbar { display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px }
+  button,select,input { font:inherit } button,select { font-size:13px;padding:7px 11px;background:white;border:1px solid #c4ccd6;border-radius:6px;color:inherit }
+  button { cursor:pointer } button:hover { background:#eef3f8 } button[aria-pressed=true] { background:#183e5d;color:white;border-color:#183e5d }
+  button:focus-visible,select:focus-visible { outline:3px solid #dd6b9f;outline-offset:2px }
+  label { font-size:12px;display:inline-flex;align-items:center;gap:5px } input[type=range] { width:110px }
+  .spacer { flex:1 } #zoom { min-width:65px;font-size:12px;font-variant-numeric:tabular-nums;text-align:center }
+  main { padding:14px 18px;display:flex;gap:14px } .panel { min-width:0;flex:1;border:1px solid #cad1da;border-radius:8px;overflow:hidden;background:white }
+  .caption { padding:9px 12px;border-bottom:1px solid #d9dee4;font-size:13px;font-weight:600;min-height:37px }
+  canvas { display:block;width:100%;height:calc(100dvh - 275px);min-height:260px;background:#e2e6eb;touch-action:none;cursor:grab }
+  canvas:active { cursor:grabbing } [hidden] { display:none!important }
+  footer { padding:0 22px 16px;font-size:12px;color:#53606e } #cursor { display:block;min-height:19px;font-variant-numeric:tabular-nums }
+  #share-link { display:none;width:100%;margin-top:8px;padding:6px;font-size:12px } a { color:#174f7c }
+  @media(max-width:650px) { header{padding:12px} main{padding:10px;gap:8px}.caption{font-size:11px;padding:7px}canvas{height:52dvh} .spacer{display:none} }
+</style>
+<header>
+  <h1>PDF interpretation review</h1>
+  <p id="description">Loading the frozen regression rasters…</p>
+  <p id="score"></p>
+  <div class="toolbar" aria-label="View mode">
+    <button data-mode="side" aria-pressed="true">Side by side</button>
+    <button data-mode="blink" aria-pressed="false">Blink</button>
+    <button data-mode="overlay" aria-pressed="false">Overlay</button>
+    <button data-mode="diff" aria-pressed="false">Difference</button>
+    <span class="spacer"></span>
+    <select id="preset" aria-label="Jump to a detail"></select>
+    <button id="fit">Fit</button><button id="minus" aria-label="Zoom out">−</button>
+    <span id="zoom"></span><button id="plus" aria-label="Zoom in">+</button>
+    <button id="native">100%</button><button id="share">Link this view</button>
+  </div>
+  <div class="toolbar">
+    <label id="blink-control" hidden>Blink interval <input id="interval" type="range" min="150" max="1500" value="600" step="50"><span id="interval-value">600 ms</span></label>
+    <button id="pause" hidden>Pause blinking</button><button id="flip" hidden>Flip now (space)</button>
+    <label id="overlay-control" hidden>Coverage opacity <input id="opacity" type="range" min="0" max="100" value="50"></label>
+    <label id="diff-control" hidden>Show <select id="diff-kind"><option value="threshold">Pixels failing &gt;64 / 255</option><option value="enhanced">All differences ×4, on white</option><option value="absolute">Absolute RGB difference</option></select></label>
+    <label><input type="checkbox" id="pixels" checked>Sharp pixels when enlarged</label>
+    <span style="font-size:12px;color:#53606e">Drag to pan · scroll to zoom · both views stay aligned</span>
+  </div>
+  <input id="share-link" readonly aria-label="Shareable URL">
+</header>
+<main>
+  <section class="panel"><div class="caption" id="caption-a">A · Direct PDF raster</div><canvas id="a" aria-label="Reference or comparison view"></canvas></section>
+  <section class="panel" id="panel-b"><div class="caption">B · Reconstructed logical paint</div><canvas id="b" aria-label="Reconstructed PDF raster"></canvas></section>
+</main>
+<footer>
+  <span id="cursor">Point at an image to read page coordinates and both RGB values.</span>
+  This compares logical PDF paint. Pen-width approximation, hatching and HPGL are downstream and absent here.
+  <span id="sampling-note">No alignment correction, blur or resampling is applied to the saved inputs.</span>
+  <a href="reference.png">Reference PNG</a> · <a href="coverage.png">Coverage PNG</a> · <a href="difference.png">Raw difference</a> · <a href="review.json">Measurements / hashes</a>
+</footer>
+<script type="module">
+const $ = id => document.getElementById(id);
+try {
+  const response = await fetch('review.json');
+  if (!response.ok) throw new Error(`review.json: ${response.status}`);
+  const data = await response.json();
+  const images = {};
+  await Promise.all(Object.entries({reference:'reference.png',coverage:'coverage.png',threshold:'threshold.png',enhanced:'difference-enhanced.png',absolute:'difference.png'}).map(async ([key,url]) => {
+    const img = new Image(); img.src=url; await img.decode(); images[key]=img;
+  }));
+  const probes = {};
+  for (const key of ['reference','coverage']) {
+    const canvas=document.createElement('canvas'); canvas.width=data.width;canvas.height=data.height;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(images[key],0,0);probes[key]=ctx;
+  }
+  $('description').textContent=`${data.title} · ${data.width} × ${data.height} pixels · ${data.dpi} dpi`;
+  if(data.sampling){const s=data.sampling;$('sampling-note').textContent=`Both inputs rendered at ${s.render_dpi} dpi, then averaged in ${s.factor}×${s.factor} blocks to ${s.comparison_dpi} dpi. No alignment correction or neighboring-pixel matching.`;}
+  const criterion=data.comparison_kind==='native diagnostic'?'native diagnostic; gate uses supersampling':'gate: <1%';
+  $('score').textContent=`${(data.ratio*100).toFixed(4)}% discrepancy · ${data.differing_pixels.toLocaleString()} pixels over threshold / ${data.ink_pixels.toLocaleString()} ink pixels · ${criterion}`;
+  const canvases=[$('a'),$('b')];
+  let mode='side', zoom=.3, cx=data.width/2, cy=data.height/2, frame='reference', paused=false, timer, drag=null;
+  const params=new URLSearchParams(location.hash.slice(1));
+  const mark=() => { document.body.dataset.ready='true'; document.body.dataset.mode=mode;document.body.dataset.frame=frame;document.body.dataset.zoom=zoom; };
+  function draw() {
+    $('zoom').textContent=`${(zoom*100).toFixed(0)}%`;
+    for (let i=0;i<canvases.length;i++) {
+      if (i===1 && mode!=='side') continue;
+      const canvas=canvases[i], rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+      const w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
+      if(canvas.width!==w || canvas.height!==h){canvas.width=w;canvas.height=h;}
+      const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#e2e6eb';ctx.fillRect(0,0,rect.width,rect.height);
+      ctx.imageSmoothingEnabled=!$('pixels').checked || zoom<1;
+      const x=rect.width/2-cx*zoom,y=rect.height/2-cy*zoom;
+      const paint=(key,alpha=1)=>{ctx.globalAlpha=alpha;ctx.drawImage(images[key],x,y,data.width*zoom,data.height*zoom);ctx.globalAlpha=1;};
+      if(mode==='side')paint(i?'coverage':'reference');
+      else if(mode==='blink')paint(frame);
+      else if(mode==='overlay'){paint('reference');paint('coverage',Number($('opacity').value)/100);}
+      else paint($('diff-kind').value);
+    }
+    const differenceCaptions={threshold:'Magenta · Pixels counted by the failing regression',enhanced:'Differences ×4, inverted on white · display enhancement only',absolute:'Absolute per-channel difference · no spatial filtering'};
+    $('caption-a').textContent= mode==='side'?'A · Direct PDF raster':mode==='blink'?`${frame==='reference'?'A · Direct PDF raster':'B · Reconstructed logical paint'}${paused?' · paused':''}`:mode==='overlay'?'A + B · Aligned overlay':differenceCaptions[$('diff-kind').value];
+    mark();
+  }
+  function fit(){const r=$('a').getBoundingClientRect();zoom=Math.min((r.width-28)/data.width,(r.height-28)/data.height);cx=data.width/2;cy=data.height/2;draw();}
+  function clock(){clearInterval(timer);if(mode==='blink'&&!paused)timer=setInterval(()=>{frame=frame==='reference'?'coverage':'reference';draw();},Number($('interval').value));}
+  function setMode(value){mode=value;for(const b of document.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===mode));$('panel-b').hidden=mode!=='side';for(const id of ['blink-control','pause','flip'])$(id).hidden=mode!=='blink';$('overlay-control').hidden=mode!=='overlay';$('diff-control').hidden=mode!=='diff';clock();draw();}
+  function zoomAt(factor,x,y,canvas){const r=canvas.getBoundingClientRect();const px=cx+(x-r.width/2)/zoom,py=cy+(y-r.height/2)/zoom;zoom=Math.max(.04,Math.min(40,zoom*factor));cx=px-(x-r.width/2)/zoom;cy=py-(y-r.height/2)/zoom;draw();}
+  for(const b of document.querySelectorAll('[data-mode]'))b.onclick=()=>setMode(b.dataset.mode);
+  data.presets.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;$('preset').append(o);});
+  $('preset').onchange=()=>{const p=data.presets[Number($('preset').value)];if(p.fit)fit();else{cx=p.x*data.dpi/72;cy=p.y*data.dpi/72;zoom=p.zoom;draw();}};
+  $('fit').onclick=fit;$('native').onclick=()=>{zoom=1;draw();};$('minus').onclick=()=>{zoom=Math.max(.04,zoom/1.5);draw();};$('plus').onclick=()=>{zoom=Math.min(40,zoom*1.5);draw();};
+  for(const id of ['pixels','opacity','diff-kind'])$(id).oninput=draw;
+  $('interval').oninput=()=>{$('interval-value').textContent=`${$('interval').value} ms`;clock();};
+  $('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'Resume blinking':'Pause blinking';clock();draw();};
+  const flip=()=>{frame=frame==='reference'?'coverage':'reference';draw();};$('flip').onclick=flip;
+  window.addEventListener('keydown',e=>{if(e.code==='Space'&&mode==='blink'&&!['INPUT','SELECT','BUTTON'].includes(document.activeElement.tagName)){e.preventDefault();flip();}});
+  for(const canvas of canvases){
+    canvas.addEventListener('wheel',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();zoomAt(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top,canvas);},{passive:false});
+    canvas.onpointerdown=e=>{drag={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);};
+    canvas.onpointerup=canvas.onpointercancel=()=>{drag=null;};
+    canvas.onpointermove=e=>{
+      if(drag&&drag.id===e.pointerId){cx-=(e.clientX-drag.x)/zoom;cy-=(e.clientY-drag.y)/zoom;drag.x=e.clientX;drag.y=e.clientY;draw();}
+      const r=canvas.getBoundingClientRect(),x=Math.floor(cx+(e.clientX-r.left-r.width/2)/zoom),y=Math.floor(cy+(e.clientY-r.top-r.height/2)/zoom);
+      if(x<0||y<0||x>=data.width||y>=data.height)return;
+      const a=Array.from(probes.reference.getImageData(x,y,1,1).data).slice(0,3),b=Array.from(probes.coverage.getImageData(x,y,1,1).data).slice(0,3),delta=Math.max(...a.map((v,i)=>Math.abs(v-b[i])));
+      $('cursor').textContent=`Pixel ${x}, ${y} · Page ${(x*72/data.dpi).toFixed(2)}, ${(y*72/data.dpi).toFixed(2)} pt · PDF [${a}] · Coverage [${b}] · max Δ ${delta}${delta>64?' · FAILING PIXEL':''}`;
+    };
+  }
+  $('share').onclick=()=>{const hash=new URLSearchParams({mode,x:cx.toFixed(2),y:cy.toFixed(2),zoom:zoom.toFixed(5),diff:$('diff-kind').value});history.replaceState(null,'','#'+hash);const input=$('share-link');input.value=location.href;input.style.display='block';input.select();navigator.clipboard?.writeText(location.href).catch(()=>{});};
+  new ResizeObserver(()=>draw()).observe(document.querySelector('main'));
+  setMode(['side','blink','overlay','diff'].includes(params.get('mode'))?params.get('mode'):'side');
+  if(params.has('zoom')&&[params.get('zoom'),params.get('x'),params.get('y')].every(v=>v!==null&&Number.isFinite(Number(v)))){zoom=Math.max(.04,Math.min(40,Number(params.get('zoom'))));cx=Number(params.get('x'));cy=Number(params.get('y'));if(['threshold','enhanced','absolute'].includes(params.get('diff')))$('diff-kind').value=params.get('diff');draw();}else fit();
+} catch(error) { $('description').textContent=`Could not load review: ${error.message}`;console.error(error); }
+</script>
+</html>

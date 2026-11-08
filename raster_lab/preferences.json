@@ -1,0 +1,632 @@
+{
+  "default_recovery": "stroke-wide",
+  "images": {
+    "my-love": {
+      "recovery": "stroke-linked",
+      "evidence": "5330007f-f9c9-4fac-9425-5955166dcab7"
+    },
+    "happy-shreksgiving": {
+      "recovery": "stroke-linked",
+      "evidence": "c10f5bba-1cd1-49e3-8c3e-06bf725d27f4"
+    },
+    "shrek-5-felicia": {
+      "recovery": "stroke-linked",
+      "evidence": "b51140f2-a99c-465f-a2ed-919a5be89316"
+    },
+    "principals-office": {
+      "recovery": "stroke-wide",
+      "screen_enabled": false,
+      "evidence": "231cdaa4-370e-4c06-8c84-63c632773269"
+    },
+    "game-night": {
+      "recovery": "stroke-wide",
+      "reason": "Retain the recovery used in the preferred Edges \u00b7 25% interior sample."
+    },
+    "the-visitor": {
+      "recovery": "stroke-sensitive",
+      "screen_enabled": false,
+      "evidence": "b45adbca-8834-4bf2-ae60-9d4266491765"
+    },
+    "swamp-at-dawn": {
+      "recovery": "stroke-linked",
+      "evidence": "e7b9c0a7-ef66-4b95-99b8-7e598bb9d81b"
+    },
+    "felicia-2020": {
+      "recovery": "stroke-wide",
+      "evidence": "2610eda0-7ddd-47e0-bddf-cd47488020e1"
+    }
+  },
+  "rounds": {
+    "4": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "5": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "6": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "7": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "8": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "9": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    },
+    "10": {
+      "default_recovery": "stroke-wide",
+      "images": {
+        "my-love": {
+          "recovery": "recovery-detail",
+          "evidence": "b15229f8-ed36-4b5d-9425-3851143baac2"
+        },
+        "happy-shreksgiving": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "8cdb2092-b85a-41d8-8681-63e027d41364"
+        },
+        "shrek-5-felicia": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "31b18496-5f45-41f2-bcbc-7364a8aea527",
+          "reason": "Both fine-detail widths were accepted; use 0.15 mm for the requested fine-K screen comparison."
+        },
+        "principals-office": {
+          "recovery": "stroke-wide",
+          "screen_enabled": false,
+          "evidence": "e051b258-6ef9-4dbd-93f7-57055ebca0ab"
+        },
+        "game-night": {
+          "recovery": "stroke-wide",
+          "evidence": "0d97aec0-17f6-4666-a219-32d8b5734a42"
+        },
+        "the-visitor": {
+          "recovery": "stroke-sensitive",
+          "screen_enabled": false,
+          "lettering_enabled": true,
+          "detail_view": {
+            "zoom": 2,
+            "x": 0.75,
+            "y": 0.25
+          },
+          "reason": "No successful lettering recovery yet; retain the earlier reference and diagnose the upper-right panel requested by Jon."
+        },
+        "swamp-at-dawn": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "012c6205-d730-4467-948e-52da41dffaed"
+        },
+        "felicia-2020": {
+          "recovery": "recovery-detail-fine",
+          "evidence": "7dddd4fe-9780-45ff-a2d1-5fc1f1a33ea0"
+        }
+      }
+    }
+  },
+  "review_decisions": {
+    "screening": {
+      "method": "highlight-diffusion",
+      "status": "Preferred for a future real-paper proof; physical plotting has not been requested.",
+      "per_image": {
+        "my-love": {
+          "experiment": "highlight-long",
+          "evidence": "e5a379ee-a903-4294-9d96-e077cc40e099"
+        },
+        "shrek-5-felicia": {
+          "experiment": "highlight-short",
+          "evidence": "72f03fbd-10cc-4395-8f48-792322be7240"
+        },
+        "game-night": {
+          "experiment": "highlight-short",
+          "evidence": "c0f1cc11-9b24-4815-9974-6caee716568a"
+        },
+        "felicia-2020": {
+          "experiment": "highlight-short",
+          "evidence": "f9a220f7-637f-4ccd-b519-548055f3e723"
+        }
+      },
+      "fullness_reviews": {
+        "my-love": {
+          "finding": "Full is acceptable for plotting; 75% interior with a 0.5-inch fade is a good compromise but travel savings may not justify it.",
+          "evidence": [
+            "8f26ea5d-1454-4886-a8d3-8c5e7fcdd437",
+            "5549d4ad-a38b-4e55-a552-c95d802c37f8",
+            "a7d7cb23-2b63-4b84-914f-be35f91dd2c4"
+          ]
+        },
+        "happy-shreksgiving": {
+          "finding": "25% interior worked in an earlier round; 75% is nearly as good as full, with softer falloff requested. No universal fullness winner selected.",
+          "evidence": [
+            "f2db869b-f184-4071-bc60-08970d0aa00e",
+            "298cc84c-3e16-4068-b8c8-bea09bd286fc"
+          ]
+        },
+        "shrek-5-felicia": {
+          "finding": "Full is a preferred plotting candidate. Earlier apparent mileage inversion against edge emphasis used mismatched peak demand and was corrected in the matched comparisons.",
+          "evidence": [
+            "9ef92709-32e6-4a4a-9043-f54058588576",
+            "4e0beb92-018e-46f4-9067-c92d9eee1712"
+          ]
+        },
+        "principals-office": {
+          "finding": "Screening adds noise; retain line-only treatment.",
+          "evidence": [
+            "12b55bed-a56d-422b-96f3-22620f637ead"
+          ]
+        },
+        "game-night": {
+          "finding": "Light 25% interior K screening can improve the drawing; keep that preference alongside the later fine highlight-diffusion vote. The combined 25%-interior/diffusion recipe is not yet reviewed.",
+          "evidence": [
+            "5d2abd9e-3c4e-403e-acb9-1ff99db598a6",
+            "738a8d11-47cc-4fb7-a28b-370eb13a8cc9"
+          ]
+        },
+        "the-visitor": {
+          "finding": "Screening adds noise; concentrate on line/ink recovery.",
+          "evidence": [
+            "ddac4656-6ddc-4a42-8d8e-270a5d909033"
+          ]
+        },
+        "swamp-at-dawn": {
+          "finding": "Retain full screening to preserve the dark mood; edge-focused lightening weakens it.",
+          "evidence": [
+            "a2b5cc2a-51cb-4d93-b29d-3514b6ad5905",
+            "be79dc52-43f9-4a82-a296-9dcaa804f5fa"
+          ]
+        },
+        "felicia-2020": {
+          "finding": "Full preserves the color mood; 75% remains competitive. 25% loses too much.",
+          "evidence": [
+            "9613f20f-c73b-4cae-b81b-6ac158f676be",
+            "ece6fe52-28f9-47d5-b3ee-a65803a7935e",
+            "caa0985f-3845-4e63-9947-6e166d348660"
+          ]
+        }
+      }
+    },
+    "lettering": {
+      "baseline": "fill-joined",
+      "pen_mm": 0.075,
+      "most_legible": "fill-joined",
+      "source": "Jon\u2019s review in the conversation after round 8",
+      "result_key": "0e3c4530871d98b54fa7",
+      "finding": "Joined-fill is now the leader. Jon asks about physical scale because his smallest available pen may be about 0.25 mm.",
+      "candidate_physical_pen_mm": 0.25,
+      "physical_pen_status": "User estimate; not calibrated or confirmed carousel inventory.",
+      "next_step": "Carry joined fill into the explicit Ink shapes treatment, using the selected physical black pen. Keep earlier ridge recovery as the separate Contrast strokes treatment. Implement both alongside Off in the planned PDF Studio image controls.",
+      "previous_reviews": [
+        {
+          "baseline": "letter-cubic",
+          "pen_mm": 0.15,
+          "source": "Jon\u2019s review in the conversation after round 5",
+          "finding": "Jon can still read the binary mask (stage 2), despite some corruption. The lettering becomes unreadable after thinning (stage 3). Pen width did not help; cubic interpolation did.",
+          "next_step": "Hold the 2\u00d7 cubic mask fixed; compare Zhang\u2013Suen, Guo\u2013Hall, medial-axis centerlines and an ink-shape fill control at the same pen width."
+        },
+        {
+          "baseline": "thin-reference",
+          "pen_mm": 0.075,
+          "most_legible": "thin-fill",
+          "source": "Jon\u2019s review in the conversation after round 6",
+          "finding": "Jon reports legibility; ink-shape fill is the most legible. Guo\u2013Hall and medial axis are slightly more readable than Zhang\u2013Suen, but their excessive wiggliness outweighs that gain.",
+          "next_step": "Review bounded smoothing and local stroke-weight recovery against the unchanged Zhang\u2013Suen and dense-fill controls. Prioritize readable, smooth paths over switching thinning methods."
+        },
+        {
+          "baseline": "thin-fill",
+          "pen_mm": 0.075,
+          "most_legible": "thin-fill",
+          "source": "Jon\u2019s review after round 7, with saved sample comment",
+          "evidence": "65e8cd30-da30-4e8c-a6ee-90f38b972e99",
+          "result_key": "7e0cd2e1c60e889db4ca",
+          "finding": "Ink-shape fill is best in the row and downright usable. Jon asks about downsides, especially pen chatter. The comment belongs to the unchanged dense-fill control, not the smoothed or weight-recovery candidates.",
+          "next_step": "Preserve this fill as the quality target. Compare joining its neighboring hatch runs within their existing paint, trading a little extra travel for fewer lifts."
+        }
+      ],
+      "latest_physical_size_review": {
+        "source": "Jon\u2019s conversation review after round 9",
+        "experiment": "fill-paper-quarter",
+        "result_key": "7438f83d340f62816f3e",
+        "pen_mm": 0.25,
+        "paper_in": [
+          11,
+          17
+        ],
+        "minimum_margin_in": 0.75,
+        "art_in": [
+          9.5,
+          12.288043478260871
+        ],
+        "finding": "Not great; nevertheless the approach is approaching convergence. Joined fill remains the preferred method, but the 0.25 mm tabloid result is not an approval of fine-detail quality or a request to plot."
+      },
+      "scope": "Monochrome line-art comics and lettering; not a general black-enhancement default for colored screened art."
+    },
+    "pdf_studio": {
+      "status": "Round-10 choices implemented in PDF Studio. Joined fill remains an explicit ink-shape choice; contrast strokes remain separate. No physical plotting or production deployment.",
+      "source": "Jon\u2019s conversation after reviewing round 10",
+      "direction": [
+        "Keep AM/FM screening with longitudinal highlight-only error diffusion.",
+        "Keep a compact control set: screening palette, interior ink fullness, edge falloff, black treatment (Off / Contrast strokes / Ink shapes) and the existing physical pen selection.",
+        "Allow screening-only, lines-only and both; keep rejected algorithms in the lab archive.",
+        "Use earlier ridge recovery for contrast strokes over color screening. Retain joined fill as an explicit ink-shapes treatment for monochrome line-art comics; do not silently select it for all monochrome inputs."
+      ],
+      "control_semantics_proposal": {
+        "palette": [
+          "auto",
+          "k",
+          "cmy",
+          "cmyk"
+        ],
+        "fullness": "Fraction of normal shading retained far from edges: 100% is uniform full-reference screening, 75% retains 75% interior shading. It is not a measured ink-volume or page-coverage percentage.",
+        "edge_falloff": "Physical distance over which edge emphasis relaxes to the chosen interior fullness; disabled at 100% fullness. Expose softness, not extra curve-family controls.",
+        "black_treatment": {
+          "options": [
+            {
+              "id": "off",
+              "label": "Off",
+              "meaning": "No recovered black layer; K shading remains possible if screening uses K or CMYK."
+            },
+            {
+              "id": "lines",
+              "label": "Contrast strokes",
+              "meaning": "Earlier ridge-based line recovery; appropriate for emphasizing contrast over colored screening."
+            },
+            {
+              "id": "shapes",
+              "label": "Ink shapes \u00b7 joined fill",
+              "meaning": "Preserve dark ink regions with joined fill; explicit selection for monochrome line-art comics."
+            }
+          ],
+          "default_proposal": "lines",
+          "independent_of_screening": true,
+          "selection_policy": "Keep the treatment explicit. Palette Auto may detect monochrome, but must not infer comic/line-art intent or choose joined fill from that alone.",
+          "pen_width": "Use the selected black pen diameter for either recovery treatment.",
+          "internal_parameters": "Threshold, neutral-mask experiment, thinning alternatives and joining budget remain out of the normal UI."
+        }
+      },
+      "unresolved": [
+        "CMYK separation/residual behavior is covered by renderer and PDF Studio tests; its artistic quality remains unreviewed compared with the established CMY plus recovered-K choices.",
+        "Highlight packet choices varied by source (0.8 vs 1.6 mm). Prefer a fixed fine default initially, retaining the coarse recipe for comparison; decide any user-facing grain control after review.",
+        "Final image placement and physical pen widths must drive path generation and caching; do not scale already generated pen paths to fit the page."
+      ],
+      "integration_plan": [
+        "Consolidate a versioned local raster-to-pen renderer and compare the combined finalists in the lab.",
+        "Extend PDF image capture and planner representation to retain original image coverage separately from intentional overlapping pen paths.",
+        "Add compact image controls to saved print intent, existing preview/progress and Prepare plot workflow; test source clips, later overpaint, mixed vector/raster pages and inventory changes."
+      ],
+      "material_roles": {
+        "source": "Jon\u2019s conversation and explicit follow-up selection",
+        "C": "Use the recorded turquoise color #009f7c as the cyan separation role; Jon has no cyan pen.",
+        "test_width_mm": 0.25,
+        "M_Y": "Pens exist in new-old-stock boxes but are untested; retain explicit simulated colors/widths.",
+        "inventory_note": "Revision 22 records turquoise at 0.658 mm and black at 0.555 mm. Jon explicitly chose 0.25 mm test widths for this comparison. Do not edit inventory or claim these tests use loaded widths.",
+        "preview_limit": "Illustrative sRGB multiplication, not measured spectral mixing or gamut-compensated separations."
+      },
+      "combined_check": {
+        "round": 10,
+        "experiments": [
+          "combined-off",
+          "combined-ridge",
+          "combined-luminance",
+          "combined-neutral"
+        ],
+        "finding": "The numerical mask reduction did not produce an acceptable color-enhancement treatment. Visual review rejects both joined variants for that purpose. Preserve separate contrast-stroke and ink-shape modes.",
+        "fixture": "raster_lab/pdf_fixture.py verifies mixed source semantics; tests/test_pdf_raster.py and controller/scripts/pdf-raster-smoke.mjs now exercise the implemented image-to-pen boundary.",
+        "visual_review": {
+          "source": "Jon\u2019s conversation after round 10",
+          "finding": "Joined ink is a disaster for contrast enhancement in colored screened art, even with the neutral mask. Keep joined fill for monochrome line-art comics and add an explicit treatment selector.",
+          "rejected_for_color_enhancement": [
+            "combined-luminance",
+            "combined-neutral"
+          ],
+          "retained_purpose": "Monochrome line-art comic ink shapes",
+          "action": "The prior on/off-only proposal is superseded by Off / Contrast strokes / Ink shapes. Preserve rejected samples as evidence."
+        }
+      },
+      "decision_history": [
+        {
+          "source": "Approved proposal before the round-10 visual review",
+          "black_treatment": "On/off; joined-fill implementation and selected black ink diameter. No skeleton/threshold/join-budget controls in the normal UI.",
+          "combined_check": {
+            "round": 10,
+            "experiments": [
+              "combined-off",
+              "combined-ridge",
+              "combined-luminance",
+              "combined-neutral"
+            ],
+            "finding": "Plain luminance joined fill assigns large dark-colored areas to black. Near-neutral masking reduces this on color sources; K-only sources preserve the exact same recovered and screened paths. Both joined variants remain for visual review, alongside screen-only and matched earlier recovery.",
+            "fixture": "raster_lab/pdf_fixture.py verifies a mixed PDF\u2019s source semantics; image-to-pen integration remains pending."
+          }
+        }
+      ],
+      "implementation": {
+        "status": "Implemented in PDF Studio; historical lab recipes and reviews unchanged.",
+        "documentation": "docs/pdf-raster.md",
+        "black_treatments": [
+          "off",
+          "lines",
+          "shapes"
+        ],
+        "renderer": "raster_lab/pdf_render.py",
+        "scope": "Opaque PDF images, page-wide settings, local open-source processing; no physical plotting."
+      }
+    }
+  },
+  "study_columns": {
+    "lettering": [
+      "thin-reference",
+      "fit-smooth",
+      "fit-weight",
+      "fill-joined",
+      "fill-paper-quarter",
+      "thin-fill"
+    ],
+    "combined": [
+      "combined-off",
+      "combined-ridge",
+      "combined-luminance",
+      "combined-neutral"
+    ],
+    "palette": [
+      "palette-baseline",
+      "palette-existing-oklab",
+      "palette-extended-oklab"
+    ]
+  }
+}

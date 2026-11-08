@@ -1,0 +1,6 @@
+{
+  "preview_max_bytes": 536870912,
+  "preview_max_age_days": 7,
+  "timing_max_bytes": 67108864,
+  "timing_max_age_days": 90
+}

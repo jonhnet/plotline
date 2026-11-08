@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plotline.invalid/contracts/v1/print-intent.schema.json",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "plotline.print-intent/1"
+    },
+    "source_sha256": {
+      "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/sha256"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_size_mm": {
+            "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/size"
+          },
+          "target_media": {
+            "$ref": "https://plotline.invalid/contracts/v1/media-profile.schema.json"
+          },
+          "placement": {
+            "type": "object",
+            "properties": {
+              "scale": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "rotation_deg": {
+                "enum": [
+                  0,
+                  90,
+                  180,
+                  270
+                ]
+              },
+              "offset_mm": {
+                "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/point"
+              }
+            },
+            "required": [
+              "scale",
+              "rotation_deg",
+              "offset_mm"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "page_index",
+          "source_size_mm",
+          "placement"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "palette": {
+      "$ref": "https://plotline.invalid/contracts/v1/palette.schema.json"
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ocg_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ink_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "feature_group": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ocg_name",
+          "ink_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "policies": {
+      "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/policies"
+    },
+    "ink_mapping": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+      },
+      "additionalProperties": {
+        "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/id"
+      }
+    },
+    "authoring": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "enum": ["map-studio", "pattern-studio", "maze-studio"]
+        },
+        "url": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "recipe_hash": {
+          "$ref": "https://plotline.invalid/contracts/v1/defs.schema.json#/$defs/sha256"
+        },
+        "document_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+        },
+        "document_revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "application",
+        "url",
+        "recipe_hash"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "source_sha256",
+    "title",
+    "pages"
+  ],
+  "additionalProperties": false
+}

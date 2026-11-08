@@ -1,0 +1,290 @@
+{
+  "margin_pt": 36,
+  "pen_width_pt": 0.4,
+  "hatch_spacing_pt": 10,
+  "stroke_width_tolerance": 0.75,
+  "simplify_pt": 0.12,
+  "road_edge_pt": 0.7,
+  "shore_width_pt": 0.8,
+  "water_echo_offsets_pt": [
+    2,
+    4,
+    6
+  ],
+  "road_classes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "red_road_classes": [],
+  "road_cores_pt": {
+    "1": 2.1,
+    "2": 1.3,
+    "3": 0.8,
+    "4": 2.4,
+    "5": 2.4,
+    "9": 1.3
+  },
+  "park_min_area_pt2": 20,
+  "labels": [
+    {
+      "text": "Puget Sound",
+      "location": [
+        -122.416,
+        47.651
+      ],
+      "size": 16,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Shilshole Bay",
+      "location": [
+        -122.41,
+        47.672
+      ],
+      "size": 12,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Salmon Bay",
+      "location": [
+        -122.389,
+        47.662
+      ],
+      "size": 12,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Lake Union",
+      "location": [
+        -122.334,
+        47.638
+      ],
+      "size": 15,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Portage Bay",
+      "location": [
+        -122.313,
+        47.645
+      ],
+      "size": 11,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Union Bay",
+      "location": [
+        -122.291,
+        47.649
+      ],
+      "size": 13,
+      "font": "serif",
+      "kind": "water"
+    },
+    {
+      "text": "Lake Washington",
+      "location": [
+        -122.277,
+        47.63
+      ],
+      "size": 14,
+      "font": "serif",
+      "kind": "water",
+      "angle": -55
+    },
+    {
+      "text": "Ballard",
+      "location": [
+        -122.379,
+        47.675
+      ],
+      "size": 12
+    },
+    {
+      "text": "Fremont",
+      "location": [
+        -122.35,
+        47.655
+      ],
+      "size": 11
+    },
+    {
+      "text": "Queen Anne",
+      "location": [
+        -122.36,
+        47.637
+      ],
+      "size": 12
+    },
+    {
+      "text": "University District",
+      "location": [
+        -122.308,
+        47.666
+      ],
+      "size": 11
+    },
+    {
+      "text": "Magnolia",
+      "location": [
+        -122.4,
+        47.64
+      ],
+      "size": 12
+    },
+    {
+      "text": "Ballard Locks",
+      "location": [
+        -122.3973,
+        47.6655
+      ],
+      "size": 10,
+      "offset_pt": [
+        -12,
+        22
+      ],
+      "leader": true,
+      "kind": "landmarks"
+    }
+  ],
+  "bridge_labels": [
+    {
+      "text": "Ballard Bridge",
+      "sources": [
+        "BALLARD BR"
+      ],
+      "offset_pt": [
+        -43,
+        18
+      ]
+    },
+    {
+      "text": "Fremont Bridge",
+      "sources": [
+        "FREMONT BR"
+      ],
+      "offset_pt": [
+        -30,
+        24
+      ]
+    },
+    {
+      "text": "Aurora Bridge",
+      "sources": [
+        "AURORA BR"
+      ],
+      "offset_pt": [
+        28,
+        -26
+      ]
+    },
+    {
+      "text": "University Bridge",
+      "sources": [
+        "UNIVERSITY BR"
+      ],
+      "offset_pt": [
+        23,
+        21
+      ]
+    },
+    {
+      "text": "Montlake Bridge",
+      "sources": [
+        "MONTLAKE BR"
+      ],
+      "offset_pt": [
+        35,
+        -18
+      ]
+    }
+  ],
+  "park_labels": [
+    {
+      "source": "DISCOVERY PARK",
+      "text": "Discovery Park",
+      "size": 11
+    },
+    {
+      "source": "GAS WORKS PARK",
+      "text": "Gas Works Park",
+      "offset_pt": [
+        0,
+        -18
+      ],
+      "leader": true
+    },
+    {
+      "source": "WASHINGTON PARK AND ARBORETUM",
+      "text": "Arboretum",
+      "size": 11
+    },
+    {
+      "source": "WOODLAND PARK",
+      "text": "Woodland Park"
+    },
+    {
+      "source": "VOLUNTEER PARK",
+      "text": "Volunteer Park"
+    }
+  ],
+  "road_labels": [
+    {
+      "text": "NW Market St",
+      "sources": [
+        "NW MARKET ST"
+      ],
+      "angle": 0
+    },
+    {
+      "text": "15th Ave NW",
+      "sources": [
+        "15TH AVE NW"
+      ],
+      "angle": -90,
+      "fraction": 0.2
+    },
+    {
+      "text": "N 45th St",
+      "sources": [
+        "N 45TH ST"
+      ],
+      "angle": 0
+    },
+    {
+      "text": "NE 45th St",
+      "sources": [
+        "NE 45TH ST"
+      ],
+      "angle": 0
+    },
+    {
+      "text": "I-5",
+      "sources": [
+        "I5 NB"
+      ],
+      "angle": -65
+    }
+  ],
+  "scale_bar_m": 1000,
+  "title": "SEATTLE / WATERWAYS",
+  "subtitle": "PUGET SOUND TO LAKE WASHINGTON",
+  "width_in": 17,
+  "height_in": 11,
+  "bounds": [
+    -122.427,
+    47.622,
+    -122.265,
+    47.68
+  ],
+  "city_emphasis": false,
+  "red_legend": "Bridges & crossings"
+}

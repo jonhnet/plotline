@@ -1,0 +1,99 @@
+{
+  "custom_margin_mm": 19.05,
+  "detail": 100,
+  "family": "hexagon",
+  "inks": [
+    {
+      "color_srgb": "#000000",
+      "id": "ink-ed51164ef42e8515c47e15d7656f60a0",
+      "label": "black",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 37,
+        "slot": 1
+      },
+      "width_mm": 0.358
+    },
+    {
+      "color_srgb": "#ff0000",
+      "id": "ink-ba8ad2372e5e342051419630c36681a0",
+      "label": "red",
+      "source": {
+        "kind": "plotline-carousel",
+        "revision": 37,
+        "slot": 2
+      },
+      "width_mm": 0.516
+    }
+  ],
+  "margin_mode": "plotter",
+  "media": {
+    "calibration": {
+      "device": "HP7585B",
+      "evidence": "2026-10-30 ruler margins back/front/left/right = 39/15/14.8/11 mm. Conservative intersection of two reported OH windows; nominal paper placement. Ruler uncertainty is not quantified. See docs/experiment-11.md.",
+      "hard_clip_units": [
+        -7539,
+        -5088,
+        7539,
+        5088
+      ],
+      "sheet_to_device_units": [
+        40,
+        0,
+        0,
+        -40,
+        -9116,
+        5512
+      ],
+      "uncertainty_mm": null,
+      "units_per_mm": 40
+    },
+    "content_inset_mm": 1,
+    "id": "hp7585-tabloid-landscape",
+    "label": "HP7585 / 17 x 11 in landscape, long dimension along feed",
+    "printable_rect_mm": [
+      39.425,
+      11,
+      376.95,
+      253.6
+    ],
+    "revision": 1,
+    "schema": "plotline.media-profile/1",
+    "sheet_size_mm": [
+      431.8,
+      279.4
+    ]
+  },
+  "name": "tabloid hex maze",
+  "orientation": 0,
+  "paper_id": "hp7585-tabloid-landscape",
+  "params": {
+    "columns": 160,
+    "exits": [
+      [
+        0.16,
+        0.57
+      ],
+      [
+        0.35,
+        0.1
+      ]
+    ],
+    "mask": null,
+    "rows": 92,
+    "seed": 2906301086,
+    "stretch": 8
+  },
+  "plot_solution": true,
+  "roles": [
+    {
+      "ink_id": "ink-ed51164ef42e8515c47e15d7656f60a0",
+      "label": "Walls"
+    },
+    {
+      "ink_id": "ink-ba8ad2372e5e342051419630c36681a0",
+      "label": "Solution"
+    }
+  ],
+  "version": 1
+}

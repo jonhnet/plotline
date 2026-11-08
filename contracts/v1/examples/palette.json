@@ -1,0 +1,31 @@
+{
+  "schema": "plotline.palette/1",
+  "id": "boundary-fixture",
+  "label": "Fixture inks (synthetic, independent of loaded pens)",
+  "inks": [
+    {
+      "id": "fine-black",
+      "label": "Fine black",
+      "color_srgb": "#000000",
+      "width_mm": 0.15
+    },
+    {
+      "id": "broad-black",
+      "label": "Broad black",
+      "color_srgb": "#000000",
+      "width_mm": 0.6
+    },
+    {
+      "id": "red",
+      "label": "Red",
+      "color_srgb": "#ff0000",
+      "width_mm": 0.3
+    },
+    {
+      "id": "green",
+      "label": "Green",
+      "color_srgb": "#008000",
+      "width_mm": 0.4
+    }
+  ]
+}

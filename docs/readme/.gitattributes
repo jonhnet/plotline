@@ -1,0 +1,4 @@
+# Frozen PDFs/native CAD documents are byte-preserved inputs, even when their
+# first 8 KiB happen to look like text. Never normalize or line-merge them.
+*.pdf binary
+*.FCStd binary

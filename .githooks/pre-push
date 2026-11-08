@@ -1,0 +1,13 @@
+#!/bin/sh
+# Keep archived private roots out of public and current backup history.
+set -eu
+expected=$(git config --get plotline.publicRoot || git rev-list --max-parents=0 refs/heads/main)
+while read -r local_ref local_oid remote_ref remote_oid; do
+    case "$local_oid" in 0000000000000000000000000000000000000000) continue ;; esac
+    roots=$(git rev-list --max-parents=0 "$local_oid")
+    if [ "$roots" != "$expected" ]; then
+        echo "Refusing $local_ref: it includes a different root history." >&2
+        echo "Use a reviewed patch or cherry-pick from the private archive; never merge it." >&2
+        exit 1
+    fi
+done
