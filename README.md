@@ -48,9 +48,9 @@ Seattle, on 11 × 17-inch paper. 50m plot.
 
 <!-- sample:snoqualmie -->
 
-<a href="docs/readme/examples/snoqualmie/sheet.jpg"><img src="docs/readme/examples/snoqualmie/sheet.jpg" alt="Cabin &amp; Snoqualmie Pass · relief map" width="440"></a>
+<a href="docs/readme/examples/snoqualmie/sheet.jpg"><img src="docs/readme/examples/snoqualmie/sheet.jpg" alt="Snoqualmie Pass · relief map" width="440"></a>
 
-Cabin & Snoqualmie Pass. Contours, hillshade hatching and waterways on 11 × 17-inch paper. 1h plot.
+Snoqualmie Pass. Contours, hillshade hatching and waterways on 11 × 17-inch paper. 1h plot.
 
 [Map recipe](docs/readme/examples/snoqualmie/map-recipe.json)
 
@@ -91,8 +91,8 @@ The finished Letter-size plot: colored screening, black detail and outlined vect
 
 In this illustration by [brunofloresmx](https://www.deviantart.com/brunofloresmx/art/Spiderman-1401741847),
 the bitmap becomes colored pen screening with recovered black strokes for
-clarity. The lettering added in Inkscape remains vector artwork. White letters
-clear the earlier drawing; their black outlines are drawn with the pen.
+clarity. Lettering added in Inkscape renders as vector strokes; its white fills
+hide the screening behind.
 
 [Editable SVG](docs/readme/examples/spider-man/source.svg) · [PDF](docs/readme/examples/spider-man/versions/plotted/source.pdf)
 
@@ -201,10 +201,11 @@ transport and control support.
 
 ## Run it
 
-Linux setup and the optional Raspberry Pi USB-to-serial bridge are documented in the
-[setup guide](docs/GETTING_STARTED.md).
+Tested on Ubuntu 24.04. Build from source using the
+[setup guide](docs/GETTING_STARTED.md), which also covers the optional
+Raspberry Pi USB-to-serial bridge.
 
-Windows is untested, good luck.
+No Podman/Docker image yet. Windows is untested.
 
 ## License and credits
 

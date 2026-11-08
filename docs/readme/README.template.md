@@ -31,8 +31,8 @@ result before sending it to the plotter.
 
 In this illustration by [brunofloresmx](https://www.deviantart.com/brunofloresmx/art/Spiderman-1401741847),
 the bitmap becomes colored pen screening with recovered black strokes for
-clarity. The lettering added in Inkscape remains vector artwork. White letters
-clear the earlier drawing; their black outlines are drawn with the pen.
+clarity. Lettering added in Inkscape renders as vector strokes; its white fills
+hide the screening behind.
 
 {{links:spider-man}}
 
@@ -80,10 +80,11 @@ transport and control support.
 
 ## Run it
 
-Linux setup and the optional Raspberry Pi USB-to-serial bridge are documented in the
-[setup guide](docs/GETTING_STARTED.md).
+Tested on Ubuntu 24.04. Build from source using the
+[setup guide](docs/GETTING_STARTED.md), which also covers the optional
+Raspberry Pi USB-to-serial bridge.
 
-Windows is untested, good luck.
+No Podman/Docker image yet. Windows is untested.
 
 ## License and credits
 
