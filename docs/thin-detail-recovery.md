@@ -5,7 +5,8 @@ cannot fit inside their original outlines. **Thin-detail thickening** is separat
 from the existing stroke-width tolerance: the latter plans ordinary strokes;
 the new allowance also handles narrow portions of filled glyphs and shapes.
 
-Set it to **0.75**, generate a pen preview, then inspect **Highlight lost details**.
+New documents default to **0.75**; saved recipes keep their existing setting.
+Generate a pen preview, then inspect **Highlight lost details**.
 Zero retains previous conversion paths; 1 allows more growth. Values are extra
 total thickness in pen diameters. With a 0.5 mm pen, 0.75 permits 0.375 mm total
 growth, or 0.1875 mm on either side. Remaining losses may need a finer pen, larger

@@ -30,6 +30,7 @@ const defaults = () => [
 const defaultPolicies = {
   fill: { mode: "crosshatch", spacing_mm: 2, angle_deg: 45 },
   stroke_width_tolerance: 0.75,
+  thin_detail_thickening: 0.75,
   stroke_width_mode: "pen",
   raster: "reject",
   gradients: "reject",
