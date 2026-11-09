@@ -16,6 +16,7 @@ async function ready(path){for(let i=0;i<300;i++){const v=await api(path);if(!['
 try{
   for(let i=0;;i++){try{if((await fetch(base+'/api/status')).ok)break;}catch{}if(i>100)throw Error(logs);await sleep(50);}
   assert.equal((await api('/api/v1/capabilities')).implemented.thin_detail_thickening,true);
+  assert.equal((await api('/api/v1/capabilities')).implemented.overlap_strokes,true);
   const inventory=await api('/api/carousel');Object.assign(inventory.slots[1],{state:'loaded',label:'Black',color:'#000000',width_mm:.5});
   const inventoryResponse=await fetch(base+'/api/carousel',{method:'PUT',headers,body:JSON.stringify(inventory)});assert(inventoryResponse.ok);
   const intent=JSON.parse(await readFile(state+'/fixture/thin-labels.print-intent.json'));
@@ -42,14 +43,20 @@ try{
   for(const mode of ['source','logical','pen']){await page.locator('#view').selectOption(mode);await page.locator('#preview').evaluate(i=>i.decode());await aligns();}
   await page.getByRole('button',{name:'Zoom in',exact:true}).click();await aligns();await page.getByRole('button',{name:'Fit page',exact:true}).click();
   await page.locator('#thin-detail').fill('0.75');assert(await page.locator('#convert-button').isEnabled());
+  assert.equal(await page.locator('#overlap-strokes').isChecked(),false);
+  await page.locator('#overlap-strokes').check();
   await page.locator('#convert-button').click();await page.waitForURL(u=>u.searchParams.get('conversion')!==strict.id);await page.waitForFunction(()=>document.querySelector('#work-status').dataset.phase==='ready');
   const recovered=await api('/api/v1/conversions/'+new URL(page.url()).searchParams.get('conversion'));
   assert.equal(recovered.intent.policies.thin_detail_thickening,.75);assert(recovered.result.pages[0].detail_loss.recovered_paints>0);
+  assert.equal(recovered.intent.policies.overlap_strokes,true);
   assert(recovered.result.pages[0].detail_loss.affected_paints<strict.result.pages[0].detail_loss.affected_paints);
   await page.locator('#loss-overlay').waitFor({state:'visible'});assert((await page.locator('#loss-overlay').getAttribute('data-url')).includes(recovered.id));await aligns();
   await page.locator('#show-loss').uncheck();assert(await page.locator('#loss-overlay').isHidden());await page.screenshot({path:state+'/recovered.png',fullPage:true});
   await page.reload();await page.waitForFunction(()=>document.querySelector('#work-status').dataset.phase==='ready');assert.equal(await page.locator('#thin-detail').inputValue(),'0.75');
   assert(await page.locator('#convert-button').isDisabled());assert.deepEqual(errors,[]);
+  assert(await page.locator('#overlap-strokes').isChecked());
+  await page.locator('#overlap-strokes').uncheck();assert(await page.locator('#convert-button').isEnabled(),'Changing crossing policy invalidates the preview');
+  await page.locator('#overlap-strokes').check();assert(await page.locator('#convert-button').isDisabled(),'Restoring crossing policy reuses the exact preview');
   // A new PDF without a supplied intent gets the Studio default. Existing
   // intents above still interpret an omitted allowance as zero on reload.
   const freshBody=new FormData();freshBody.append('document',new Blob([await readFile(state+'/fixture/thin-labels.pdf')]),'New labels.pdf');
@@ -58,6 +65,7 @@ try{
   await page.goto(base+`/pdf?document=${fresh.id}`);await page.waitForFunction(()=>document.querySelector('#document-detail').textContent.includes('New labels.pdf'));
   assert.equal(await page.locator('#thin-detail').inputValue(),'0.75');
   assert.equal(await page.locator('#stroke-mode').inputValue(),'preserve');
+  assert.equal(await page.locator('#overlap-strokes').isChecked(),false,'Ordinary PDF defaults retain paint-order cutting');
   await page.locator('#thin-detail').fill('0');await page.locator('#thin-detail').blur();
   await page.locator('#stroke-mode').selectOption('pen');
   await page.reload();await page.waitForFunction(()=>document.querySelector('#document-detail').textContent.includes('New labels.pdf'));

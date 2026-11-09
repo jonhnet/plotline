@@ -3,6 +3,7 @@
 /state/print-sink/
 /state/raster-lab/
 /state/cartographer/
+/state/dev-to-prod-*/
 /worktrees/
 /target/
 /node_modules/

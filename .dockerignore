@@ -168,10 +168,12 @@ packaging/production/**
 !packaging/production/ipp-ready.test
 !packaging/production/smoke.py
 !packaging/production/test.Dockerfile
+!packaging/production/test_build_cache.py
 !packaging/production/test_install.py
 !packaging/public-source.json
 !patterns/
 patterns/**
+!patterns/print-policies.json
 !patterns/web/
 patterns/web/**
 !patterns/web/adjacent.js
@@ -347,6 +349,7 @@ tools/**
 !tools/ornament-patterns.test.mjs
 !tools/package_public_source.py
 !tools/pattern-generators.test.mjs
+!tools/pattern-print-policies.test.mjs
 !tools/pattern-review.mjs
 !tools/pattern_pdf.py
 !tools/pdf-events.mjs

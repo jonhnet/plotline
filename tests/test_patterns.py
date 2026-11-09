@@ -6,11 +6,27 @@ import tempfile
 import unittest
 
 import pymupdf
-from pattern_pdf import export, check_geometry_size, LIMITS
+from pattern_pdf import export, check_geometry_size, LIMITS, PRINT_POLICIES
 from print_contract import validate_intent
 
 
 class PatternExport(unittest.TestCase):
+    def test_family_crossing_policies_and_wireframe_exception(self):
+        for enabled, families in [(True, PRINT_POLICIES['overlap_strokes']), (False, PRINT_POLICIES['paint_order'])]:
+            for family in families:
+                with self.subTest(family=family), tempfile.TemporaryDirectory() as directory:
+                    scene=self.scene();scene['recipe']['family']=family
+                    export(scene,directory)
+                    intent=json.loads((Path(directory)/'intent.json').read_text())
+                    self.assertEqual(intent['policies'].get('overlap_strokes',False),enabled)
+        with tempfile.TemporaryDirectory() as directory:
+            scene=self.scene();scene['recipe'].update(family='tetrahedron',params={'wireframe':1})
+            export(scene,directory)
+            self.assertTrue(json.loads((Path(directory)/'intent.json').read_text())['policies']['overlap_strokes'])
+            # The shared exporter does not change Maze semantics.
+            scene['recipe']['family']='square';export(scene,directory,kind='mazes')
+            self.assertNotIn('overlap_strokes',json.loads((Path(directory)/'intent.json').read_text())['policies'])
+
     def scene(self):
         media = json.loads((Path(__file__).resolve().parents[1]/'contracts/v1/examples/hp7585-tabloid-landscape.json').read_text())
         return dict(hash='a'*64, document_id='pattern-test', recipe=dict(

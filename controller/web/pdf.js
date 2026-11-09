@@ -163,6 +163,7 @@ function readIntent() {
     soft_masks: "reject",
   };
   if($("stroke-mode").value==='pen')policies.stroke_width_mode='pen';
+  if($('overlap-strokes').checked)policies.overlap_strokes=true;
   if(number('thin-detail')>0)policies.thin_detail_thickening=number('thin-detail');
   if (["hatch", "crosshatch", "feathered"].includes(policies.fill.mode))
     Object.assign(policies.fill, {
@@ -206,6 +207,7 @@ function previewKey(intent, index) {
   };
   const policies = clone(intent.policies || defaultPolicies);
   policies.stroke_width_mode ||= "preserve";
+  policies.overlap_strokes ||= false;
   policies.thin_detail_thickening ||= 0;
   const fill = policies.fill;
   if (!["hatch", "crosshatch", "feathered"].includes(fill.mode)) {
@@ -478,6 +480,7 @@ function renderRasterPens() {
 function fillFields(policies) {
   const p = policies || defaultPolicies;
   $("stroke-mode").value=p.stroke_width_mode||"preserve";
+  $('overlap-strokes').checked=p.overlap_strokes===true;
   $("tolerance-label").hidden=$("stroke-mode").value==='pen';
   $("fill").value = p.fill.mode;
   writePaperField($("spacing"),p.fill.spacing_mm ?? 2);
@@ -651,6 +654,7 @@ async function makeEntry(source,snapshot={},conversionId=null,recipeId=null){
     if(source.original_format&&(source.original_format!=='svg'||source.inspection?.svg_input?.embedded_images))Object.assign(intent.policies,{raster:'dither',raster_settings:{screening:true,palette:'selected',screen_inks:palette.slice(0,8).map(i=>i.id),fullness:1,edge_falloff_mm:6.35,black_treatment:'off',inks:{}}});
   }
   if(intent.policies.stroke_width_mode==='preserve')delete intent.policies.stroke_width_mode;
+  if(!intent.policies.overlap_strokes)delete intent.policies.overlap_strokes;
   if(!intent.policies.thin_detail_thickening)delete intent.policies.thin_detail_thickening;
   intent={...intent,schema:'plotline.print-intent/1',source_sha256:source.source_sha256,title:intent.title||source.name,palette:{schema:'plotline.palette/1',id:'document-palette',label:'Document inks',inks:clone(palette)},bindings:intent.bindings||[],pages:entry.stylePages.map(page=>intent.pages?.find(p=>p.page_index===page.page_index)||{page_index:page.page_index,source_size_mm:page.source_size_mm,placement:{scale:1,rotation_deg:0,offset_mm:[0,0]},...(page.default_media?{target_media:page.default_media}:{})})};
   if(!source.intent?.palette){intent.ink_mapping=clone(intent.ink_mapping||{});for(const page of entry.stylePages)for(const ink of page.source_styles||[])if(!intent.ink_mapping[ink.id])intent.ink_mapping[ink.id]=nearest(ink,palette).id;}

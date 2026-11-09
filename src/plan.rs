@@ -64,6 +64,7 @@ pub struct Paint {
     pub width_status: &'static str,
     pub source_lines: Vec<Vec<Point>>,
     pub is_stroke: bool,
+    pub overlap_stroke: bool,
     pub is_text: bool,
     pub is_raster: bool,
 }
@@ -585,6 +586,7 @@ fn build_paint(
         },
         is_raster,
         is_stroke: style.is_some(),
+        overlap_stroke: settings.overlap_strokes && style.is_some() && !is_white(color),
         is_text: matches!(
             event,
             Event::Fill {
@@ -714,8 +716,15 @@ fn plan_paint_standard(
         // fallback that would silently turn this policy into multiple passes.
         for source in &paint.source_lines {
             if source.len() > 1 {
-                let clipped = g::line(source)?.intersection(safe)?.line_merge()?;
-                paths_out.extend(g::lines(&clipped)?);
+                let line = g::line(source)?;
+                if paint.overlap_stroke && safe.covers(&line)? {
+                    // GEOS intersection nodes self-crossings even when no
+                    // clipping is needed. Keep the authored traversal intact.
+                    paths_out.push(source.clone());
+                } else {
+                    let clipped = line.intersection(safe)?.line_merge()?;
+                    paths_out.extend(g::lines(&clipped)?);
+                }
             }
         }
         paint.width_status = "pen_width";

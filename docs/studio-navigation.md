@@ -153,7 +153,7 @@ proxy origin checks, three-tab reuse/reload, dirty documents, exact snapshots,
 legacy HPGL bookmarks and Map workspace transfer, mobile layout, and blocked-popup
 fallback. Screenshots/logs go into ignored `build/`. Map preparation unit tests
 also check immutable source lineage. Development deployment uses the guarded
-`controller/scripts/dev-server.py restart`; preserve active map workers when
+`controller/scripts/dev-server.py run` in isolated state; stop it after testing. Preserve active map workers when
 restarting `plotline-cartographer`.
 
 Validated 2026-11-04: 59 controller unit tests, 41 Map preparation/printing/document

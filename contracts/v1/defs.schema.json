@@ -259,6 +259,10 @@
           ],
           "description": "Missing means preserve. Pen uses one centerline pass with the selected diameter."
         },
+        "overlap_strokes": {
+          "type": "boolean",
+          "description": "Default false. Colored strokes may cross other colored strokes without cutting. Fills, white paint and clipping still occlude."
+        },
         "raster_settings": {
           "type": "object",
           "additionalProperties": false,

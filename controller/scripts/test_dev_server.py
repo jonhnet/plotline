@@ -4,12 +4,45 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch, Mock
 
 spec = importlib.util.spec_from_file_location("dev_server", Path(__file__).with_name("dev-server.py"))
 dev = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(dev)
 
 class RestartGuard(unittest.TestCase):
+    def test_household_ipp_start_is_rejected_before_systemd_or_network_access(self):
+        ipp_spec=importlib.util.spec_from_file_location('dev_ipp',dev.ROOT/'tools/print_sink/dev-server.py')
+        ipp=importlib.util.module_from_spec(ipp_spec);ipp_spec.loader.exec_module(ipp)
+        for action in ['start','restart']:
+            with self.subTest(action=action), patch('sys.argv',['dev-server.py',action]), \
+                    patch.object(ipp,'run') as run, patch.object(ipp.subprocess,'run') as process, \
+                    patch('sys.stderr'):
+                with self.assertRaises(SystemExit) as error:ipp.main()
+                self.assertEqual(error.exception.code,2)
+                run.assert_not_called();process.assert_not_called()
+
+    def test_session_never_inherits_production_or_remembered_configuration(self):
+        with patch.dict('os.environ',{'PLOTLINE_IPP_INBOX':'/real/captures',
+                'PLOTLINE_DEVICE_CONFIG':'/private/stain.json','PLOTLINE_MAP_UPSTREAM':'http://production',
+                'PLOTLINE_ADMISSION_LOCK':'/real/admission.lock'}):
+            env=dev.session_environment(Path('/tmp/isolated'),12345,12346)
+        self.assertNotIn('PLOTLINE_IPP_INBOX',env)
+        self.assertNotIn('PLOTLINE_DEVICE_CONFIG',env)
+        self.assertEqual(env['PLOTLINE_MAP_UPSTREAM'],'http://127.0.0.1:12346')
+        self.assertEqual(env['PLOTLINE_ADMISSION_LOCK'],'/tmp/isolated/admission.lock')
+
+    def test_teardown_waits_for_map_work_then_stops_both_children(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);children=[Mock(pid=101),Mock(pid=102)]
+            for child in children:child.poll.return_value=None
+            with patch.object(dev,'read_status',side_effect=[{'jobs':['render']},{'jobs':[]}]), \
+                    patch.object(dev.time,'sleep') as sleep, patch.object(dev.os,'killpg') as kill:
+                dev.stop_session(children,root,'http://127.0.0.1:12345')
+            sleep.assert_called_once_with(1)
+            self.assertEqual([call.args[0] for call in kill.call_args_list],[102,101])
+            for child in children:child.wait.assert_called_once_with(timeout=20)
+
     def test_pdf_work_blocks_restart_even_without_a_physical_plot(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

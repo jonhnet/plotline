@@ -1,5 +1,30 @@
 # Pattern Studio
 
+## Crossing strokes
+
+New exports use **Allow overlapping strokes** for continuous curves, attractor
+traces, branching line art, flat tilings and recursive outlines. The explicit
+family lists live in [`patterns/print-policies.json`](../patterns/print-policies.json).
+This covers 33 families, including Spirograph, Lissajous, Harmonograph,
+Guilloché, Lorenz and Rössler. Tetrahedra opt in only in **All edges · wireframe**.
+Depth drawings, woven crossings and layered/density contour families retain
+paint-order cutting. Unknown future families retain cutting until reviewed.
+
+The flag travels in the PDF's print intent. In PDF Studio, **Allow overlapping
+strokes** can be changed before generating a new preview. White knockouts,
+filled shapes, images and page clipping still apply. Crossings can mix inks;
+the option keeps existing paths continuous but does not join separate paths or
+remove deliberate generator gaps. Earlier prepared exports remain immutable;
+change their conversion choice in PDF Studio, or prepare a new pattern export.
+
+The three-ink default Spirograph regression produces 8 continuous pen-down runs
+for 8 authored curves, versus 2,633 runs with cutting. Whole-pen containment
+still passes. Run `node --test tools/pattern-print-policies.test.mjs` and
+`cargo test --locked --test overlap` for the policy/geometry checks. For the
+full browser handoff, run `python3 controller/scripts/dev-server.py run
+--command node controller/scripts/pattern-overlap-smoke.mjs`; the helper stops
+the isolated Web/Map processes when the check finishes.
+
 Pattern Studio is Plotline's authoring workspace for fractals and adjacent
 mathematical drawings. The name intentionally includes non-fractal patterns.
 Jon requested the complete catalog below on 2026-11-05. Forty-seven generators are

@@ -42,6 +42,7 @@ struct Part {
     owner: usize,
     geometry: Geometry,
     coordinates: usize,
+    overlap_stroke: bool,
 }
 struct Index<'a> {
     parts: &'a [Part],
@@ -72,6 +73,7 @@ impl<'a> Index<'a> {
         target: &Geometry,
         hidden_target: &Geometry,
         owner: usize,
+        overlap_stroke: bool,
         stats: &mut CompileStats,
     ) -> Result<Option<Geometry>> {
         let start = Instant::now();
@@ -79,7 +81,7 @@ impl<'a> Index<'a> {
         let prepared = PreparedGeometry::new(target)?;
         let mut candidates = Vec::new();
         self.tree.query(target, |i| {
-            if self.parts[*i].owner > owner {
+            if self.parts[*i].owner > owner && !(overlap_stroke && self.parts[*i].overlap_stroke) {
                 candidates.push(*i)
             }
         });
@@ -146,13 +148,14 @@ impl<'a> Index<'a> {
         &self,
         target: &Geometry,
         owner: usize,
+        overlap_stroke: bool,
         stats: &mut CompileStats,
     ) -> Result<Geometry> {
         let mut targets = Vec::new();
         polygons(target, &mut targets)?;
         let mut result = Vec::new();
         for target in targets {
-            if let Some(mask) = self.occluders(&target, &target, owner, stats)? {
+            if let Some(mask) = self.occluders(&target, &target, owner, overlap_stroke, stats)? {
                 let start = Instant::now();
                 if mask.is_empty()? {
                     result.push(target);
@@ -177,10 +180,11 @@ impl<'a> Index<'a> {
         coverage: &Geometry,
         envelope: &Geometry,
         owner: usize,
+        overlap_stroke: bool,
         stats: &mut CompileStats,
     ) -> Result<(Geometry, Geometry)> {
         stats.visibility_shared_queries += 1;
-        let Some(mask) = self.occluders(envelope, coverage, owner, stats)? else {
+        let Some(mask) = self.occluders(envelope, coverage, owner, overlap_stroke, stats)? else {
             return Ok((g::empty()?, g::empty()?));
         };
         let start = Instant::now();
@@ -213,11 +217,12 @@ fn resolve_paint(
         && p.coverage.geometry_type()? == GeometryTypes::Polygon
         && p.envelope.geometry_type()? == GeometryTypes::Polygon
     {
-        let (visible, allowed) = index.subtract_pair(&p.coverage, &p.envelope, i, stats)?;
+        let (visible, allowed) =
+            index.subtract_pair(&p.coverage, &p.envelope, i, p.overlap_stroke, stats)?;
         g::validate(&visible, "visible coverage")?;
         return Ok((visible, allowed));
     }
-    let visible = index.subtract(&p.coverage, i, stats)?;
+    let visible = index.subtract(&p.coverage, i, p.overlap_stroke, stats)?;
     let allowed = if p.coverage.equals_exact(&p.envelope, 0.)? {
         Geom::clone(&visible)?
     } else {
@@ -226,7 +231,7 @@ fn resolve_paint(
             let mut owners = Vec::new();
             index.tree.query(&p.coverage, |j| {
                 let owner = index.parts[*j].owner;
-                if owner > i {
+                if owner > i && !(p.overlap_stroke && paints[owner].overlap_stroke) {
                     owners.push(owner)
                 }
             });
@@ -242,7 +247,7 @@ fn resolve_paint(
         if hidden {
             g::empty()?
         } else {
-            index.subtract(&p.envelope, i, stats)?
+            index.subtract(&p.envelope, i, p.overlap_stroke, stats)?
         }
     };
     g::validate(&visible, "visible coverage")?;
@@ -301,6 +306,7 @@ fn resolve_with_workers(
                 owner,
                 geometry,
                 coordinates,
+                overlap_stroke: p.overlap_stroke,
             });
         }
     }
@@ -435,6 +441,7 @@ mod tests {
             width_status: "not-applicable",
             source_lines: vec![],
             is_stroke: false,
+            overlap_stroke: false,
             is_text: false,
             is_raster: false,
         })

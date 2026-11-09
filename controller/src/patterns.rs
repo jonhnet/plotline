@@ -317,6 +317,11 @@ async fn export(
             .ok_or_else(|| bad("Point count overflow"))
     })?;
     check_geometry_size(paths.len(), points).map_err(bad)?;
+    // New exports carry the family-specific overlap policy. Keep earlier
+    // immutable PDFs/intents readable under their original snapshot hashes.
+    if app.kind == "patterns" {
+        scene["export_version"] = json!(2);
+    }
     let hash = format!(
         "{:x}",
         Sha256::digest(serde_json::to_vec(&scene).map_err(bad)?)

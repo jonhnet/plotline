@@ -436,6 +436,7 @@ def convert(pdf, intent, directory, converter, *, artifacts='preview'):
                   stroke_width_tolerance=policies['stroke_width_tolerance'])
     if policies.get('thin_detail_thickening',0):settings['thin_detail_thickening']=policies['thin_detail_thickening']
     if policies.get('stroke_width_mode')=='pen':settings['stroke_width_mode']='pen'
+    if policies.get('overlap_strokes'):settings['overlap_strokes']=True
     pages=[]; warnings=[]
     for ordinal,selection in enumerate(intent['pages'],1):
         index=selection['page_index']; output=directory/f'page-{index}'; output.mkdir()

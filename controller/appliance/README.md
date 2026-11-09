@@ -89,7 +89,7 @@ availability are migrated once; later changes use the UI. No carousel settings
 are stored on stain. Do not infer unknown slots or physical widths.
 
 ```sh
-python3 controller/scripts/dev-server.py restart \
+controller/target/release/plotline-studios --state /home/you/.local/share/plotline \
   --device-config /home/you/.config/plotline/connection.json
 python3 controller/appliance/rpc.py \
   --config /home/you/.config/plotline/connection.json status
@@ -100,6 +100,10 @@ start or plot controls. Use Plotline Studios for those. `--device-helper` on the
 binary is an optional transport-process override for tests, not a normal runtime
 dependency.
 
+On Jon's hosts, production alone owns stain. These generic installation commands
+do not authorize reconnecting it from dev; preserved keys and connection files
+are recovery evidence. Hardware tests on dev use a fake transport.
+
 ## Updating an existing card
 
 No card rewrite is needed. Existing cards keep their legacy service account, SSH forced command and paths; the updater detects them. Fresh cards use the `plotline` account and `plotline-device` service. Keep an existing connection JSON unchanged, including its SSH destination. Update only when the pen is parked and the service
@@ -107,13 +111,12 @@ has no active feed. Stop Plotline Studios during installation so a new connectio
 cannot race with the serial-port change:
 
 ```sh
-python3 controller/scripts/dev-server.py stop
+# Stop your controller using its supervisor, after checking it is idle.
 python3 controller/appliance/install_agent.py \
   --host pi@plotter-pi.local \
   --known-hosts /home/you/.config/plotline/known_hosts \
-  --dev-state controller/state/jobs --inspect
-# Repeat without --inspect to install, then:
-python3 controller/scripts/dev-server.py restart
+  --dev-state /home/you/.local/share/plotline --inspect
+# Repeat without --inspect to install, then restart your controller.
 ```
 
 For the one-time transition from the old spooler, a submitted/cancelled execution

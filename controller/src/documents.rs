@@ -1009,7 +1009,7 @@ async fn capabilities(State(app): State<App>) -> Result<Json<Value>, Error> {
         })).collect();
         let profiles=crate::media::catalog()?["media_profiles"].clone();
         Ok(Json(json!({"schema":"plotline.capabilities/1","inventory_revision":carousel.revision,
-            "available_inks":inks,"media_profiles":profiles,"implemented":{"pdf_upload":true,"per_ink_widths":true,"pdf_handoff":true,"pdf_submission_idempotency":true,"pen_workflow":true,"thin_detail_thickening":true,
+            "available_inks":inks,"media_profiles":profiles,"implemented":{"pdf_upload":true,"per_ink_widths":true,"pdf_handoff":true,"pdf_submission_idempotency":true,"pen_workflow":true,"thin_detail_thickening":true,"overlap_strokes":true,
             "raster_policies":["reject","omit","reserve","placeholder","dither"],"fill_modes":["none","outline","hatch","crosshatch","feathered"]}})))
     }).await
 }

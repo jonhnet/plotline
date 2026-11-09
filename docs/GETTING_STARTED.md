@@ -178,6 +178,41 @@ In HPGL Studio record the pens and loaded sheet, review placement, and click
 
 ## Development checks
 
+### Jon's development host after production cutover
+
+Ordinary work lives at **https://plotline.tech.jonh.net/**; household printing
+uses **ipp://plotline.iac.jonh.net:9192/ipp/print**. The migrated dev state and
+connection archives are recovery material. Do not attach them to test servers
+or reconnect stain. Keep IaC's `95-production-owner.conf` overrides intact and
+all three old dev services (`plotline-studios-dev`, `plotline-cartographer`,
+`plotline-pdf-sink`) stopped and disabled.
+
+For a particular browser experiment, use a foreground session:
+
+```sh
+python3 controller/scripts/dev-server.py run
+```
+
+It builds the converters and starts Web and Map on unused loopback ports with
+fresh state under `build/dev-session-*`, no plotter and no IPP intake. It prints
+the browser URL. Ctrl-C waits for active work and stops both processes; cancel
+unwanted renders in that test browser. `--no-build` reuses the isolated build.
+For automated checks, `--command COMMAND ...` runs the command with
+`PLOTLINE_TEST_URL`, `PLOTLINE_TEST_MAP_URL` and `PLOTLINE_TEST_STATE`, then stops
+both processes even when the command fails. No boot-time service is installed
+or enabled. Test documents are disposable and do not migrate to production.
+
+Use fake transport for hardware tests. IPP checks use
+`node controller/scripts/ipp-flow-smoke.mjs`, which creates isolated ports/state
+with discovery disabled; never start the household IPP advertisement on dev.
+
+Fix and test locally, stop the test environment, then commit and push to the
+home repository and GitHub. Jon runs `./deploy plotline publish` from
+colfax-config and tries the fix on production. A source push grants no
+permission to plot or deploy. A permanent test instance is unnecessary.
+
+### Automated checks
+
 ```sh
 cargo test --locked
 cargo test --locked --manifest-path controller/Cargo.toml

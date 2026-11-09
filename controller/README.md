@@ -309,7 +309,7 @@ power loss, blocked query writes, fit errors and visible startup failures agains
 an isolated fake serial bridge; it never contacts Stain. `plot-smoke.mjs` covers
 the full simulated plotting lifecycle, and `pdf-raster-smoke.mjs` also checks
 opening the latest version from a superseded HPGL tab.
-`dev-server.py start/restart` now builds both Rust binaries. The worker locates the
+`dev-server.py run` builds both Rust binaries for an isolated test session. The worker locates the
 project from the controller's build path; set `PLOTLINE_PDF_PROJECT` to the root
 of a complete deployed checkout if relocating the binary. It needs `.venv/bin/python`,
 `tools/`, `contracts/`, requirements manifests and `target/release/plotline` there.
@@ -817,30 +817,22 @@ and pinned host key described in [the appliance runbook](appliance/README.md).
 Node is used at build time and for browser tests; Python manages dev deployment and runs the Pi
 bridge. The web runtime is Rust plus OpenSSH and never opens a local serial device.
 
-Persistent dev service, listening on port 9191:
+On Jon's host, production owns ordinary work and the physical plotter. Keep the
+three retired dev services stopped and disabled. For a temporary test session:
 
 ```sh
-python3 controller/scripts/dev-server.py start
-python3 controller/scripts/dev-server.py restart
-python3 controller/scripts/dev-server.py restart --device-config controller/state/private/stain-connection.json
-python3 controller/scripts/dev-server.py status
-journalctl -u plotline-studios-dev -f
-python3 controller/scripts/dev-server.py stop
+python3 controller/scripts/dev-server.py run
+# Ctrl-C waits for active work, then stops both Web and Map.
 ```
 
-`start`/`restart` build the locked release binary and install/start only the
-`plotline-studios-dev` systemd unit on this machine. They refuse to proceed while a
-plot is feeding, unresolved, or waiting for the operator to confirm the pen is
-parked, and while PDF inspection/conversion work is queued or running. `stop`
-uses the same guard and also disables boot startup. These checks read local
-state and do not query the plotter.
-The service has a private device namespace and write access only to its spool.
-`--device-config` enables the SSH connection and records its absolute path in
-ignored `controller/state/dev-device-config.json`, so ordinary restarts retain
-it. Use `restart --preview-only` to remove that selection. Fresh checkouts
-default to preview mode. This does not install on print_server or move IaC refs.
-This is an unauthenticated private-development service; production access
-control and an application installer remain future work.
+The helper builds into `build/dev-controller-target`, uses fresh isolated state
+and loopback ports, and never reads remembered hardware configuration or starts
+IPP discovery. `--command COMMAND ...` runs a test and guarantees teardown after
+it returns, including a failing test. `--no-build` reuses the isolated binary.
+No systemd units or boot-time startup are installed. See
+[development ownership and checks](../docs/GETTING_STARTED.md#jons-development-host-after-production-cutover).
+Do not reconnect preserved dev hardware credentials or remove IaC's ownership
+overrides. Fixes are pushed to both repositories; Jon publishes through IaC.
 
 The connection JSON contains `destination`, `identity_file`, `known_hosts_file`
 and `plotting_enabled: true`. The enable setting belongs to Plotline Studios and defaults
@@ -1270,6 +1262,11 @@ stacking inks assigned to each slot; exact members and individual mappings remai
 PDFs default to **Preserve document widths**, allowing multiple passes.
 **Use pen width** selects one pass per visible source stroke. Explicit authored
 intents and older revisions preserve their policy.
+
+**Allow overlapping strokes** keeps colored strokes continuous at crossings,
+including different inks. Fills, images, white knockouts and clipping still
+occlude. It is off for ordinary PDFs and enabled by new exports from selected
+Pattern families; changing it invalidates the pen preview.
 
 Select a document ink, then click its destination cap in the carousel row.
 The page dims during assignment; Escape, Cancel or clicking outside cancels.

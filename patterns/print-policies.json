@@ -1,0 +1,15 @@
+{
+  "overlap_strokes": [
+    "koch", "dragon", "hilbert", "plant", "sierpinski", "apollonian",
+    "spirograph", "lissajous", "harmonograph", "phyllotaxis", "penrose", "truchet",
+    "lorenz", "rossler", "barnsley", "crystal", "gosper", "dla", "levy",
+    "minkowski", "carpet", "peano", "nested_polygons", "pythagoras", "lightning",
+    "inversion", "ammann", "colonization", "guilloche", "flowers", "schottky",
+    "pinwheel", "lsystem"
+  ],
+  "paint_order": [
+    "julia", "mandelbrot", "burning_ship", "newton", "clifford", "dejong",
+    "reaction", "wave_contours", "menger", "tetrahedron", "architecture",
+    "hatched_solids", "woven", "starweave"
+  ]
+}

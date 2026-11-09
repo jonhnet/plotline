@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
-"""Manage only the Plotline Studios development service; never installs on production."""
+"""Run a temporary, isolated Web/Map test session. Never enables dev services."""
 import argparse
+import fcntl
 import json
-import subprocess
+import os
 from pathlib import Path
+import signal
+import socket
+import subprocess
+import tempfile
+import time
+from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
-UNIT = "plotline-studios-dev"
-LEGACY_UNIT = "squidprint-dev"
-UNIT_PATH = Path("/etc/systemd/system") / f"{UNIT}.service"
-STATE = ROOT / "controller/state/jobs"
-CONNECTION = ROOT / "controller/state/dev-device-config.json"
+STATE = ROOT / "controller/state/jobs"  # Only for explicit legacy idle audits.
 
 
 def run(*args):
-    subprocess.run(args, check=True)
+    subprocess.run(args, check=True, cwd=ROOT)
 
 
 def require_idle(state=STATE):
@@ -42,77 +45,134 @@ def require_idle(state=STATE):
     raise SystemExit(f"Plotline Studios is {status}. Finish the current plot and confirm its pen is parked before restarting; the service was left running.")
 
 
+def port():
+    with socket.socket() as sock:
+        sock.bind(('127.0.0.1', 0))
+        return sock.getsockname()[1]
+
+
+def session_environment(state, web_port, map_port):
+    # Do not inherit a production connection, inbox, state path or worker URL.
+    env = {key: value for key, value in os.environ.items() if not key.startswith('PLOTLINE_')}
+    env.update(PLOTLINE_PDF_PROJECT=str(ROOT),
+               PLOTLINE_MAP_UPSTREAM=f'http://127.0.0.1:{map_port}',
+               PLOTLINE_MAP_PUBLIC_URL=f'http://127.0.0.1:{web_port}/map',
+               PLOTLINE_ADMISSION_LOCK=str(state/'admission.lock'),
+               PLOTLINE_TEST_URL=f'http://127.0.0.1:{web_port}',
+               PLOTLINE_TEST_MAP_URL=f'http://127.0.0.1:{map_port}',
+               PLOTLINE_TEST_STATE=str(state))
+    return env
+
+
+def read_status(url):
+    with urlopen(url + '/api/maintenance', timeout=3) as response:
+        return json.load(response)
+
+
+def wait_ready(children, urls):
+    deadline = time.monotonic() + 30
+    while time.monotonic() < deadline:
+        if any(child.poll() is not None for child in children):
+            raise RuntimeError('A test service exited during startup')
+        try:
+            if all(read_status(url).get('admission_protocol') == 1 for url in urls):
+                return
+        except (OSError, ValueError):
+            pass
+        time.sleep(.2)
+    raise RuntimeError('Test services did not become ready within 30 seconds')
+
+
+def stop_session(children, state, map_url, ready=True):
+    # Close admission before checking work, so a browser cannot race teardown.
+    # SIGINT requests shutdown but must not interrupt an in-flight conversion.
+    announced = False
+    with (state/'admission.lock').open('a+b') as lock:
+        while True:
+            locked = False
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                locked = True
+                if children and children[0].poll() is None:
+                    require_idle(state/'studios')
+                # A failed startup has fresh state and no test command/browser
+                # session yet; its Map HTTP endpoint may never become ready.
+                if ready and len(children) > 1 and children[1].poll() is None:
+                    status = read_status(map_url)
+                    if status.get('jobs') or status.get('thumbnails'):
+                        raise RuntimeError('Map work is active')
+                break
+            except (BlockingIOError, SystemExit, RuntimeError, OSError, ValueError):
+                if locked:
+                    fcntl.flock(lock, fcntl.LOCK_UN)
+                if not announced:
+                    print('Waiting for test work to finish before stopping. Cancel unwanted work in the test browser.', flush=True)
+                    announced = True
+                time.sleep(1)
+        for child in reversed(children):
+            if child.poll() is None:
+                os.killpg(child.pid, signal.SIGTERM)
+        for child in children:
+            try:
+                child.wait(timeout=20)
+            except subprocess.TimeoutExpired:
+                os.killpg(child.pid, signal.SIGKILL)
+                child.wait()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["start", "restart", "stop", "status"])
-    connection = parser.add_mutually_exclusive_group()
-    connection.add_argument("--device-config", type=Path, help="Enable the SSH plotter connection and remember it for restarts")
-    connection.add_argument("--preview-only", action="store_true", help="Remove the remembered plotter connection")
+    parser.add_argument('action', choices=['run'])
+    parser.add_argument('--no-build', action='store_true', help='Use the existing isolated build')
+    parser.add_argument('--binary', type=Path, help='Use a particular Studios binary')
+    parser.add_argument('--web-port', type=int, default=0, help='Loopback browser port; default: unused port')
+    parser.add_argument('--map-port', type=int, default=0, help='Loopback Map worker port; default: unused port')
+    parser.add_argument('--command', nargs=argparse.REMAINDER, help='Run a test command, then stop both services even if the test fails')
     args = parser.parse_args()
-    if args.action in ("start", "restart"):
-        require_idle()
-        # Paths are embedded in systemd syntax. Refuse ambiguous installations.
-        if any(c.isspace() or c in "%\"\\" for c in str(ROOT)):
-            parser.error("The development checkout path must not contain whitespace, quotes, backslashes or %")
-        run("cargo", "build", "--locked", "--release", "--manifest-path", str(ROOT / "Cargo.toml"))
-        run("cargo", "build", "--locked", "--release", "--manifest-path", str(ROOT / "controller/Cargo.toml"))
-        STATE.mkdir(parents=True, exist_ok=True)
-        require_idle()
-        if args.preview_only:
-            CONNECTION.unlink(missing_ok=True)
-        if args.device_config:
-            selected = args.device_config.resolve(strict=True)
-            if any(c.isspace() or c in "%\"\\" for c in str(selected)):
-                parser.error("Device configuration path cannot contain systemd metacharacters or whitespace")
-            CONNECTION.write_text(json.dumps({"connection": str(selected)}) + "\n")
-        hardware = ""
-        if CONNECTION.exists():
-            selected = Path(json.loads(CONNECTION.read_text())["connection"]).resolve(strict=True)
-            if any(c.isspace() or c in "%\"\\" for c in str(selected)):
-                parser.error("Invalid saved device configuration path")
-            hardware = f" --device-config {selected}"
-        UNIT_PATH.write_text(f"""[Unit]
-Description=Plotline Studios HPGL controller — development only
-After=network.target
-
-[Service]
-Type=simple
-WorkingDirectory={ROOT}
-Environment=PLOTLINE_IPP_INBOX={ROOT}/state/print-sink/captures
-ExecStart={ROOT}/controller/target/release/plotline-studios --listen 0.0.0.0:9191 --state {STATE}{hardware}
-Restart=on-failure
-RestartSec=3
-TimeoutStopSec=30
-UMask=0077
-NoNewPrivileges=true
-PrivateTmp=true
-PrivateDevices=true
-ProtectSystem=strict
-ProtectHome=read-only
-ReadWritePaths={STATE}
-RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
-
-[Install]
-WantedBy=multi-user.target
-""")
-        run("systemctl", "daemon-reload")
-        require_idle()
-        # Retire the old unit only after all build and idle checks succeed.
-        if (UNIT_PATH.parent / f"{LEGACY_UNIT}.service").exists():
-            run("systemctl", "disable", "--now", LEGACY_UNIT)
-        run("systemctl", "enable", UNIT)
-        require_idle()
-        run("systemctl", "restart", UNIT)
-        run("systemctl", "is-active", UNIT)
-        print("Plotline Studios: http://dev.iac.jonh.net:9191/ — " + ("plotter connection configured" if hardware else "preview only"))
-    elif args.action == "stop":
-        require_idle()
-        for unit in (UNIT, LEGACY_UNIT):
-            if (UNIT_PATH.parent / f"{unit}.service").exists():
-                run("systemctl", "disable", "--now", unit)
-    else:
-        run("systemctl", "status", "--no-pager", UNIT if UNIT_PATH.exists() else LEGACY_UNIT)
+    target = ROOT/'build/dev-controller-target'
+    if not args.no_build:
+        run('cargo', 'build', '--locked', '--release')
+        run('cargo', 'build', '--locked', '--release', '--manifest-path', str(ROOT/'controller/Cargo.toml'), '--target-dir', str(target))
+    binary = (args.binary or target/'release/plotline-studios').resolve(strict=True)
+    (ROOT/'build').mkdir(exist_ok=True)
+    state = Path(tempfile.mkdtemp(prefix='dev-session-', dir=ROOT/'build'))
+    (state/'admission.lock').touch()
+    web_port, map_port = args.web_port or port(), args.map_port or port()
+    if web_port == map_port:
+        parser.error('Web and Map ports must differ')
+    env = session_environment(state, web_port, map_port)
+    commands = [
+        [str(binary), '--listen', f'127.0.0.1:{web_port}', '--state', str(state/'studios')],
+        [str(ROOT/'.venv/bin/python'), '-m', 'cartographer.service', '--host', '127.0.0.1',
+         '--port', str(map_port), '--state', str(state/'maps'), '--build', str(state/'cache'),
+         '--studios', env['PLOTLINE_TEST_URL'], '--studios-public', env['PLOTLINE_TEST_URL']],
+    ]
+    children = []
+    ready = False
+    stopping = False
+    def request_stop(*_):
+        nonlocal stopping
+        stopping = True
+    previous = {sig: signal.signal(sig, request_stop) for sig in (signal.SIGINT, signal.SIGTERM)}
+    try:
+        for command in commands:
+            children.append(subprocess.Popen(command, cwd=ROOT, env=env, start_new_session=True))
+        wait_ready(children, [env['PLOTLINE_TEST_URL'], env['PLOTLINE_TEST_MAP_URL']])
+        ready = True
+        print(f"Test session: {env['PLOTLINE_TEST_URL']} · isolated state: {state}", flush=True)
+        if args.command:
+            return subprocess.run(args.command, cwd=ROOT, env=env).returncode
+        while not stopping and all(child.poll() is None for child in children):
+            time.sleep(.2)
+        return 0 if stopping else 1
+    finally:
+        try:
+            stop_session(children, state, env['PLOTLINE_TEST_MAP_URL'], ready=ready)
+        finally:
+            for sig, handler in previous.items():
+                signal.signal(sig, handler)
+        print('Test services stopped.', flush=True)
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    raise SystemExit(main())

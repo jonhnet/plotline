@@ -202,6 +202,14 @@ an updated service; the three studios share `shared/web/inksets.js` and its CSS.
   source-space dashes, page-space centerlines and original clipping. It emits
   one traversal per visible run, with no width-building or contour fallback.
   White masks, fills and filled glyph outlines retain their own semantics.
+- Optional `policies.overlap_strokes` defaults to false. When true, colored
+  strokes do not cut other colored strokes, including different inks and
+  repeated paths. Original clips, page margins, white strokes and filled paint
+  (including images and white knockouts) still constrain them. Filled regions
+  still obey normal paint order. This is independent of stroke-width treatment;
+  it preserves crossings without inventing connections between separate paths.
+  `implemented.overlap_strokes` advertises support. Existing intents keep their
+  policy; selected Pattern families opt in on new exports.
 - Optional `authoring` identifies `map-studio`, its HTTP(S) URL and immutable
   `recipe_hash`. Rebuild links carry `source_recipe` and `pen_substitutions`
   (JSON keyed by ink ID) back to that studio. A newer unsaved map is preserved in

@@ -11,6 +11,12 @@ import pymupdf as fitz
 from print_contract import validate_schema
 
 LIMITS = json.loads((Path(__file__).resolve().parents[1]/'patterns/web/limits.json').read_text())
+PRINT_POLICIES = json.loads((Path(__file__).resolve().parents[1]/'patterns/print-policies.json').read_text())
+
+
+def overlap_strokes(recipe):
+    return (recipe['family'] in PRINT_POLICIES['overlap_strokes'] or
+            (recipe['family'] == 'tetrahedron' and recipe['params'].get('wireframe') == 1))
 
 
 def check_geometry_size(paths, points):
@@ -103,6 +109,8 @@ def export(scene, directory, kind="patterns"):
                   authoring=dict(application=f'{prefix}-studio', url=f'/{kind}?source_recipe='+scene['hash'], recipe_hash=scene['hash']))
     if scene.get('document_id'):
         intent['authoring']['document_id'] = scene['document_id']
+    if kind == 'patterns' and overlap_strokes(recipe):
+        intent['policies']['overlap_strokes'] = True
     validate_schema('print-intent', intent)
     (directory/'drawing.pdf').write_bytes(pdf)
     (directory/'intent.json').write_text(json.dumps(intent, indent=2)+'\n')

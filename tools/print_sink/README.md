@@ -63,22 +63,22 @@ Archive/patch hashes are in `build/print-sink/build.json`.
 sudo apt-get install build-essential patch pkg-config libavahi-client-dev avahi-daemon avahi-utils libssl-dev zlib1g-dev cups-ipp-utils cups-filters
 cargo build --locked --release --manifest-path controller/Cargo.toml
 python3 tools/print_sink/build_server.py
-python3 controller/scripts/dev-server.py restart
-python3 tools/print_sink/dev-server.py start
-avahi-browse -rt _ipp._tcp
 
 .venv/bin/python -m unittest discover -s tests -p 'test_print*.py' -v
 node controller/scripts/ipp-flow-smoke.mjs
 ```
 
-The two dev services restart on failure and boot. The managers refuse to restart
-busy capture/plot execution. `tools/print_sink/dev-server.py` supports start,
-restart, stop and status; it manages this dev guest only. Production installation
-remains a separate task. Logs: `journalctl -u plotline-pdf-sink -u plotline-studios-dev`.
+Production owns the household Pen Plotter queue. Leave `plotline-pdf-sink`
+stopped and disabled on dev. The old manager now only supports inspection and
+safe retirement; starting/restarting it is rejected. Do not remove IaC's
+`95-production-owner.conf` override. Use the isolated `ipp-flow-smoke.mjs` check
+above; it disables discovery and closes its processes when finished.
 
 For isolated foreground tests, use `tools/print_sink/run.sh` with
 `PLOTLINE_SINK_PORT`, `PLOTLINE_SINK_STATE`, `PLOTLINE_SINK_DISCOVERY=off`, and
-`PLOTLINE_REVIEW_URL`, and `PLOTLINE_SINK_HOST_ALIAS` (a hostname without a port).
+`PLOTLINE_REVIEW_URL`, `PLOTLINE_SINK_NAME="Plotline isolated IPP test"`, and
+`PLOTLINE_SINK_HOST_ALIAS=localhost`. Use unused ports, temporary state and
+`PLOTLINE_SINK_DISCOVERY=off`; do not advertise the household printer from dev.
 `PLOTLINE_SINK_INTAKE=0` retains capture-only behavior.
 The studio watches the directory named by `PLOTLINE_IPP_INBOX`; dev defaults
 point to `state/print-sink/captures`. Durable receipts prevent duplicate imports

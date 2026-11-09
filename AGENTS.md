@@ -18,6 +18,29 @@ a service while it is converting or plotting; use the development service
 helper's idle checks. Receiving, converting and preparing never start physical
 plotting. Physical plotting needs explicit operator instruction.
 
+Production is the sole household controller and authoring environment:
+`https://plotline.tech.jonh.net/`, IPP
+`ipp://plotline.iac.jonh.net:9192/ipp/print`. Dev state was migrated; the original
+state, migration archives and private connection artifacts remain recovery
+evidence. Their presence is not permission to use them as a live environment.
+
+- Dev no longer owns stain or the physical plotter. Never configure or restore
+  a real stain connection, authorize a dev bridge key, or remove IaC's
+  `95-production-owner.conf` overrides to regain hardware access.
+- Leave `plotline-studios-dev`, `plotline-cartographer` and `plotline-pdf-sink`
+  stopped and disabled. Run only the isolated processes needed for a particular
+  test; stop them at handoff, honoring active-work checks. The foreground
+  `controller/scripts/dev-server.py run` helper uses fresh state, no hardware
+  and no boot-time services. Hardware tests use a fake transport.
+- Never restart the household IPP queue or advertise it from dev. IPP tests
+  use isolated ports/state/identity and disable discovery. Future dev documents
+  do not automatically migrate to production.
+- For production bugs, fix here, run appropriate isolated tests, shut the test
+  environment down, and push to the protected home repository and GitHub.
+  Jon publishes with `./deploy plotline publish` from colfax-config and tries
+  the fix on production. There is no standing dev acceptance environment.
+  Publishing source never authorizes physical plotting on production.
+
 ## Geometry and workflows
 
 - Shared PDF, ink and paper contracts are in `contracts/v1/README.md`.
@@ -29,6 +52,8 @@ plotting. Physical plotting needs explicit operator instruction.
   without a white pen. Preserve road casings, original clips, later paint and
   finite pen footprints. Width tolerance is total error in pen diameters;
   adjacent passes touch or overlap. Excess cannot cross clips or later paint.
+  The explicit `overlap_strokes` policy exempts colored stroke/stroke crossings
+  from cutting; it never bypasses fills, white paint, images or clipping.
 - IPP input stops in PDF Studio for interpretation. Pen-aware authored documents
   proceed through conversion to HPGL Studio. See `docs/printing-workflows.md`,
   `docs/pen-workflow-plan.md` and `docs/thin-detail-recovery.md`.

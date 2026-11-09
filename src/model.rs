@@ -149,6 +149,9 @@ pub struct Settings {
     /// in pen diameters. Zero preserves strict glyph/fill boundaries.
     pub thin_detail_thickening: f64,
     pub stroke_width_mode: StrokeWidthMode,
+    /// Colored strokes may cross other colored strokes. Fills, white paint
+    /// and PDF/page clipping retain their ordinary occlusion semantics.
+    pub overlap_strokes: bool,
 }
 
 impl Default for Settings {
@@ -165,6 +168,7 @@ impl Default for Settings {
             stroke_width_tolerance: None,
             thin_detail_thickening: 0.,
             stroke_width_mode: StrokeWidthMode::Preserve,
+            overlap_strokes: false,
         }
     }
 }

@@ -8,6 +8,7 @@ REQUIRED_RUNTIME_FILES = {
     'controller/scripts/retention.py',
     'controller/retention-policy.json',
     'controller/scripts/render-page.py',
+    'patterns/print-policies.json',
 }
 
 root = Path(__file__).resolve().parents[1]
