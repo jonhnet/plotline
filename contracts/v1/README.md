@@ -196,7 +196,8 @@ an updated service; the three studios share `shared/web/inksets.js` and its CSS.
   White is excluded. `GET /api/v1/documents/{id}/source-styles` also supplies this
   census for older originals, caching it without changing source bytes.
 - `policies.stroke_width_mode` is `preserve` or `pen`; omission means `preserve`.
-  Ordinary new PDF UI sessions default to `pen`. This reinterprets nonwhite
+  New PDF documents default to `preserve`; saved recipes keep their width policy.
+  Selecting `pen` reinterprets nonwhite
   source strokes at the chosen physical diameter before occlusion, retaining
   source-space dashes, page-space centerlines and original clipping. It emits
   one traversal per visible run, with no width-building or contour fallback.

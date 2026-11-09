@@ -57,8 +57,9 @@ automatically, exposing exact members and individual or bulk assignments.
 **Map automatically** chooses the closest color (OKLab distance), then the closest
 diameter for a color tie. Empty/unavailable slots, white and unmeasured pens are
 excluded. This changes conversion settings without submitting a conversion or
-changing source inks or inventory. Ordinary PDFs default to **Use pen width** (one pass per visible
-source stroke); **Preserve document widths** retains multi-pass approximation.
+changing source inks or inventory. New PDFs default to **Preserve document widths**,
+allowing multiple passes. **Use pen width** remains available for one pass per
+visible source stroke.
 Explicit Map intents and existing conversions retain their width policy. Fills,
 white knockouts and outlined text keep their own semantics.
 

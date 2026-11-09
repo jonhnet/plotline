@@ -125,7 +125,7 @@ fn default_intent(app: &App, document: &Value) -> Result<Value> {
     Ok(
         json!({"schema":"plotline.print-intent/1","source_sha256":document["source_sha256"],"title":document["name"],"pages":pages,
         "palette":{"schema":"plotline.palette/1","id":"loaded-pens","label":"Loaded pens with known diameters","inks":inks},
-        "policies":{"fill":{"mode":"crosshatch","spacing_mm":2,"angle_deg":45},"stroke_width_tolerance":0.75,"thin_detail_thickening":0.75,"stroke_width_mode":"pen",
+        "policies":{"fill":{"mode":"crosshatch","spacing_mm":2,"angle_deg":45},"stroke_width_tolerance":0.75,"thin_detail_thickening":0.75,"stroke_width_mode":"preserve",
             "raster":"placeholder","gradients":"omit","transparency":"ignore-alpha","blend_modes":"normal","soft_masks":"reject"}}),
     )
 }
@@ -2066,6 +2066,7 @@ mod tests {
         inventory = app.store.carousel.save(inventory).unwrap();
         let intent = default_intent(&app, &document).unwrap();
         assert_eq!(intent["policies"]["thin_detail_thickening"], 0.75);
+        assert_eq!(intent["policies"]["stroke_width_mode"], "preserve");
         let palette = intent["palette"]["inks"].clone();
         assert_eq!(palette.as_array().unwrap().len(), 8);
         assert_eq!(palette[7]["source"]["slot"], 8);

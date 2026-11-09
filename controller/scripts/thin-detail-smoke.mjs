@@ -57,9 +57,12 @@ try{
   const fresh=await ready((await freshResponse.json()).status_url);
   await page.goto(base+`/pdf?document=${fresh.id}`);await page.waitForFunction(()=>document.querySelector('#document-detail').textContent.includes('New labels.pdf'));
   assert.equal(await page.locator('#thin-detail').inputValue(),'0.75');
+  assert.equal(await page.locator('#stroke-mode').inputValue(),'preserve');
   await page.locator('#thin-detail').fill('0');await page.locator('#thin-detail').blur();
+  await page.locator('#stroke-mode').selectOption('pen');
   await page.reload();await page.waitForFunction(()=>document.querySelector('#document-detail').textContent.includes('New labels.pdf'));
   assert.equal(await page.locator('#thin-detail').inputValue(),'0','An explicit zero survives workspace reload');
+  assert.equal(await page.locator('#stroke-mode').inputValue(),'pen','An explicit single-pass choice survives workspace reload');
   assert.deepEqual(errors,[]);
   await writeFile(state+'/result.json',JSON.stringify({strict:strict.id,recovered:recovered.id,strictLoss:strict.result.pages[0].detail_loss,recoveredLoss:recovered.result.pages[0].detail_loss},null,2));
   console.log('PASS new-document defaults, preserved zero, real-label recovery, policy persistence, missing fragments, registered overlay in all views/zooms, actual barberpole animation, reduced motion, no overlay in print data',state);

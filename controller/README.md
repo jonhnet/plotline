@@ -1267,8 +1267,9 @@ Map, PDF and HPGL studios use `shared/web/inksets.js` and `inksets.css`. See
 
 PDF source colors/widths are read-only. The tray always follows carousel order,
 stacking inks assigned to each slot; exact members and individual mappings remain available. New ordinary
-PDFs default to **Use pen width**. **Preserve document widths** keeps multiple
-passes. Explicit authored intents and older revisions preserve their policy.
+PDFs default to **Preserve document widths**, allowing multiple passes.
+**Use pen width** selects one pass per visible source stroke. Explicit authored
+intents and older revisions preserve their policy.
 
 Select a document ink, then click its destination cap in the carousel row.
 The page dims during assignment; Escape, Cancel or clicking outside cancels.
