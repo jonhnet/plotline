@@ -183,8 +183,12 @@ Generated `/etc/plotline/runtime.env` and systemd units are application-owned;
 change inputs in `config.json`, not generated files. IaC owns Avahi interface
 policy and host configuration.
 
-The installer takes an exclusive nonblocking flock on the stable
-`<data_root>/admission.lock`. HTTP handlers/background conversion tasks and IPP
+The installer takes an exclusive flock on the stable
+`<data_root>/admission.lock`. It retries nonblocking acquisition for up to ten
+seconds so an ordinary short browser request can finish instead of spuriously
+deferring publication. A sustained holder still refuses with exit 75, without
+stopping services; the reason identifies lock contention rather than claiming
+a particular kind of work is active. HTTP handlers/background conversion tasks and IPP
 mutations use shared locks. While installation owns the gate, new work receives
 HTTP 503; queued background work waits. Maintenance/status reads remain available.
 It checks PDF records, Map renders/thumbnails/preparations/handoffs, IPP unfinished

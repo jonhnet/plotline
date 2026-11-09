@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import time
 from urllib.parse import urlsplit
 from urllib.request import urlopen
@@ -125,14 +126,27 @@ def stop_services():
 
 
 @contextlib.contextmanager
-def admission(c):
+def admission(c, timeout=10):
     # Installer-owned file is never replaced: all services lock this same inode.
     path = Path(c['data_root']) / 'admission.lock'
     with path.open('a+b') as lock:
         os.chmod(path, 0o644)
-        try: fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            raise Busy('An HTTP request, PDF conversion or IPP upload is active. Wait for it to finish, then retry publication.') from None
+        deadline = time.monotonic() + timeout
+        announced = False
+        while True:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise Busy(f'Plotline maintenance lock is still busy after waiting {timeout:g}s. '
+                               'Wait for current requests, conversions or maintenance to finish, then retry publication.') from None
+                if not announced:
+                    print(f'[maintenance] Waiting up to {timeout:g}s for in-flight requests to finish...',
+                          file=sys.stderr, flush=True)
+                    announced = True
+                time.sleep(min(.05, remaining))
         yield
 
 

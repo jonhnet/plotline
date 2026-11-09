@@ -1,5 +1,7 @@
 """Run from an exported snapshot: python3 packaging/production/test_install.py."""
 import fcntl
+import contextlib
+import io
 import json
 from pathlib import Path
 import sys
@@ -28,11 +30,44 @@ class PublicationSafety(unittest.TestCase):
         with path.open('rb') as request:
             fcntl.flock(request,fcntl.LOCK_SH)
             with self.assertRaises(common.Busy):
-                with common.admission(self.c): self.fail('An active request admitted an installer')
+                with common.admission(self.c,timeout=.02): self.fail('An active request admitted an installer')
         with common.admission(self.c):
             with path.open('rb') as request:
                 with self.assertRaises(BlockingIOError):fcntl.flock(request,fcntl.LOCK_SH|fcntl.LOCK_NB)
         self.assertEqual(path.stat().st_ino,before)
+
+    def test_brief_request_drains_without_refusing_publication(self):
+        path=self.root/'admission.lock';path.touch()
+        code='''import fcntl,sys,time
+with open(sys.argv[1], 'rb') as lock:
+    fcntl.flock(lock,fcntl.LOCK_SH)
+    print('request admitted',flush=True)
+    time.sleep(.15)
+'''
+        child=subprocess.Popen([sys.executable,'-u','-c',code,str(path)],stdout=subprocess.PIPE,text=True)
+        self.addCleanup(lambda: child.wait(timeout=3))
+        self.assertEqual(child.stdout.readline().strip(),'request admitted')
+        with contextlib.redirect_stdout(io.StringIO()) as out, contextlib.redirect_stderr(io.StringIO()) as err:
+            with common.admission(self.c,timeout=2):
+                with path.open('rb') as request:
+                    with self.assertRaises(BlockingIOError):fcntl.flock(request,fcntl.LOCK_SH|fcntl.LOCK_NB)
+        child.communicate(timeout=3)
+        self.assertEqual(child.returncode,0)
+        self.assertEqual(out.getvalue(),'','Progress must not corrupt JSON consumers on stdout')
+        self.assertIn('Waiting up to',err.getvalue())
+
+    def test_sustained_holder_refuses_and_busy_body_releases_the_gate(self):
+        path=self.root/'admission.lock';path.touch()
+        with path.open('rb') as request, contextlib.redirect_stderr(io.StringIO()):
+            fcntl.flock(request,fcntl.LOCK_SH)
+            with self.assertRaisesRegex(common.Busy,'still busy after waiting'):
+                with common.admission(self.c,timeout=.02):self.fail('Forced an occupied gate')
+            with path.open('rb') as other:
+                with self.assertRaises(BlockingIOError):fcntl.flock(other,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        with self.assertRaisesRegex(common.Busy,'unresolved physical plot'):
+            with common.admission(self.c):raise common.Busy('unresolved physical plot')
+        with path.open('rb') as request:
+            fcntl.flock(request,fcntl.LOCK_SH|fcntl.LOCK_NB)
 
     def test_conversion_and_uncertain_physical_completion_refuse(self):
         self.save('studios/conversions/one/record.json',{'status':'running'})
