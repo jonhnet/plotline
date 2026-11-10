@@ -336,6 +336,7 @@ No API here depends on map recipes or geographic databases.
 .venv/bin/python tools/print_contract.py validate build/pdf-boundary-v1/boundary.pdf build/pdf-boundary-v1/boundary.print-intent.json
 .venv/bin/python tools/print_contract.py capabilities --output build/pdf-boundary-v1/capabilities.json
 .venv/bin/python -m unittest discover -s tests -p test_print_contract.py
+.venv/bin/python -m unittest discover -s tests -p test_capabilities_handoff.py
 ```
 
 `boundary.pdf` contains a landscape B page and landscape C page, both targeted

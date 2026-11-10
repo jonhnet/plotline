@@ -121,6 +121,9 @@
         },
         "thin_detail_thickening": {
           "type": "boolean"
+        },
+        "overlap_strokes": {
+          "type": "boolean"
         }
       },
       "required": [
