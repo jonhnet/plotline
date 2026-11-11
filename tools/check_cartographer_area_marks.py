@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Isolated texture-control persistence check; no physical plotter or map fetch."""
+"""Isolated style-control persistence check; no physical plotter or map fetch."""
 from http.server import ThreadingHTTPServer
 import os
 from pathlib import Path
@@ -22,11 +22,11 @@ def main():
     class Quiet(Handler):
         def log_message(self,*args):pass
     server=ThreadingHTTPServer(('127.0.0.1',0),Quiet)
-    server.app=SimpleNamespace(recipes=Recipes(state/'recipes'),version='area-fixture',vector_template=VECTOR_SOURCE,queue_thumbnail=lambda _:None)
+    server.app=SimpleNamespace(cache_lock=threading.RLock(),recipes=Recipes(state/'recipes'),version='area-fixture',vector_template=VECTOR_SOURCE,queue_thumbnail=lambda _:None)
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         subprocess.run(['node',str(ROOT/'tools/check_cartographer_area_marks.cjs'),f'http://127.0.0.1:{server.server_port}',str(state)],
-                       cwd=ROOT,env=dict(os.environ,NODE_PATH='/root/plotline/controller/node_modules'),check=True)
+                       cwd=ROOT,env=dict(os.environ,NODE_PATH=str(ROOT/'controller/node_modules')),check=True)
     finally:server.shutdown();server.server_close();thread.join()
 
 

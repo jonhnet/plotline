@@ -96,6 +96,16 @@ class IncrementalCompositionTests(unittest.TestCase):
             text=doc[0].get_text();self.assertNotIn('Forest',text);self.assertIn('Town',text)
         self.assertGreater(result['feature_counts']['parks/explicit_hatch'],0)
 
+    def test_peak_labels_reuse_non_label_paint_and_match_a_clean_build(self):
+        self.data['labels'].append(dict(kind='peaks',name='Summit',rank=1,geometry=shapely.Point(400,700)))
+        self.render()
+        recipe=copy.deepcopy(self.recipe);recipe['features']['peak_labels']=True
+        with patch('cartographer.compose.hatches',side_effect=AssertionError('Hatches rebuilt')):
+            result,warm=self.render(recipe)
+        self.assertEqual(result['build_cache']['built'],0)
+        _,clean=self.render(recipe,'fresh');self.equal_art(warm,clean)
+        with pymupdf.open(warm/'map.pdf') as doc:self.assertIn('Summit',doc[0].get_text())
+
     def test_color_width_furniture_and_spacing_have_distinct_dependencies(self):
         self.render()
         r=copy.deepcopy(self.recipe);r['palette']['inks'][1]['width_mm']=.35

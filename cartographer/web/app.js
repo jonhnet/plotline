@@ -208,7 +208,7 @@ function sync() {
   const f=currentStyle().features;
   ['roads','shore','labels','buildings'].forEach(id=>$(id).value=f[id]);
   ['bridges','parks','contours','hillshade'].forEach(id=>$(id).checked=f[id]);
-  $('park-labels').checked=f.park_labels;$('terrain-edges').checked=f.terrain_edges;$('terrain-edges').disabled=!recipe.camera.relief;
+  $('park-labels').checked=f.park_labels;$('peak-labels').checked=f.peak_labels;$('terrain-edges').checked=f.terrain_edges;$('terrain-edges').disabled=!recipe.camera.relief;
   $('hillshade-controls').hidden=!f.hillshade;$('hillshade-spacing').value=f.hillshade_spacing_mm;
   for(const [id,key] of [['sun-azimuth','azimuth_deg'],['sun-elevation','elevation_deg']]){
     $(id).value=recipe.lighting[key];$(id+'-value').textContent=recipe.lighting[key]+'°';
@@ -1003,7 +1003,7 @@ function bindControls(){
   };
   for(const id of ['roads','shore','labels','buildings'])$(id).onchange=()=>{currentStyle().features[id]=$(id).value;mutated();};
   for(const id of ['bridges','parks','contours','hillshade'])$(id).onchange=()=>{currentStyle().features[id]=$(id).checked;mutated();sync();};
-  for(const [id,key] of [['park-labels','park_labels'],['terrain-edges','terrain_edges']])$(id).onchange=()=>{currentStyle().features[key]=$(id).checked;mutated();};
+  for(const [id,key] of [['park-labels','park_labels'],['peak-labels','peak_labels'],['terrain-edges','terrain_edges']])$(id).onchange=()=>{currentStyle().features[key]=$(id).checked;mutated();};
   for(const [id,key] of [['sun-azimuth','azimuth_deg'],['sun-elevation','elevation_deg']])$(id).oninput=()=>{recipe.lighting[key]=Number($(id).value);$(id+'-value').textContent=$(id).value+'°';mutated();};
   $('water-treatment').onchange=()=>{currentStyle().features.water_treatment=$('water-treatment').value;mutated();sync();};
   $('park-treatment').onchange=()=>{currentStyle().features.park_treatment=$('park-treatment').value;mutated();sync();};

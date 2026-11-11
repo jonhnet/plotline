@@ -595,6 +595,7 @@ def _compose(recipe,output,quality,cache,version,progress):
             for index,a in enumerate(candidates):
                 drawing_part(.95,1,index/len(candidates))
                 progress('labels',region+'Placing labels',index,len(candidates),'candidates')
+                if a['kind']=='peaks' and not f['peak_labels']:continue
                 if a['kind']=='parks' and (not f['parks'] or not f['park_labels']):continue
                 if a['kind']=='roads' and (f['roads']=='none' or f['roads']=='major' and a.get('cls') not in MAJOR):continue
                 if a['name'] in seen or len(seen)>=limit:continue

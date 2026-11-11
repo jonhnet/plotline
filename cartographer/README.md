@@ -1,6 +1,7 @@
 # Plotline Map Studio
 
-Private development instance: **http://dev.iac.jonh.net:9193/**.
+Household authoring runs at **https://plotline.tech.jonh.net/map**. Development
+services remain stopped and disabled; tests use isolated state with no hardware.
 
 The studio uses one pipeline: geographic viewport → cached OSM vector tiles →
 shared feature styles → optional boundary overrides → optional terrain visibility
@@ -145,26 +146,11 @@ NumPy, Pillow and the established `mapbox-vector-tile` decoder are used. The UI
 is local HTML/CSS/JavaScript with no CDN dependency. Uncached tiles and boundary
 search require network access; no provider key is required.
 
-All three studios now live in the same source tree. The dev host's persistent
-`plotline-cartographer` unit runs from `/root/plotline`, using the shared `.venv`
-(a link to `build/studios-venv`). It retains the original map library and cache
-via explicit arguments:
-
-```sh
-/root/plotline/.venv/bin/python -m cartographer.service \
-  --state /root/plotline/worktrees/artistic-cartographer/state/cartographer \
-  --build /root/plotline/worktrees/artistic-cartographer/build/cartographer
-```
-
-That command documents the installed unit; do not launch a second process on its
-port while it is running. The old worktree now supplies data paths only, not
-application code. New installations can use the default paths in their checkout.
-
-When map work is idle, `systemctl restart plotline-cartographer` reloads Python
-changes and the composer fingerprint. Inspect it with
-`journalctl -u plotline-cartographer --no-pager -n 30`. The unit is enabled across
-reboots; this remains a development installation. The map worker and Studios
-server can be restarted independently when their work is idle.
+For a temporary development session, use `controller/scripts/dev-server.py run`
+from the repository root. It creates isolated state, exposes loopback URLs and
+stops its processes when the session ends. See [development setup](../docs/GETTING_STARTED.md).
+Do not start the retired persistent dev services or reuse their retained stores
+as live data. Production owns ordinary authoring, IPP intake and the plotter.
 
 Options: `--state PATH`, `--build PATH`, `--studios URL` (server-side default
 `http://127.0.0.1:9191`), `--studios-public URL` (default
@@ -614,6 +600,15 @@ driver's visibility algorithm. Large map conversions can still take minutes.
 
 ## Terrain artwork
 
+**Mountain peak labels** adds named summits and volcanoes from the vector tiles,
+using the existing Labels ink, white halos and collision placement in both 2D
+and 3D. It defaults off, including for older documents; inside/outside boundary
+styles can enable it independently. Labels → None still hides all geographic
+labels. The [OpenMapTiles mountain layer](https://openmaptiles.org/docs/schema/#mountain_peak)
+also contains passes, ridges and cliffs; those are excluded. Available peaks
+vary with source zoom/detail. Toggling this flag reuses tile geometry and cached
+non-label paint.
+
 **Park & forest labels** controls woodland names independently of park paint and
 other map labels. Turning it off retains the hatching. The general Labels choice
 still controls the overall label density; None suppresses all geographic labels.
@@ -652,6 +647,8 @@ New terrain effects default to off; forest labels retain their previous default.
 ## Validation and preserved proofs
 
 ```sh
+.venv/bin/python -m unittest discover -s tests -p test_cartographer_peaks.py
+.venv/bin/python tools/check_cartographer_area_marks.py
 build/cartographer-lite-venv/bin/python -m unittest discover -s tests -v
 NODE_PATH=/root/plotline/controller/node_modules node tools/check_cartographer.cjs
 NODE_PATH=/root/plotline/controller/node_modules node tools/check_cartographer_progress.cjs http://127.0.0.1:9193

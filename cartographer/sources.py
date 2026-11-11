@@ -181,14 +181,19 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
             layers=mapbox_vector_tile.decode(raw,default_options={'y_coord_down':True})
             tilebox=box(left,top-size,left+size,top).intersection(domain)
             for name,layer in layers.items():
-                if name not in ('building','transportation','water','waterway','park','landuse','landcover','place','water_name','transportation_name'): continue
+                if name not in ('building','transportation','water','waterway','park','landuse','landcover','place','water_name','transportation_name','mountain_peak'): continue
                 if name=='building' and not config['buildings']: continue
                 if name in ('park','landcover','landuse') and not config.get('parks',True):continue
-                if name in ('place','water_name','transportation_name') and not config.get('labels',True):continue
+                # Decode peak names with the other labels even while their checkbox
+                # is off. Toggling label categories reuses the same tile dataset.
+                if name in ('place','water_name','transportation_name','mountain_peak') and not config.get('labels',True):continue
                 if name=='transportation' and config.get('roads')=='none':continue
                 factor=size/layer['extent']
                 for feature in layer['features']:
                     p=feature['properties'];cls=p.get('class','');title=p.get('name:en') or p.get('name') or ''
+                    if name=='mountain_peak':
+                        if cls not in ('peak','volcano'):continue
+                        title=p.get('name:en') or p.get('name_en') or p.get('name') or ''
                     if name=='transportation' and config.get('roads')=='major' and cls not in MAJOR:continue
                     if name=='park' and cls in ('historic','protected_site'):continue
                     if name in ('landcover','landuse') and cls not in ('wood','grass','park','forest','recreation_ground','cemetery'): continue
@@ -197,7 +202,7 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
                     if not g.is_valid:g=shapely.make_valid(g)
                     g=shapely.set_precision(affinity.affine_transform(g,[factor,0,0,-factor,left,top]).intersection(tilebox),.001)
                     if g.is_empty:continue
-                    if name in ('place','water_name','transportation_name'):
+                    if name in ('place','water_name','transportation_name','mountain_peak'):
                         direction=None
                         if name=='transportation_name' and title:
                             lines=parts(g,'LineString')
@@ -208,7 +213,7 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
                             g=longest.interpolate(.5,normalized=True)
                         if title and g.geom_type=='Point':
                             labels[(name,title,round(g.x,2),round(g.y,2))]=dict(name=title,
-                                kind='roads' if name=='transportation_name' else name,
+                                kind='roads' if name=='transportation_name' else 'peaks' if name=='mountain_peak' else name,
                                 rank=30 if name=='transportation_name' else p.get('rank',20),geometry=g,direction=direction,cls=cls)
                         continue
                     kind={'building':'buildings','transportation':'roads','water':'water','waterway':'streams'}.get(name,'parks')

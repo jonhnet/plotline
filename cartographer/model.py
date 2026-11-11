@@ -44,7 +44,7 @@ def style(emphasis='balanced'):
     features = dict(buildings='auto', building_min_mm2=.3, roads='all', bridges=True,
                     parks=True, park_treatment='hatch', hatch_spacing_mm=2.5,
                     shore='line', water_treatment='none', water_spacing_mm=2.5, labels='normal', contours=False,
-                    contour_interval_m=100, park_labels=True, terrain_edges=False,
+                    contour_interval_m=100, park_labels=True, peak_labels=False, terrain_edges=False,
                     hillshade=False, hillshade_spacing_mm=2.5)
     roles = dict(labels='black', roads='black', bridges='red', buildings='red',
                  parks='green', water='black', terrain='black',silhouettes='black',hillshade='black')
@@ -88,7 +88,7 @@ def migrate(recipe):
                     old_fill=features.pop('water_fill')
                     if type(old_fill) is not bool:raise ValueError('water_fill must be true or false')
                     features.setdefault('water_treatment','fill' if old_fill else 'none')
-                for k in ['park_labels','terrain_edges','hillshade','hillshade_spacing_mm','water_treatment','water_spacing_mm']:
+                for k in ['park_labels','peak_labels','terrain_edges','hillshade','hillshade_spacing_mm','water_treatment','water_spacing_mm']:
                     target['features'].setdefault(k,style()['features'][k])
     if result.get('schema') != 'plotline.map-recipe/1':
         return result
@@ -121,7 +121,7 @@ def keys(value, required, label):
 def validate_style(value, palette_ids):
     keys(value, ['features', 'ink_roles'], 'style')
     f=value['features']; keys(f, style()['features'], 'features')
-    for k in ['bridges','parks','contours','park_labels','terrain_edges','hillshade']:
+    for k in ['bridges','parks','contours','park_labels','peak_labels','terrain_edges','hillshade']:
         if type(f[k]) is not bool:
             raise ValueError(f'{k} must be true or false')
     for k,values in [('buildings',['auto','all','none']),('roads',['none','major','all']),
