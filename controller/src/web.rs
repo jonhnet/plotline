@@ -357,9 +357,11 @@ async fn check_paper(
         }
         let observation = p.check_paper(&s)?;
         let fit_error = if let (Some(id), Some(setup)) = (&request.job_id, request.setup) {
+            let context = setup.fit_context(&s.get(id)?, Some(&observation));
             (|| -> anyhow::Result<()> {
                 let plan = preview_plan_observed(&s, id, setup, Some(&observation))?;
                 crate::prepare::check_loaded_window(&plan.commands, observation.limits)
+                    .map_err(|error| crate::layout::explain_fit(error, &context))
             })()
             .err()
             .map(|e| e.to_string())
@@ -730,6 +732,7 @@ fn preview_plan_observed(
     value.validate(&job)?;
     let colors = s.carousel.get()?.resolve(&mut value, &job)?;
     let source = crate::storage::read_to_string(s.path(id)?.join("source.hpgl"))?;
+    let context = value.fit_context(&job, observation);
     crate::prepare::prepare_registered(
         &source,
         job.units_per_mm,
@@ -742,6 +745,7 @@ fn preview_plan_observed(
         job.registration().is_some(),
         job.calibration.is_some().then_some(5.),
     )
+    .map_err(|error| crate::layout::explain_fit(error, &context))
 }
 
 async fn plot_estimate(
@@ -844,6 +848,87 @@ mod tests {
         http::Request,
     };
     use tower::ServiceExt;
+    #[test]
+    fn fit_diagnostics_preserve_registered_origin_and_pen_footprint() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = Store::open(temp.path().to_owned()).unwrap();
+        let source =
+            b"IN;CO\"pen id=1 r=0 g=0 b=0 width_mm=0.3\";SP1;PU4400,-1600;PD11600,1600;PU;SP0;";
+        let mut inventory = store.carousel.get().unwrap();
+        let pen = inventory.slots.get_mut(&1).unwrap();
+        pen.state = "loaded".into();
+        pen.color = Some("#000000".into());
+        pen.width_mm = Some(0.3);
+        store.carousel.save(inventory).unwrap();
+        let registration = crate::media::Registration {
+            sheet_size_mm: [240., 140.],
+            sheet_to_device_units: [40., 0., 0., -40., 3200., 2800.],
+            limits: [4000, -2000, 12000, 2000],
+            rotation: 0,
+            evidence: "Isolated offset fixture".into(),
+        };
+        let job = store
+            .import_pdf(
+                "Offset.pdf.hpgl",
+                source,
+                crate::store::PdfSource {
+                    document_id: uuid::Uuid::new_v4().to_string(),
+                    conversion_id: uuid::Uuid::new_v4().to_string(),
+                    page_index: 0,
+                    registration,
+                    raster_preview: false,
+                },
+            )
+            .unwrap();
+        let setup = store.setup(&job.id).unwrap();
+        let expected = preview_plan(&store, &job.id, setup.clone())
+            .unwrap()
+            .commands;
+        assert!(
+            expected.contains("PU4400,-1600;"),
+            "Original device placement survives export"
+        );
+        let mut observation = crate::layout::Observation {
+            identity: "7585B".into(),
+            observed_at: "2026-11-01T00:00:00Z".into(),
+            units_per_mm: 40.,
+            limits: [0, -2000, 8000, 2000],
+        };
+        // Equal dimensions do not imply equal placement: this window is 100 mm left.
+        let error = preview_plan_observed(&store, &job.id, setup.clone(), Some(&observation))
+            .err()
+            .unwrap()
+            .to_string();
+        assert!(error.contains("does not fit"), "{error}");
+        assert!(error.contains("Document sheet 9.45 × 5.51 in"), "{error}");
+        assert!(
+            error.contains("Measured drawable area 7.87 × 3.94 in"),
+            "{error}"
+        );
+        assert!(
+            error.contains("front (+X) by 3.543 in (90.00 mm)"),
+            "{error}"
+        );
+        assert!(error.contains(&observation.observed_at), "{error}");
+        // Centerlines fit exactly, but the finite pen still must not cross an edge.
+        observation.limits = [4400, -2000, 11600, 2000];
+        let error = preview_plan_observed(&store, &job.id, setup.clone(), Some(&observation))
+            .err()
+            .unwrap()
+            .to_string();
+        assert!(error.contains("pen footprint exceeds"), "{error}");
+        assert!(error.contains("Measured drawable area"), "{error}");
+        assert!(
+            !error.contains("Drawing bounds exceed"),
+            "Centerline diagnostics must not invent overflow: {error}"
+        );
+        assert_eq!(
+            preview_plan(&store, &job.id, setup).unwrap().commands,
+            expected
+        );
+        assert!(!temp.path().join("plots").exists());
+    }
+
     #[tokio::test]
     async fn estimate_uses_planned_pdf_sheet_without_loading_paper_or_starting_plot() {
         let temp = tempfile::tempdir().unwrap();

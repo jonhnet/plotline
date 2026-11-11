@@ -612,6 +612,7 @@ impl Plotter {
         let colors = carousel.resolve(&mut ticket.setup, &job)?;
         let source =
             crate::storage::read_to_string(store.path(&ticket.job_id)?.join("source.hpgl"))?;
+        let context = ticket.setup.fit_context(&job, Some(&observation));
         let plan = prepare::prepare_registered(
             &source,
             job.units_per_mm,
@@ -623,8 +624,10 @@ impl Plotter {
             colors,
             job.registration().is_some(),
             job.calibration.is_some().then_some(5.),
-        )?;
-        prepare::check_loaded_window(&plan.commands, observation.limits)?;
+        )
+        .map_err(|error| crate::layout::explain_fit(error, &context))?;
+        prepare::check_loaded_window(&plan.commands, observation.limits)
+            .map_err(|error| crate::layout::explain_fit(error, &context))?;
         ensure!(
             self.carousel.get()?.slots == carousel.slots,
             "Carousel changed while starting. Check the preview and click Plot again"

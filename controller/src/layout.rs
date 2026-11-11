@@ -4,6 +4,7 @@ use crate::{prepare::Profile, store::Job};
 use anyhow::{Result, ensure};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
+use std::fmt::Write;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -65,7 +66,101 @@ pub struct Observation {
     pub units_per_mm: f64,
     pub limits: [i32; 4],
 }
+
+// Keep the original refusal, with enough physical context to diagnose paper
+// size, orientation and fixed-placement mismatches. No fit rule is relaxed.
+pub fn explain_fit(error: anyhow::Error, context: &str) -> anyhow::Error {
+    let message = error.to_string();
+    if message.contains("does not fit")
+        || message.contains("footprint exceeds")
+        || message.contains("Invalid configured device window")
+    {
+        anyhow::anyhow!("{message}. {context}")
+    } else {
+        error
+    }
+}
 impl Setup {
+    pub fn fit_context(&self, job: &Job, observation: Option<&Observation>) -> String {
+        fn size([w, h]: [f64; 2]) -> String {
+            format!("{:.2} × {:.2} in ({w:.1} × {h:.1} mm)", w / 25.4, h / 25.4)
+        }
+        let mut drawing = [job.summary.width_mm, job.summary.height_mm];
+        if self.registration.is_none() && self.rotation % 180 != 0 {
+            drawing.swap(0, 1);
+        }
+        let sheet = [self.paper_x_mm, self.paper_y_mm];
+        let mut context = if self.registration.is_some() {
+            format!("Document sheet {}", size(sheet))
+        } else if self.window == "reported" {
+            "Sheet edges unknown".into()
+        } else {
+            format!("Planned sheet {}", size(sheet))
+        };
+        write!(
+            context,
+            "; drawing {}. Dimensions are along feed × across carriage at original scale.",
+            size(drawing)
+        )
+        .unwrap();
+        if let Ok(p) = self.profile(if self.window == "reported" {
+            observation
+        } else {
+            None
+        }) {
+            let area = [
+                (p.limits[2] - p.limits[0]) as f64 / p.units_per_mm,
+                (p.limits[3] - p.limits[1]) as f64 / p.units_per_mm,
+            ];
+            write!(
+                context,
+                " Selected drawing area {} after margins.",
+                size(area)
+            )
+            .unwrap();
+        }
+        if let Some(o) = observation {
+            write!(context, " Measured drawable area {} along feed × across carriage ({}); full sheet edges are unknown.",
+                size([(o.limits[2]-o.limits[0]) as f64/o.units_per_mm,(o.limits[3]-o.limits[1]) as f64/o.units_per_mm]),o.observed_at).unwrap();
+        }
+        if let Some(o) = observation {
+            let b = if self.registration.is_some() {
+                job.summary.bounds.map(|n| n / job.units_per_mm)
+            } else {
+                let center = if self.window == "reported" {
+                    [
+                        (o.limits[0] as f64 + o.limits[2] as f64) / (2. * o.units_per_mm),
+                        (o.limits[1] as f64 + o.limits[3] as f64) / (2. * o.units_per_mm),
+                    ]
+                } else {
+                    [0., 0.]
+                };
+                [
+                    center[0] - drawing[0] / 2.,
+                    center[1] - drawing[1] / 2.,
+                    center[0] + drawing[0] / 2.,
+                    center[1] + drawing[1] / 2.,
+                ]
+            };
+            let w = o.limits.map(|n| n as f64 / o.units_per_mm);
+            let overflow = [w[0] - b[0], w[1] - b[1], b[2] - w[2], b[3] - w[3]];
+            for (edge, mm) in ["back (−X)", "left (−Y)", "front (+X)", "right (+Y)"]
+                .into_iter()
+                .zip(overflow)
+            {
+                if mm > 0.001 {
+                    write!(
+                        context,
+                        " Drawing bounds exceed {edge} by {:.3} in ({mm:.2} mm).",
+                        mm / 25.4
+                    )
+                    .unwrap();
+                }
+            }
+        }
+        context.push_str(" Load the matching sheet and check plotter & paper again, or adjust paper/placement in the source Studio; scale is preserved.");
+        context
+    }
     pub fn new(job: &Job) -> Self {
         let mut setup = Self {
             paper_x_mm: 431.8,

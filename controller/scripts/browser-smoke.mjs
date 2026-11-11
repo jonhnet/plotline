@@ -362,8 +362,8 @@ try {
     /14.84 × 10.02 in/,
   );
   assert.match(
-    await page.locator("#paper-scene").textContent(),
-    /paper edges unknown/,
+    await page.locator("#paper-comparison").textContent(),
+    /sheet edges unknown/,
   );
   assert.equal(await page.locator("#paper-preset").isDisabled(), true);
   assert.equal(await page.locator("#turn-sheet").isDisabled(), false);
@@ -628,6 +628,11 @@ try {
   await editSlot(6, {name:"Purple",width:"0.7",speed:"12",force:"6"});
   await drawn("colors", JSON.stringify({1:"#800080",2:"#ff0000",3:"#008000"}));
   await drawn("widths", JSON.stringify({1:.7,2:.3,3:.7}));
+  // At full-sheet fit on a phone, a physical 0.7 mm stroke can cover less
+  // than a third of a pixel. Inspect closer before asserting opaque RGB pixels.
+  const painted=page.evaluate(()=>new Promise(resolve=>window.addEventListener('plotline-rendered',()=>resolve(),{once:true})));
+  for(let i=0;i<3;i++)await page.locator('#viewport').press('+');
+  await painted;
   const purplePixels = await page.evaluate(() => {
     const src = document.getElementById("preview-canvas"), c = document.createElement("canvas");
     c.width=src.width; c.height=src.height; const ctx=c.getContext("2d"); ctx.drawImage(src,0,0);

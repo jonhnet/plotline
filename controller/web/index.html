@@ -12,12 +12,17 @@
  <section id="workspace" class="workspace" aria-label="HPGL preview">
   <div class="preview-area">
    <div id="empty"><h1>HPGL Studio</h1><p>Open a drawing to check its paper and pens.</p><button id="empty-open">Open…</button><button id="empty-upload">Add HPGL…</button></div>
-   <div id="viewport" tabindex="0" aria-label="Plot preview. Drag to pan; scroll or pinch to zoom."><svg id="paper-scene" aria-hidden="true"></svg><canvas id="preview-canvas" aria-label="Rendered HPGL preview"></canvas><div id="preview-loading" hidden>Opening preview…</div></div>
+   <div id="viewport" tabindex="0" aria-label="Plot preview. Drag to pan; scroll or pinch to zoom."><svg id="paper-scene" aria-hidden="true"></svg><canvas id="preview-canvas" aria-label="Rendered HPGL preview"></canvas><svg id="paper-dimensions" aria-hidden="true"></svg><div id="preview-loading" hidden>Opening preview…</div></div>
    <div id="preview-tools"><button id="view-facing" aria-pressed="false" title="Switch between artwork and facing the plotter">Facing plotter</button><select id="preview-ink-colors" aria-label="Preview ink colors"><option value="design">Design colors</option><option value="measured" selected>Measured colors</option></select><label title="Show pen-up moves from the original upload"><input id="travel-toggle" type="checkbox">Pen-up</label></div>
    <span id="zoom" class="sr-only">100%</span><span id="render-status" class="sr-only" role="status"></span>
    <div id="notice" role="status" hidden></div><p id="plot-error" role="alert" hidden></p>
   </div>
   <div id="version-notice" role="status" hidden><span id="version-message"></span> <button id="open-latest" type="button">Open latest version</button></div>
+  <section id="paper-comparison" aria-label="Paper fit" hidden>
+   <dl><div class="sheet-key"><dt id="sheet-size-label">Document sheet</dt><dd id="sheet-size"></dd></div><div class="planned-key"><dt id="planned-size-label">Planned drawable area</dt><dd id="planned-size"></dd></div><div class="measured-key"><dt>Last measured drawable area</dt><dd id="measured-size"></dd></div></dl>
+   <p class="quiet">Feed × carriage · <span id="measurement-date"></span></p>
+   <p id="paper-overflow" class="invalid" role="status" hidden></p>
+  </section>
   <div class="export-bar">
    <div class="utility-actions">
     <button id="show-pens" class="drawer-toggle" aria-controls="ink-drawer" aria-expanded="true" title="Pens & mapping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 16-1 4 4-1L20 7l-3-3Zm9-9 3 3"/></svg><span>Pens</span><span id="drawer-warning" role="status"></span></button>

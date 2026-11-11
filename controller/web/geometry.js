@@ -1,4 +1,5 @@
-// Browser coordinates are millimetres relative to the drawing-window centre.
+// Browser coordinates are millimetres: raw HPGL is centered on its drawing
+// window; registered pages retain their fixed device origin.
 // The artwork view follows the source's orientation; the plotter view follows
 // the machine. Neither viewpoint changes the physical rotation sent on export.
 export function matrix(view, width, rotation, facing) {
@@ -28,6 +29,28 @@ export function rectangle(bounds, facing, rotation) {
     Math.abs(a[0] - b[0]),
     Math.abs(a[1] - b[1]),
   ];
+}
+// Plans and measured limits share device coordinates. Raw HPGL in reported
+// mode is centered on that window; registered pages retain their fixed origin.
+export function measuredWindow(setup, observation) {
+  if (!observation) return null;
+  const b = observation.limits.map(n => n / observation.units_per_mm);
+  if (!setup.registration && setup.window === 'reported') {
+    const cx=(b[0]+b[2])/2, cy=(b[1]+b[3])/2;
+    return [b[0]-cx,b[1]-cy,b[2]-cx,b[3]-cy];
+  }
+  return b;
+}
+export function drawingBounds(job, setup) {
+  if (setup.registration) return job.summary.bounds.map(n=>n/job.units_per_mm);
+  let [w,h]=[job.summary.width_mm,job.summary.height_mm];
+  if (setup.rotation%180) [w,h]=[h,w];
+  return [-w/2,-h/2,w/2,h/2];
+}
+export function outsideEdges(bounds, window) {
+  return [window[0]-bounds[0],window[1]-bounds[1],bounds[2]-window[2],bounds[3]-window[3]]
+    .map((mm,i)=>({edge:['back (−X)','left (−Y)','front (+X)','right (+Y)'][i],mm}))
+    .filter(({mm})=>mm>0.001);
 }
 export function layout(setup, observation) {
   if (setup.registration) {

@@ -306,7 +306,20 @@ The browser check uses the controller's pinned Playwright dependencies (`npm ci`
 in `controller/`) and an isolated state directory with no device connection.
 `node controller/scripts/check-paper-smoke.mjs` tests query-only paper checks,
 power loss, blocked query writes, fit errors and visible startup failures against
-an isolated fake serial bridge; it never contacts Stain. `plot-smoke.mjs` covers
+an isolated fake serial bridge; it never contacts Stain. Paper diagnostics checks:
+
+```sh
+node controller/scripts/paper-fit-geometry.mjs
+PLOTLINE_BINARY="$PWD/controller/target/release/plotline-studios" node controller/scripts/paper-fit-smoke.mjs
+PLOTLINE_BINARY="$PWD/controller/target/release/plotline-studios" node controller/scripts/check-paper-smoke.mjs
+```
+
+The browser checks create temporary stores and fake transports, then stop their
+processes. `paper-fit-smoke.mjs` also accepts `PLOTLINE_BROWSER=firefox`; it checks
+registered offsets, all four rotations in both viewpoints, dated readings, units,
+offline export and desktop/mobile dimensions. The controller unit tests cover
+finite pen footprints and offline estimates against stale measurements.
+`plot-smoke.mjs` covers
 the full simulated plotting lifecycle, and `pdf-raster-smoke.mjs` also checks
 opening the latest version from a superseded HPGL tab.
 `dev-server.py run` builds both Rust binaries for an isolated test session. The worker locates the
@@ -618,10 +631,21 @@ the viewpoint never changes exported coordinates.
 
 The plotter senses loaded media, but HPGL `OH` reports the **hard-clip drawing
 window**, not full sheet edges. `OP` reports P1/P2 scaling points and is not a
-substitute for `OH`. **Last measured drawing area** uses an explicitly dated,
-observation, draws that window, and leaves sheet edges unknown. Under **Plotter**,
+substitute for `OH`. **Last measured drawing area** uses an explicitly dated
+observation, draws that window, and leaves sheet edges unknown. The comparison
+below the preview shows document (or planned) sheet dimensions, planned drawable
+area, and the last measured drawable area, even with the Plotter drawer closed.
+Those dimensions are along feed × across carriage; dimension lines on the
+preview follow the current viewpoint. Gray marks the sheet, green its drawing
+window and orange the measured window. Overflow names the physical edges and
+distances; equal-size windows with different origins can still fail to fit.
+A saved reading is advisory: recheck after changing paper. It never reduces a
+planned-sheet preview or disables its export. Registered pages retain their fixed
+origin; raw HPGL in measured-window mode is centered on that window.
+
+Under **Plotter**,
 **Check plotter & paper** requests `OI`/`OH` without initializing, moving, or
-starting a plot. It shows the drawable width/height in decimal inches, the
+starting a plot. It shows the drawable width/height in the shared paper units, the
 measurement time, and whether the current drawing fits. An unanswered query
 reports that Stain is connected but the plotter is not responding; it does not
 update the saved measurement. Query writes and replies each have a five-second

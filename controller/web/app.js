@@ -10,6 +10,9 @@ import {
   rectangle,
   layout,
   fitError,
+  measuredWindow,
+  drawingBounds,
+  outsideEdges,
 } from "./geometry.js";
 import { plotControls } from "./plot-controls.js";
 import { carouselControls, colorName, usable } from "./carousel.js";
@@ -63,6 +66,9 @@ const plotting = plotControls({
   unavailable: versionIssue,
   current: () => ({ job: selected, setup }),
   observed: (value) => {
+    // Status may contain an older plot's observation after a newer paper-only
+    // check. Reloading must not replace that newer saved measurement.
+    if (observation && value.observed_at < observation.observed_at) return;
     observation = value;
     $("paper-mode").querySelector('[value="reported"]').disabled = false;
     renderDeviceReading(true);
@@ -210,8 +216,28 @@ function updatePlacement() {
     error ||
     `Fits · ${paperSize([a.window[2]-a.window[0],a.window[3]-a.window[1]])} drawing area · ${setup.registration ? "Fixed page placement" : "centered"}`;
   $("placement-status").classList.toggle("invalid", !!error);
+  paperComparison(a);
   $("export-plan").disabled = !!error || exporting;
   plotting.update(error);
+}
+// These are dated diagnostics, never a substitute for Plot's fresh preflight.
+function paperComparison(a) {
+  const measured = measuredWindow(setup, observation);
+  const size = b => paperSize([b[2] - b[0], b[3] - b[1]]);
+  $('sheet-size-label').textContent = setup.registration ? 'Document sheet' : 'Planned sheet';
+  $('sheet-size').textContent = a.paper ? size(a.paper) : 'Edges unknown';
+  $('planned-size').textContent = size(a.window);
+  $('planned-size-label').textContent = a.paper ? 'Planned drawable area' : 'Selected drawable area';
+  $('measured-size').textContent = measured ? size(measured) : 'Not measured';
+  $('measurement-date').textContent = measured
+    ? `Measured ${new Date(observation.observed_at).toLocaleString()} · sheet edges unknown.`
+    : 'Use Check plotter & paper to measure the loaded drawable area.';
+  const over = measured ? outsideEdges(drawingBounds(selected, setup), measured) : [];
+  $('paper-overflow').textContent = over.length
+    ? `Drawing bounds exceed the last measurement: ${over.map(({edge, mm}) => `${edge} by ${paperLength(mm)}`).join('; ')}. Load the intended sheet and check again.`
+    : '';
+  $('paper-overflow').hidden = !over.length;
+  $('paper-comparison').hidden = false;
 }
 function pdfInkIssue() {
   if (selected?.calibration) {
@@ -263,19 +289,6 @@ function scene() {
         "HP 7585B · CARRIAGE",
       ),
     );
-    svg.append(
-      node(
-        "text",
-        {
-          x: x + w / 2,
-          y: y + h + 18,
-          "text-anchor": "middle",
-          fill: "#536c69",
-          "font-size": 5,
-        },
-        "FRONT · YOU ARE HERE",
-      ),
-    );
   }
   svg.append(
     rect(paper, {
@@ -294,22 +307,41 @@ function scene() {
       "stroke-width": 0.5,
     }),
   );
-  svg.append(
-    node(
-      "text",
-      { x, y: y - 4, fill: "#536c69", "font-size": 4.5 },
-      a.paper ? "Planned sheet" : "Saved drawing area · paper edges unknown",
-    ),
-  );
-  svg.append(
-    node(
-      "text",
-      { x, y: y + h + 9, fill: "#536c69", "font-size": 4.5 },
-      setup.facing === "plotter"
-        ? "+Y → carriage   ·   +X ↓ paper feed"
-        : "Artwork upright · sheet turns around it",
-    ),
-  );
+  const measured = measuredWindow(setup, observation);
+  const measuredRect = measured && rectangle(measured, setup.facing, setup.rotation);
+  if (measuredRect) svg.append(rect(measuredRect, {
+    id: 'measured-window', fill: 'none', stroke: '#b65c17',
+    'stroke-dasharray': '5 2', 'stroke-width': 0.7,
+  }));
+  // Dimension lines live outside the union of the boundaries, so even a small
+  // loaded window has legible labels without painting over the artwork.
+  const overlay = $('paper-dimensions');
+  overlay.replaceChildren();
+  const boxes = [paper, windowRect, ...(measuredRect ? [measuredRect] : [])];
+  const left = Math.min(...boxes.map(b => b[0])), extentTop = Math.min(...boxes.map(b => b[1]));
+  const right = Math.max(...boxes.map(b => b[0] + b[2])), bottom = Math.max(...boxes.map(b => b[1] + b[3]));
+  const font = (base?.[2] || w) / $('viewport').clientWidth * 11;
+  function dimensions(box, color, lane, above, id) {
+    const [bx, by, bw, bh] = box, tick = font * .35;
+    const yy = above ? extentTop - lane * font : bottom + lane * font;
+    const xx = above ? left - lane * font : right + lane * font;
+    const group = node('g', {id, stroke: color, 'stroke-width': .3});
+    group.append(node('path', {fill: 'none', d:
+      `M${bx},${yy}h${bw} M${bx},${yy-tick}v${2*tick} M${bx+bw},${yy-tick}v${2*tick} ` +
+      `M${xx},${by}v${bh} M${xx-tick},${by}h${2*tick} M${xx-tick},${by+bh}h${2*tick}`}));
+    const label = (x, y, length, rotate = false) => node('text', {
+      x, y, fill: color, stroke: '#e8ece5', 'stroke-width': 1.5, 'paint-order': 'stroke',
+      'font-size': font, 'text-anchor': 'middle',
+      ...(rotate ? {transform: `rotate(-90 ${x} ${y})`} : {}),
+    }, paperLength(length));
+    group.append(label(bx + bw/2, yy - font*.4, bw), label(xx - font*.4, by + bh/2, bh, true));
+    overlay.append(group);
+  }
+  if (a.paper) dimensions(paper, '#536c69', 1.5, true, 'sheet-dimensions');
+  dimensions(windowRect, '#507248', 1.5, false, 'planned-dimensions');
+  if (measuredRect) dimensions(measuredRect, '#994b12', 4, false, 'measured-dimensions');
+  svg.append(node('text', {x: x+w/2, y: bottom + font*6, fill: '#536c69', 'font-size': font, 'text-anchor': 'middle'},
+    setup.facing === 'plotter' ? 'FRONT · YOU ARE HERE · +Y → · +X ↓' : 'Artwork upright · sheet turns around it'));
   const r = (setup.rotation * Math.PI) / 180,
     c = Math.round(Math.cos(r)),
     s = Math.round(Math.sin(r));
@@ -386,6 +418,7 @@ function updateView() {
       frameRequest = null;
       if (!view || !setup || !viewReady()) return;
       $("paper-scene").setAttribute("viewBox", view.join(" "));
+      $("paper-dimensions").setAttribute("viewBox", view.join(" "));
       $("zoom").textContent = `${Math.round((base[2] / view[2]) * 100)}%`;
       if (rendered) {
         const now = new DOMMatrix(
@@ -412,18 +445,30 @@ function fit() {
     setup.facing,
     setup.rotation,
   );
-  let x0 = Math.min(paper[0] - 28, ink[0] - 12),
-    y0 = Math.min(paper[1] - 30, ink[1] - 12),
-    x1 = Math.max(paper[0] + paper[2] + 28, ink[0] + ink[2] + 12),
-    y1 = Math.max(paper[1] + paper[3] + 24, ink[1] + ink[3] + 12);
-  const cx = (x0 + x1) / 2,
-    cy = (y0 + y1) / 2,
-    aspect = $("viewport").clientWidth / $("viewport").clientHeight;
-  w = x1 - x0;
-  h = y1 - y0;
-  if (w / h > aspect) h = w / aspect;
-  else w = h * aspect;
-  base = [cx - w / 2, cy - h / 2, w, h];
+  let x0 = Math.min(paper[0], ink[0]), y0 = Math.min(paper[1], ink[1]),
+    x1 = Math.max(paper[0]+paper[2], ink[0]+ink[2]),
+    y1 = Math.max(paper[1]+paper[3], ink[1]+ink[3]);
+  const measured = measuredWindow(setup, observation);
+  if (measured) {
+    const r = rectangle(measured, setup.facing, setup.rotation);
+    x0=Math.min(x0,r[0]); y0=Math.min(y0,r[1]);
+    x1=Math.max(x1,r[0]+r[2]); y1=Math.max(y1,r[1]+r[3]);
+  }
+  if (setup.facing === 'plotter') {
+    x0=Math.min(x0,paper[0]-25); x1=Math.max(x1,paper[0]+paper[2]+25);
+    y0=Math.min(y0,paper[1]-25);
+  }
+  // Reserve screen pixels for 11px annotations. Scaling padding in paper units
+  // would compound on small viewports and make the drawing unnecessarily tiny.
+  const vw=$('viewport').clientWidth, vh=$('viewport').clientHeight;
+  const controls=$('preview-tools');
+  const topInset=vw<=640 && vh>=460 ? controls.offsetTop+controls.offsetHeight+8 : 0;
+  const rightInset=vw<=640 && vh<460 ? controls.offsetWidth+24 : 0;
+  const availableWidth=Math.max(20,vw-rightInset-99), availableHeight=Math.max(20,vh-topInset-110);
+  const scale=Math.min(availableWidth/(x1-x0),availableHeight/(y1-y0));
+  const left=33+(availableWidth-(x1-x0)*scale)/2;
+  const top=topInset+33+(availableHeight-(y1-y0)*scale)/2;
+  base=[x0-left/scale,y0-top/scale,vw/scale,vh/scale];
   navigation.reset();
   scene();
   updatePlacement();
@@ -521,7 +566,7 @@ function paperLabels(){
   $('margin-hint').textContent=`Normal-mode margins from the HP manual: ${paperLength(39)} at the back, ${paperLength(15)} elsewhere. Confirm the sheet and margins at calibration.`;
   renderDeviceReading();
 }
-onPaperUnitChange(()=>{paperLabels();if(setup){paperControls(false);updatePlacement();}});
+onPaperUnitChange(()=>{paperLabels();if(setup){paperControls(false);scene();updatePlacement();}});
 paperLabels();
 function paperControls(refreshFields=true) {
   $("paper-mode").value = setup.window;
@@ -598,6 +643,8 @@ async function loadEntry(entry) {
   canvas.style.transform = "none";
   delete canvas.dataset.ready;
   $("paper-scene").replaceChildren();
+  $("paper-dimensions").replaceChildren();
+  $("paper-comparison").hidden = true;
   $("preview-loading").hidden = false;
   $("render-status").textContent = "Opening preview…";
 
@@ -731,8 +778,8 @@ async function loadEntry(entry) {
 }
 function clearDocument(){
   generation++;worker?.terminate();worker=null;selected=null;setup=null;view=null;base=null;ready=false;busy=false;rendered=null;
-  clearTimeout(renderTimer);$('preview-canvas').width=1;$('paper-scene').replaceChildren();renderPens();
-  $('empty').hidden=false;$('viewport').hidden=true;$('preview-loading').hidden=true;$('export-plan').disabled=true;
+  clearTimeout(renderTimer);$('preview-canvas').width=1;$('paper-scene').replaceChildren();$('paper-dimensions').replaceChildren();renderPens();
+  $('empty').hidden=false;$('viewport').hidden=true;$('preview-loading').hidden=true;$('export-plan').disabled=true;$('paper-comparison').hidden=true;
   $('download').removeAttribute('href');$('pdf-edit').hidden=true;$('calibration-open').hidden=true;renderVersion();
   studioNav.setSources([]);$('drawer-warning').textContent='';$('show-pens').title='Pens & mapping';plotting.update('');
 }
