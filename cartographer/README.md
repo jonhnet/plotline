@@ -617,13 +617,16 @@ still controls the overall label density; None suppresses all geographic labels.
 folds out of sight. It uses the existing terrain visibility masks, suppresses
 ridges hidden by nearer mountains, and omits artificial fetch-area borders.
 Joined centerlines retain constant page width; there are no triangle wireframes
-or facet-clipped stroke widths. Silhouettes are inactive in 2D.
+or facet-clipped stroke widths. Silhouettes default on and are inactive in 2D.
 
 **Hillshade crosshatching** works independently of forests, contours and 3D.
 Sun direction is clockwise from north (0° north, 90° east, 180° south); elevation
 is above the horizon. Defaults are south at 45°, an artistic light rather than
 an astronomical time/location calculation. The sun is shared across boundary
-regions; enablement and hatch spacing belong to each region's style.
+regions; enablement and hatch spacing belong to each region's style. Switching
+to 3D enables silhouettes and hillshade in both regions as one undoable edit;
+either can then be turned off. Style starting points also enable hillshade when
+applied in 3D. Returning to 2D retains the independent hillshade choice.
 
 Illumination uses area-weighted vertex normals on the sampled surface. Two
 interpolated darkness bands put one diagonal hatch direction on dim slopes and
@@ -641,8 +644,8 @@ Existing contour ink assignments remain unchanged. All marks stay vector, carry
 feature/ink bindings in the PDF intent, and are clipped to the map viewport and
 inside/outside styling masks. Road centers, buildings and labels clear later.
 
-Old recipes acquire these controls on read, without changing saved revisions.
-New terrain effects default to off; forest labels retain their previous default.
+Saved explicit choices survive reloads and imports. Missing silhouette settings
+use the new on default; hillshade starts off for new 2D maps.
 
 ## Validation and preserved proofs
 

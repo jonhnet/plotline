@@ -29,6 +29,11 @@ class TerrainMarksTests(unittest.TestCase):
         self.assertEqual(r,before)
         self.assertEqual(new['ink_roles']['hillshade'],'black');self.assertTrue(new['features']['park_labels']);self.assertFalse(new['features']['hillshade'])
         self.assertEqual(new['lighting'],dict(azimuth_deg=180,elevation_deg=45))
+        self.assertTrue(new['features']['terrain_edges']);self.assertTrue(new['outside']['features']['terrain_edges'])
+        # Changing defaults must not replace an explicitly saved 3D style.
+        saved=default_recipe();saved['camera']['relief']=True
+        for target in [saved,saved['outside']]:target['features'].update(terrain_edges=False,hillshade=False)
+        self.assertEqual(validate_recipe(saved),saved)
         for key,value in [('park_labels','yes'),('terrain_edges',1),('hillshade_spacing_mm',0)]:
             bad=copy.deepcopy(new);bad['features'][key]=value
             with self.assertRaises(ValueError):validate_recipe(bad)

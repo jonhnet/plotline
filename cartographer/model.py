@@ -44,7 +44,7 @@ def style(emphasis='balanced'):
     features = dict(buildings='auto', building_min_mm2=.3, roads='all', bridges=True,
                     parks=True, park_treatment='hatch', hatch_spacing_mm=2.5,
                     shore='line', water_treatment='none', water_spacing_mm=2.5, labels='normal', contours=False,
-                    contour_interval_m=100, park_labels=True, peak_labels=False, terrain_edges=False,
+                    contour_interval_m=100, park_labels=True, peak_labels=False, terrain_edges=True,
                     hillshade=False, hillshade_spacing_mm=2.5)
     roles = dict(labels='black', roads='black', bridges='red', buildings='red',
                  parks='green', water='black', terrain='black',silhouettes='black',hillshade='black')

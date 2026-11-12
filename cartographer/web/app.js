@@ -1095,12 +1095,21 @@ async function start(){
 function bindUnifiedControls(){
   ['longitude','latitude'].forEach((id,i)=>$(id).onchange=()=>{recipe.center[i]=Number($(id).value);mutated();sync();});
   $('extent').onchange=()=>{recipe.extent=$('extent').value;mutated();sync();};
-  $('relief').onchange=()=>{recipe.camera.relief=$('relief').checked;mutated();sync();};
+  $('relief').onchange=()=>{
+    recipe.camera.relief=$('relief').checked;
+    // Entering 3D supplies its visual depth cues in both boundary styles.
+    // This is one undoable edit; loading a document preserves explicit choices.
+    if(recipe.camera.relief)for(const style of [recipe,recipe.outside]){
+      style.features.terrain_edges=true;style.features.hillshade=true;
+    }
+    mutated();sync();
+  };
   $('style-region').onchange=sync;
   $('ink-region').onchange=()=>{$('style-region').value=$('ink-region').value;sync();};
   $('apply-style').onclick=()=>{
     const s=clone(catalog.styles.find(s=>s.id===$('style-preset').value)),target=currentStyle();
     target.features=s.features;
+    if(recipe.camera.relief)target.features.hillshade=true;
     const ids=recipe.palette.inks.map(i=>i.id);target.ink_roles=Object.fromEntries(Object.entries(s.ink_roles).map(([k,v])=>[k,ids.includes(v)?v:recipe.ink_roles.labels]));
     mutated();sync();
   };
