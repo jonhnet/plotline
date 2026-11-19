@@ -9,7 +9,7 @@ from . import ROOT
 from print_contract import validate_media, validate_schema
 
 MM = 72 / 25.4
-ROLES = ['labels', 'roads', 'bridges', 'buildings', 'parks', 'water', 'terrain', 'silhouettes', 'hillshade']
+ROLES = ['labels', 'roads', 'bridges', 'airports', 'buildings', 'parks', 'water', 'terrain', 'silhouettes', 'hillshade']
 VECTOR_SOURCE = 'https://tiles.openfreemap.org/planet/20261025_080012_pt/{z}/{x}/{y}.pbf'
 
 
@@ -41,12 +41,12 @@ def media_profiles():
 
 
 def style(emphasis='balanced'):
-    features = dict(buildings='auto', building_min_mm2=.3, roads='all', bridges=True,
+    features = dict(buildings='auto', building_min_mm2=.3, roads='all', bridges=True, airports=True,
                     parks=True, park_treatment='hatch', hatch_spacing_mm=2.5,
                     shore='line', water_treatment='none', water_spacing_mm=2.5, labels='normal', contours=False,
                     contour_interval_m=100, park_labels=True, peak_labels=False, terrain_edges=True,
                     hillshade=False, hillshade_spacing_mm=2.5)
-    roles = dict(labels='black', roads='black', bridges='red', buildings='red',
+    roles = dict(labels='black', roads='black', bridges='red', airports='black', buildings='red',
                  parks='green', water='black', terrain='black',silhouettes='black',hillshade='black')
     if emphasis == 'waterways':
         features.update(buildings='none', roads='major', shore='echo')
@@ -80,6 +80,7 @@ def migrate(recipe):
         for target in [result,result.get('outside',{})]:
             if not isinstance(target,dict):continue
             if isinstance(target.get('ink_roles'),dict):
+                target['ink_roles'].setdefault('airports',target['ink_roles'].get('roads'))
                 for role in ['silhouettes','hillshade']:
                     target['ink_roles'].setdefault(role,black or target['ink_roles'].get('labels'))
             if isinstance(target.get('features'),dict):
@@ -88,7 +89,7 @@ def migrate(recipe):
                     old_fill=features.pop('water_fill')
                     if type(old_fill) is not bool:raise ValueError('water_fill must be true or false')
                     features.setdefault('water_treatment','fill' if old_fill else 'none')
-                for k in ['park_labels','peak_labels','terrain_edges','hillshade','hillshade_spacing_mm','water_treatment','water_spacing_mm']:
+                for k in ['airports','park_labels','peak_labels','terrain_edges','hillshade','hillshade_spacing_mm','water_treatment','water_spacing_mm']:
                     target['features'].setdefault(k,style()['features'][k])
     if result.get('schema') != 'plotline.map-recipe/1':
         return result
@@ -121,7 +122,7 @@ def keys(value, required, label):
 def validate_style(value, palette_ids):
     keys(value, ['features', 'ink_roles'], 'style')
     f=value['features']; keys(f, style()['features'], 'features')
-    for k in ['bridges','parks','contours','park_labels','peak_labels','terrain_edges','hillshade']:
+    for k in ['bridges','airports','parks','contours','park_labels','peak_labels','terrain_edges','hillshade']:
         if type(f[k]) is not bool:
             raise ValueError(f'{k} must be true or false')
     for k,values in [('buildings',['auto','all','none']),('roads',['none','major','all']),

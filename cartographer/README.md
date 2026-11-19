@@ -74,6 +74,27 @@ numeric margin paragraph; saved revision 4 remains untouched. Evidence is in
 `build/four-orientations-8qkwakdl/` and `build/live-bottom-margin-result.json` in
 the `map-paper` worktree. Controller support is committed as `ecabc30`.
 
+## Airports
+
+**Features & styling → Airports** draws runways, taxiways, aprons and mapped
+helipad outlines from the OSM `aeroway` tile layer. Runways use wider white-centered
+symbols than taxiways; mapped pavement polygons retain their footprints and clear
+underlying land-cover paint. Centerline symbol widths are cartographic, since the
+tile source does not include measured pavement widths. Runway references appear
+when labels are enabled. Airport perimeters and gate points are not drawn.
+
+Airports have their own document ink role and an independent toggle in each
+boundary style. They remain visible when streets are disabled. Older recipes
+enable airports and initially inherit each region's Roads ink without rewriting
+the saved revision. Pen-aware edges, clipping and terrain visibility follow the
+same rules as streets. PAE's frozen source includes both 16R/34L and 16L/34R.
+
+```sh
+.venv/bin/python -m unittest discover -s tests -p test_cartographer_airports.py
+.venv/bin/python tools/check_cartographer_area_marks.py
+.venv/bin/python tools/check_cartographer_airport_pens.py --driver-root /path/to/plotline
+```
+
 ## Area textures
 
 Under **Features & styling**, **Water treatment → Concentric outlines** fills

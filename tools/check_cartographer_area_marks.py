@@ -25,7 +25,7 @@ def main():
     server.app=SimpleNamespace(cache_lock=threading.RLock(),recipes=Recipes(state/'recipes'),version='area-fixture',vector_template=VECTOR_SOURCE,queue_thumbnail=lambda _:None)
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
-        for script in ['check_cartographer_area_marks.cjs','check_cartographer_terrain_marks.cjs']:
+        for script in ['check_cartographer_area_marks.cjs','check_cartographer_terrain_marks.cjs','check_cartographer_airports.cjs']:
             subprocess.run(['node',str(ROOT/'tools'/script),f'http://127.0.0.1:{server.server_port}',str(state)],
                            cwd=ROOT,env=dict(os.environ,NODE_PATH=str(ROOT/'controller/node_modules')),check=True)
     finally:server.shutdown();server.server_close();thread.join()

@@ -45,7 +45,7 @@ const base=process.argv[2],out=process.argv[3];
   const drawer=await page.locator('#ink-drawer').boundingBox(),desk=await page.locator('#desk').boundingBox();
   assert.equal(drawer.x,0);assert.equal(drawer.width,1440);assert(desk.height>250,'Preview remains usable above drawer');
   assert(await page.locator('#ink-warning').isVisible(),'Compact warning is discoverable without scrolling the tray');
-  assert.equal(await page.locator('#palette .ink-role').count(),9);assert.equal(await page.locator('#roles,#unused-inks').count(),0);
+  assert.equal(await page.locator('#palette .ink-role').count(),10);assert.equal(await page.locator('#roles,#unused-inks').count(),0);
   const before=await current(page),role=name=>page.locator('#palette .ink-role').filter({hasText:new RegExp('^'+name+'$')}),target=slot=>page.locator('#palette .ink-loaded .pen-cap[data-slot="'+slot+'"]');
   const assign=async(name,slot)=>{await role(name).click();assert.equal(await page.locator('dialog[open]').count(),0);await target(slot).click();assert.equal(await page.locator('.ink-scrim').count(),0);};
   await role('Water').click();await page.keyboard.press('Escape');assert.deepEqual(await current(page),before,'Escape cancels without mutations');
@@ -81,11 +81,11 @@ const base=process.argv[2],out=process.argv[3];
   await page.reload();await page.locator('#edit-inks').click();await page.waitForFunction(()=>document.querySelector('#inventory-status').textContent.includes('revision 8'));
   assert(!(await current(page)).palette.inks.some(i=>i.id===thinBlue));
   // Custom creation is atomic with assignment, and authoring still exceeds 8 inks.
-  for(const [i,name] of ['Labels','Roads','Bridges','Buildings','Parks','Water','Contours','Silhouettes','Hillshade'].entries()){
+  for(const [i,name] of ['Labels','Roads','Bridges','Buildings','Parks','Water','Contours','Silhouettes','Hillshade','Airports'].entries()){
     await role(name).click();await page.getByRole('button',{name:'Create and assign a custom ink'}).click();
     await page.locator('.ink-inline-editor input[name=label]').fill('Custom '+i);await page.locator('.ink-inline-editor input[name=width_mm]').fill(String(.2+i*.01));await page.getByRole('button',{name:'Apply ink',exact:true}).click();
   }
-  assert.equal((await current(page)).palette.inks.length,10);assert.equal((await page.request.post(base+'/api/validate',{data:{recipe:await current(page)}})).status(),200);
+  assert.equal((await current(page)).palette.inks.length,11);assert.equal((await page.request.post(base+'/api/validate',{data:{recipe:await current(page)}})).status(),200);
   // The outside style still references default black, but its empty column
   // must not appear among the currently displayed inside-role assignments.
   const hiddenBlack=page.locator('#palette .ink-pair[data-target-id="ink:black"]');
@@ -231,7 +231,7 @@ const base=process.argv[2],out=process.argv[3];
   await reopened.reload();await reopened.waitForFunction(()=>document.querySelector('#desk').dataset.previewState==='ready');
   assert.equal(await reopened.locator('#ink-warning').isVisible(),false);assert.equal(await reopened.locator('#review-inks').isVisible(),false);
   await reopened.locator('#edit-inks').click();assert.equal(await reopened.locator('#ink-attention').isVisible(),false);
-  assert.equal(await reopened.locator('#palette .ink-role').count(),9);
+  assert.equal(await reopened.locator('#palette .ink-role').count(),10);
   assert.equal(writes,0);assert.deepEqual(errors,[]);console.log('PASS responsive ink drawer, compact warnings and boundary-role navigation, preserved preview navigation, no renders from drawer actions, read-only carousel, shared feature picker, >8 document inks, unused blue removed, role mapping without dialogs, unused unknown ink permits plotting, emitted unknown ink identifies its role in draft and proof, measured pen refresh/reselection, explicit calibration adoption after reload invalidates draft/prepared plot across both boundary styles and preserves custom/missing inks, synchronized boundary region selectors, Escape/scrim cancellation on HTTP, document edits and source rebuild preserving unsaved work',out);
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

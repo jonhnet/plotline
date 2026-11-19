@@ -58,6 +58,13 @@ def road_edges(line,core,outer):
         yield from parts(line.offset_curve(side*(core+edge)/2,join_style='round'),'LineString')
 
 
+def airport_widths(airport_class,pen_mm):
+    """Cartographic centerline symbols; tiles do not supply pavement widths."""
+    core=(1.6 if airport_class=='runway' else .5)*MM
+    edge=max(.4,(pen_mm+.06)*MM) if pen_mm is not None else .4
+    return core,core+2*edge
+
+
 def fit_recipe(recipe):
     recipe=validate_recipe(recipe)
     result=copy.deepcopy(recipe)
@@ -93,7 +100,7 @@ def triangle_contours(triangles,interval):
 def scene_data(data,recipe,domain,elevation,decks=None):
     lines=[]
     scale,_=framing(recipe)
-    for feature in data['areas']+data['roads']+data.get('streams',[]):
+    for feature in data['areas']+data['roads']+data.get('streams',[])+data.get('airports',[]):
         g=feature['geometry'];kind=feature['kind'] if 'kind' in feature else 'roads'
         deck=decks.geometry.get(road_key(feature)) if decks and kind=='roads' and feature.get('bridge') else None
         if deck is not None:g=deck
@@ -510,6 +517,44 @@ def _compose(recipe,output,quality,cache,version,progress):
                     draw.commit(stroke_clip(run,.8).intersection(mask))
                 counts[prefix+'terrain/silhouette']+=len(edges)
         paint_stage('Silhouette paint',['terrain_edges'],[],build_silhouette)
+        airport_areas=[a for a in areas if a['kind']=='airports'] if f['airports'] else []
+        airport_lines=[]
+        airport_ink=draw.inks[rules['ink_roles']['airports']]
+        airport_edge=airport_widths('runway',airport_ink['width_mm'])
+        airport_edge=(airport_edge[1]-airport_edge[0])/2
+        pavement={cls:shapely.union_all([a['geometry'] for a in airport_areas if a['cls']==cls])
+                  for cls in ['runway','taxiway']}
+        for a in data.get('airports',[]) if f['airports'] else []:
+            if a['cls'] not in pavement:continue
+            # A mapped pavement footprint takes precedence over its centerline.
+            g=a['geometry'].intersection(domain).simplify(simplify).difference(pavement[a['cls']])
+            if g.is_empty:continue
+            core,outer=airport_widths(a['cls'],airport_ink['width_mm'])
+            airport_lines.append(dict(a,geometry=g,core=core,outer=outer))
+        def build_airports():
+            progress('drawing',region+'Drawing runways, taxiways and aprons')
+            for a in airport_areas:
+                area(a['geometry'],'airports/'+a['cls']+'/background',a['id'],fill=WHITE,name=a['name'])
+            for a in airport_areas:
+                outline=a['geometry'].boundary.difference(domain.boundary.buffer(1e-5))
+                line(outline,'airports/'+a['cls']+'/outline',a['id'],airport_edge)
+            projected=[(a,projected_runs(a['geometry'],a['outer'],prefix+'airports|'+a['id'])) for a in airport_lines]
+            # As with streets, clear all white cores after the casings so
+            # intersections stay open. Stroke joined visible centerlines in
+            # page space: terrain cannot change the physical pen width.
+            for core in [False,True]:
+                for a,runs in projected:
+                    category='airports/'+a['cls']+('/core' if core else '/casing')
+                    for run in runs:
+                        if core:
+                            draw.paint(run,category,a['id'],color=WHITE,width=a['core'],name=a['name'])
+                        else:
+                            for edge in road_edges(run,a['core'],a['outer']):
+                                draw.paint(edge,category,a['id'],width=(a['outer']-a['core'])/2,name=a['name'])
+                        draw.commit(stroke_clip(run,a['outer']).intersection(mask) if terrain else mask)
+                    counts[prefix+category]+=bool(runs)
+        if airport_areas or airport_lines:
+            paint_stage('Airport paint',[],[airport_areas,airport_lines,airport_edge],build_airports)
         buildings=[a for a in areas if a['kind']=='buildings'] if f['buildings']!='none' else []
         drawing_part(.48,.60)
         def build_building():
@@ -590,6 +635,14 @@ def _compose(recipe,output,quality,cache,version,progress):
             candidates=sorted(data.get('labels',[]),key=lambda a:a['rank'])
             candidates += [dict(name=a['name'],geometry=a['geometry'].representative_point(),kind='parks') for a in parks if a['name'] and f['park_labels']]
             candidates += [dict(name=r['name'],geometry=max(parts(r['geometry'],'LineString'),key=lambda g:g.length).interpolate(.5,normalized=True),kind='roads') for r in sorted(roads,key=lambda r:-r['geometry'].length) if r['name'] and parts(r['geometry'],'LineString')]
+            for a in airport_areas+airport_lines:
+                if a['cls']!='runway' or not a['name']:continue
+                runs=parts(a['geometry'],'LineString')
+                if runs:
+                    run=max(runs,key=lambda g:g.length);start,end=run.interpolate(.4,normalized=True),run.interpolate(.6,normalized=True)
+                    candidates.append(dict(name=a['name'],geometry=run.interpolate(.5,normalized=True),kind='airports',direction=[end.x-start.x,end.y-start.y]))
+                else:
+                    candidates.append(dict(name=a['name'],geometry=a['geometry'].representative_point(),kind='airports'))
             seen=set();limit=35 if f['labels']=='sparse' else 140
             progress('labels',region+'Placing labels',0,len(candidates),'candidates')
             for index,a in enumerate(candidates):
@@ -612,7 +665,7 @@ def _compose(recipe,output,quality,cache,version,progress):
                     if other and other[1]:
                         angle=math.degrees(math.atan2(other[0][1]-located[0][1],other[0][0]-located[0][0]))
                         angle=(angle+90)%180-90
-                draw.label(a['name'],located[0],mask,size=9 if a['kind']=='roads' else 11,angle=angle,category='labels/'+a['kind'])
+                draw.label(a['name'],located[0],mask,size=9 if a['kind'] in ('roads','airports') else 11,angle=angle,category='labels/'+a['kind'])
                 draw.commit(mask)
         drawing_part(1,1)
 

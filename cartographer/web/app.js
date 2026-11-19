@@ -12,7 +12,7 @@ bindPaperUnits();
 const clone = value => JSON.parse(JSON.stringify(value));
 const uid = () => globalThis.crypto?.randomUUID?.() || `map-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const session = uid();
-const roleNames={labels:'Labels',roads:'Roads',bridges:'Bridges',buildings:'Buildings',parks:'Parks',water:'Water',terrain:'Contours',silhouettes:'Silhouettes',hillshade:'Hillshade'};
+const roleNames={labels:'Labels',roads:'Roads',bridges:'Bridges',airports:'Airports',buildings:'Buildings',parks:'Parks',water:'Water',terrain:'Contours',silhouettes:'Silhouettes',hillshade:'Hillshade'};
 let catalog, recipe, saved = null, capabilities = null, revision = 0, epoch = 0;
 let timer, active = null, full = null, scene = null, sketchFrame = 0;
 let printEpoch=0,printTask=null,printPointer=null,refining=false,printRestoration=null;
@@ -207,7 +207,7 @@ function sync() {
   $('role-region').textContent=recipe.boundary?($('style-region').value==='outside'?'· outside':'· inside'):'';
   const f=currentStyle().features;
   ['roads','shore','labels','buildings'].forEach(id=>$(id).value=f[id]);
-  ['bridges','parks','contours','hillshade'].forEach(id=>$(id).checked=f[id]);
+  ['bridges','airports','parks','contours','hillshade'].forEach(id=>$(id).checked=f[id]);
   $('park-labels').checked=f.park_labels;$('peak-labels').checked=f.peak_labels;$('terrain-edges').checked=f.terrain_edges;$('terrain-edges').disabled=!recipe.camera.relief;
   $('hillshade-controls').hidden=!f.hillshade;$('hillshade-spacing').value=f.hillshade_spacing_mm;
   for(const [id,key] of [['sun-azimuth','azimuth_deg'],['sun-elevation','elevation_deg']]){
@@ -401,6 +401,7 @@ function drawSketch(){
   for(const line of scene.lines){
     if(line.kind==='parks'&&!f.parks || line.kind==='buildings'&&(f.buildings==='none'||line.area_m2*scale*scale<f.building_min_mm2) || line.kind==='water'&&f.shore==='none')continue;
     if(line.kind==='roads'&&(f.roads==='none'||f.roads==='major'&&!['motorway','trunk','primary','secondary','tertiary'].includes(line.cls)))continue;
+    if(line.kind==='airports'&&!f.airports)continue;
     const role=line.kind==='roads'&&line.bridge&&f.bridges?'bridges':line.kind;
     ctx.strokeStyle=inks[recipe.ink_roles[role]]||'#222';ctx.lineWidth=line.kind==='roads'?.32:.18;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
     line.points.forEach((p,i)=>{const a=project(p);if(i)ctx.lineTo(...a);else ctx.moveTo(...a);});ctx.stroke();
@@ -1002,7 +1003,7 @@ function bindControls(){
     recipe.camera[key]=Number($(id).value);mutated();$(id+'-value').textContent=$(id).value+(id==='exaggeration'?'×':'°');
   };
   for(const id of ['roads','shore','labels','buildings'])$(id).onchange=()=>{currentStyle().features[id]=$(id).value;mutated();};
-  for(const id of ['bridges','parks','contours','hillshade'])$(id).onchange=()=>{currentStyle().features[id]=$(id).checked;mutated();sync();};
+  for(const id of ['bridges','airports','parks','contours','hillshade'])$(id).onchange=()=>{currentStyle().features[id]=$(id).checked;mutated();sync();};
   for(const [id,key] of [['park-labels','park_labels'],['peak-labels','peak_labels'],['terrain-edges','terrain_edges']])$(id).onchange=()=>{currentStyle().features[key]=$(id).checked;mutated();};
   for(const [id,key] of [['sun-azimuth','azimuth_deg'],['sun-elevation','elevation_deg']])$(id).oninput=()=>{recipe.lighting[key]=Number($(id).value);$(id+'-value').textContent=$(id).value+'°';mutated();};
   $('water-treatment').onchange=()=>{currentStyle().features.water_treatment=$('water-treatment').value;mutated();sync();};

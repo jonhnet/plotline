@@ -142,7 +142,8 @@ def plan(recipe,domain,quality):
     if zoom<12 and any(f['roads']=='all' for f in wanted): warnings.append('OSM source tiles generalize minor roads at this scale.')
     return dict(zoom=zoom,tiles=tile_ids(domain,recipe,zoom),warnings=warnings,
                 buildings=zoom==14 and any(f['buildings']!='none' for f in wanted),
-                parks=any(f['parks'] for f in wanted),labels=any(f['labels']!='none' for f in wanted),
+                parks=any(f['parks'] for f in wanted),airports=any(f['airports'] for f in wanted),
+                labels=any(f['labels']!='none' for f in wanted),
                 roads='all' if any(f['roads']=='all' for f in wanted) else 'major' if any(f['roads']=='major' for f in wanted) else 'none')
 
 
@@ -153,7 +154,8 @@ def dataset(recipe,domain,cache,quality='proof',progress=None):
     progress('tiles','Checking cached map geometry')
     data=cached(Path(cache)/'decoded',key,lambda:_dataset(recipe,domain,cache,config,quality,progress),
                 on_wait=lambda:progress('tiles','Waiting for another preview to finish loading this area'))
-    progress('geometry','Map geometry ready',len(data['areas'])+len(data['roads']),len(data['areas'])+len(data['roads']),'features')
+    count=sum(len(data[k]) for k in ['areas','roads','airports','streams'])
+    progress('geometry','Map geometry ready',count,count,'features')
     return data
 
 
@@ -181,7 +183,8 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
             layers=mapbox_vector_tile.decode(raw,default_options={'y_coord_down':True})
             tilebox=box(left,top-size,left+size,top).intersection(domain)
             for name,layer in layers.items():
-                if name not in ('building','transportation','water','waterway','park','landuse','landcover','place','water_name','transportation_name','mountain_peak'): continue
+                if name not in ('building','transportation','aeroway','water','waterway','park','landuse','landcover','place','water_name','transportation_name','mountain_peak'): continue
+                if name=='aeroway' and not config.get('airports',True):continue
                 if name=='building' and not config['buildings']: continue
                 if name in ('park','landcover','landuse') and not config.get('parks',True):continue
                 # Decode peak names with the other labels even while their checkbox
@@ -191,6 +194,9 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
                 factor=size/layer['extent']
                 for feature in layer['features']:
                     p=feature['properties'];cls=p.get('class','');title=p.get('name:en') or p.get('name') or ''
+                    if name=='aeroway':
+                        if cls not in ('runway','taxiway','apron','helipad'):continue
+                        title=p.get('ref') or title
                     if name=='mountain_peak':
                         if cls not in ('peak','volcano'):continue
                         title=p.get('name:en') or p.get('name_en') or p.get('name') or ''
@@ -216,14 +222,17 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
                                 kind='roads' if name=='transportation_name' else 'peaks' if name=='mountain_peak' else name,
                                 rank=30 if name=='transportation_name' else p.get('rank',20),geometry=g,direction=direction,cls=cls)
                         continue
-                    kind={'building':'buildings','transportation':'roads','water':'water','waterway':'streams'}.get(name,'parks')
+                    kind={'building':'buildings','transportation':'roads','aeroway':'airports','water':'water','waterway':'streams'}.get(name,'parks')
                     identity=str(feature.get('id',0))
                     if kind in ('water','parks'): identity=title or cls
                     elif not identity or identity=='0': identity=title or digest(p)[:16]
                     bridge=p.get('brunnel')=='bridge';level=p.get('layer',1 if bridge else 0)
-                    key=(kind,identity,title,cls,bridge,level)
+                    # Aeroways can supply a centerline and a pavement polygon
+                    # for the same feature. Keep both, and join each across tiles.
+                    form='area' if g.geom_type in ('Polygon','MultiPolygon') else 'line'
+                    key=(kind,identity,title,cls,bridge,level,form)
                     grouped[key].append(g);descriptions[key]=dict(kind=kind,id=name+'/'+identity,name=title,cls=cls,bridge=bridge,level=level)
-    areas=[];roads=[];streams=[]
+    areas=[];roads=[];streams=[];airports=[]
     budget=18000 if quality=='draft' else 65000
     if len(grouped)>budget: raise ValueError(f'This extent contains {len(grouped):,} feature groups. Zoom in or reduce detail.')
     # Dissolve tile-cut polygons and join line pieces before drawing boundaries.
@@ -231,7 +240,7 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
     for index,(key,geometries) in enumerate(grouped.items()):
         progress('geometry','Joining features across tile edges',index,len(grouped),'features')
         g=shapely.union_all(geometries);d=descriptions[key]
-        if d['kind'] in ('roads','streams'):
+        if d['kind'] in ('roads','streams') or d['kind']=='airports' and key[-1]=='line':
             lines=parts(g,'LineString')
             if not lines:continue
             g=shapely.line_merge(shapely.MultiLineString(lines))
@@ -240,8 +249,8 @@ def _dataset(recipe,domain,cache,config,quality,progress=None):
             if not polygons:continue
             g=shapely.union_all(polygons)
         d['geometry']=g
-        (roads if d['kind']=='roads' else streams if d['kind']=='streams' else areas).append(d)
-    return dict(areas=areas,roads=roads,streams=streams,labels=list(labels.values()),issues=[],
+        (roads if d['kind']=='roads' else streams if d['kind']=='streams' else airports if d['kind']=='airports' and key[-1]=='line' else areas).append(d)
+    return dict(areas=areas,roads=roads,streams=streams,airports=airports,labels=list(labels.values()),issues=[],
                 warnings=config['warnings'],source=dict(provider='OpenFreeMap / OpenMapTiles',attribution=ATTRIBUTION,
                 vector_template=recipe['data']['vector_template'],zoom=config['zoom'],tile_count=len(sources),bytes=total,tiles=sources))
 
